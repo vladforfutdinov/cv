@@ -1,0 +1,209 @@
+html{font-family: 'Cambria',serif;}
+#flush{
+    right:4px;
+    top:2px;
+    width: 100px;
+    position:absolute;
+    z-index:1000;
+    background:#fff;
+    border:1px solid #666;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow:0 5px 10px -5px rgba(0,0,0,.3);
+}
+#flush:hover{background:#fdc;}
+#flush:active{
+    top:3px;
+    box-shadow:0 3px 10px -5px rgba(0,0,0,.3);
+}
+
+body > h1{
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
+	font-size: 2.5em;
+	line-height: 1.4em;
+	display:block;
+	text-align: center;
+	opacity:.2;
+}
+#list{
+	left:0;
+	right:75%;
+	top:0;
+	bottom:0;
+	position:absolute;
+	background:rgba(0,0,0,.10);
+}
+
+#list ol{
+	left:0;
+	right:0;
+	top:35px;
+	bottom:0;
+	position:absolute;
+	overflow:auto;
+	margin:0;
+	padding:0 35px 0 25px;
+	cursor:default;
+    list-style: none;
+}
+#list li{
+    position: relative;
+    padding:0 5px;
+    float: left;
+    clear: left;
+}
+#list li:before{
+	content:'Area ' attr(data-count);
+	display:inline-block;
+    padding-right: .3em;
+}
+#list li.hover:after{
+    content:'\203A';
+    display: block;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    font-size: 2em;
+    line-height: .4;
+}
+#list li em{font-size: .75em;}
+#list li span{
+    position: absolute;
+    display: block;
+    right: -22px;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+#list li span:hover{background: #f00;}
+
+#list li span:after,
+#list li span:before{
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left:8px;
+    right:8px;
+    background: rgba(255,64,64,1);
+}
+#list li span:after{
+    left: 4px;
+    right: 4px;
+    top:8px;
+    bottom:8px;
+}
+#list li span:hover:after,
+#list li span:hover:before{background: #fff;}
+
+#zone{
+	right:0;
+	left:25%;
+	top:0;
+	bottom:0;
+	position:absolute;
+	overflow:hidden;
+	background:rgba(0,0,0,.15);
+	cursor:crosshair;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#size{
+	right:0;
+	top:0;
+	position:absolute;
+	margin:0 10px;
+}
+#size:before{content:'Storage size: ';}
+#size:after{content:' bytes';}
+
+#list h2,
+#zone h2{
+	position:absolute;
+	right:0;
+	left:0;
+	top:0;
+	text-align: center;
+	display:block;
+	z-index:-1;
+}
+#zone div{
+	position:absolute;
+	background:rgba(0,0,0,.05);
+	box-shadow:0 5px 10px -5px rgba(0,0,0,.3);
+}
+#zone div span{
+	position:absolute;
+    display:block;
+	top:-11px;
+	right:-10px;
+	width:20px;
+	height:20px;
+	line-height:20px;
+	text-align: center;
+	font-size:.75em;
+	color:rgba(0,0,0,.3);
+	background:rgba(255,255,255,.2);
+	border:1px dotted transparent;
+    border-radius: 20px;
+}
+#zone div span:before{content:attr(data-count);}
+#zone div span:hover{
+    cursor: pointer;
+    opacity: .5;
+    background: rgba(255,64,64,1);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#zone div span:hover:after,
+#zone div span:hover:before{
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left:8px;
+    right:8px;
+    background: rgba(255,255,225,1);
+}
+#zone div span:hover:after{
+    left: 4px;
+    right: 4px;
+    top:8px;
+    bottom:8px;
+}
+
+#zone div.temp{
+	display:block;
+	background:rgba(255,255,255,.1);
+	border:1px solid rgba(255,255,255,.4);
+	box-shadow:inset 0 0 20px -5px rgba(255,255,255,.3);
+}
+#zone div.temp:after{
+	color:rgba(0,0,0,.5);
+	background:rgba(255,255,255,.5);
+	border-color:rgba(255,255,255,.5);
+}
+#zone div.hover{
+	background:rgba(124,186,256,.5);
+    box-shadow:0 5px 10px -5px rgba(0,0,0,.3), inset 0 0 15px 0 rgba(255,255,255,.3);
+}
+#zone div.hover:after{
+	color:rgba(0,0,0,.5);
+	background:rgba(255,255,255,.5);
+}
+
+#debug{position:absolute;top:0;left:0;border:1px solid red;background-color:#fff;}

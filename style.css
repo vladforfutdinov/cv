@@ -1,0 +1,135 @@
+html {min-width: 700px;}
+body {
+    margin: 0 15%;
+    font-family: times, serif;
+}
+a {color: #3465bd;}
+a:hover {text-decoration: none;}
+header, section, footer {display: block;}
+header {position: relative;}
+img {
+    float: right;
+    margin: .3em 0 0 1em;
+}
+h1, h2, h3, h4, h5, h6 {
+    clear: left;
+    margin: 0;
+    padding: 0 0 .5em;
+    overflow: hidden;
+    vertical-align: top;
+    position: relative;
+    font-weight: bold;
+    font-style: italic;
+}
+h1 {padding: .5em 0;}
+h2 {
+    padding: .33em 0 .33em;
+    margin: .66em 0 .5em;
+    border-bottom: 1px solid #ccc;
+}
+h3 {padding: 1.5em 0 .5em;}
+h2 + h3 {padding-top: 0;}
+.modern h2:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+.modern h2:before {
+    content: " \25BC";
+    font-size: .7em;
+    line-height: 1.5em;
+    display: inline-block;
+    vertical-align: bottom;
+    padding-right: .5em;
+}
+.modern .hidden > * {display: none;}
+.modern .hidden h2 {display: block;}
+.modern .hidden h2:before {
+    content: " \25BA";
+    vertical-align: middle;
+    font-size: .7em;
+}
+dl, dt, dd {margin: 0;}
+section dl:after {
+    content: "";
+    clear: both;
+    display: block;
+    height: 0;
+}
+dt, dd {
+    display: block;
+    overflow: hidden;
+}
+dt {
+    float: left;
+    clear: left;
+    width: 10em;
+    padding-left: .2em;
+    margin-left: -.2em;
+    font-weight: bold;
+    font-style: italic;
+    /*white-space: nowrap;*/
+}
+dt.date{
+    float: none;
+    clear: both;
+    width: auto;
+    margin-bottom: .2em;
+    border-bottom: 1px solid #eee;
+}
+dd {
+    margin-left: 1.5em;
+    padding: 0 0 .25em;
+}
+dt + dd {margin-left: 11em;}
+dd.strong {
+    font-weight: bold;
+    font-style: italic;
+}
+.topmargin {padding-top: 1em;}
+.andnothingelse {width: auto;}
+dl.andnothingelse+dd {display: none;}
+ul {
+    margin: 0;
+    display: table;
+    padding: 0 0 0 10em;
+    list-style: none;
+}
+ul ul {padding: .5em 0 .5em 1.5em;}
+dd ul {padding-left: 0;}
+dd ul ul{padding-left: 1.5em;}
+ul li {padding: 0 0 .33em;}
+footer {
+    display: block;
+    text-align: right;
+    line-height: 2em;
+    font-style: italic;
+    font-size: .75em;
+}
+footer dl, footer dt, footer dd {
+    display: inline;
+    margin: 0;
+    float: none;
+    padding: 0;
+}
+.lng {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    font-size: 1.1em;
+    font-weight: normal;
+    cursor: pointer;
+    text-decoration: underline;
+    white-space: nowrap;
+    margin-right: 1em;
+}
+.flp {
+    position: absolute;
+    right: 100%;
+    bottom: -2.66em;
+    font-size: 1.1em;
+    font-weight: normal;
+    cursor: pointer;
+    text-decoration: underline;
+    white-space: nowrap;
+    margin-right: 1em;
+}
