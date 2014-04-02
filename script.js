@@ -1,49 +1,94 @@
-(function () {
-    var utils = {
-        createEl : function(tag, attr, injection){
-            var el = tag ? document.createElement(tag) : document.createDocumentFragment();
-            for (key in attr){
+var app = {
+    createEl: function (tag, attr, injection) {
+        var el = tag ? document.createElement(tag) : document.createDocumentFragment();
+        for (var key in attr) {
+            if (attr.hasOwnProperty(key)) {
                 el.setAttribute(key, attr[key]);
             }
-            if (injection){
-                if (injection == injection.toString()){
-                    el.innerHTML = injection;
+        }
+        if (injection) {
+            if (injection == injection.toString()) {
+                el.innerHTML = injection;
+            } else {
+                el.appendChild(injection);
+            }
+        }
+        return el;
+    },
+    translate: function () {
+        this.lang = (this.lang == 'en' ? 'ru' : 'en');
+    },
+    initTrigger: function (dest, trigger, array, fn, fnThis) {
+        for (var key in array) {
+            if (array.hasOwnProperty(key)) {
+                if (array[key].toString() === array[key]) {
+                    trigger.appendChild(app.createEl('span', {lang: key}, array[key]));
                 } else {
-                    el.appendChild(injection);
+                    for (var subKey in array[key]) {
+                        if (array[key].hasOwnProperty(subKey)) {
+                            trigger.appendChild(app.createEl('span', {lang: key, class: subKey}, array[key][subKey]));
+                        }
+                    }
                 }
             }
-            return el;
         }
-    };
-    var body = document.body;
-    if (typeof(lv) == 'undefined') {
-        var lv = false;
+        trigger.onclick = function (e) {
+            fn.call(fnThis || e.target);
+        };
+        dest.appendChild(trigger);
+    },
+    toggleClass: function (el, first, second) {
+        var classes = el.className.split(' '),
+            firstIndex = -1,
+            secondIndex = -1;
+
+        for (var i = 0, length = classes.length; i < length; i++) {
+            firstIndex = (classes[i] === first ? i : firstIndex);
+            secondIndex = (classes[i] === second ? i : secondIndex);
+        }
+        if (firstIndex != -1) {
+            classes[firstIndex] = second || '';
+        } else if (secondIndex != -1) {
+            classes[secondIndex] = first || '';
+        } else {
+            classes.push(first);
+        }
+
+        el.className = classes.join(' ');
     }
-    var clientLang = document.documentElement.lang;
-    var header = document.getElementsByTagName('header')[0];
-    var triggerTitles = {
-        'lg': {
-            'ru': 'In English', 'en': 'По-русски'},
-        'fb': {
-            true: {
-                'ru': 'Развернуть все', 'en': 'Unfold all'
-            },
-            false: {
-                'ru': 'Свернуть все', 'en': 'Fold up all'
+
+};
+
+(function () {
+    var body = document.body,
+        lv = lv || false,
+        header = document.getElementsByTagName('header')[0],
+        triggerTitles = {
+            'lg': {
+                'ru': 'In English', 'en': 'По-русски'},
+            'fb': {
+                ru: {
+                    true: 'Развернуть все',
+                    false:'Свернуть все'
+                },
+                en: {
+                    true: 'Unfold all',
+                    false:'Fold up all'
+                }
             }
-        }
-    };
-    var langTrigger  = utils.createEl('span', {class : 'lng'}, 'damn');
-    header.appendChild(langTrigger);
+        };
+
+    app.initTrigger(header, app.createEl('span', {class : 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
+
     if (!lv) {
-        body.className += 'modern';
-        var flipTrigger = utils.createEl('span', {class : 'flp unfolded'});
-        header.appendChild(flipTrigger);
         var sections = document.getElementsByTagName('section');
-        flipTrigger.onclick = function () {
-            var foldStatus = this.className.indexOf('folded') == -1;
-            this.className = foldStatus ? this.className + ' folded' : this.className.replace('folded', '');
-            this.innerHTML = triggerTitles.fb[this.className.indexOf('folded') == -1][clientLang];
+
+        body.className += 'modern';
+
+        var flipTrigger = function () {
+            var el = this.parentNode;
+            var foldStatus = el.className.indexOf(' folded') == -1;
+            el.className = foldStatus ? el.className + ' folded' : el.className.replace(' folded', '');
             for (var i = 0, length = sections.length; i < length; i++) {
                 if (foldStatus) {
                     sections[i].className = sections[i].className.replace('hidden', '');
@@ -62,37 +107,8 @@
                 e.target.parentNode.className = e.target.parentNode.className.indexOf('hidden') == -1 ? e.target.parentNode.className + ' hidden' : e.target.parentNode.className.replace('hidden', '')
             }
         };
+
+//        app.initTrigger(header, app.createEl('span', {class : 'flp unfolded'}), triggerTitles.fb, flipTrigger);
     }
-    langTrigger.onclick = function () {
-        clientLang = clientLang == 'en' ? 'ru' : 'en';
-        translate(true);
-    };
-    translate();
-    function translate(dt) {
-        langTrigger.innerHTML = triggerTitles.lg[clientLang];
-        if (!lv) {
-            flipTrigger.innerHTML = triggerTitles.fb[flipTrigger.className.indexOf('folded') == -1][clientLang];
-        }
-        if (dt) {
-            var el = document.body.getElementsByTagName('*');
-            for (var i = 0, ilength = el.length; i < ilength; i++) {
-                if (el[i] && el[i].getAttribute('data-lang')) {
-                    var cn = el[i].childNodes;
-                    console.log(cn);
-                    for (var j = 0, jlength = cn.length, temp; j < jlength; j++) {
-                        if (cn[j].nodeType == 3 && cn[j].nodeValue) {
-                            console.log();
-                            temp = el[i].getAttribute('data-lang');
-                            el[i].setAttribute('data-lang', cn[j].nodeValue);
-                            cn[j].nodeValue = temp;
-                        }
-                    }
-                }
-            }
-        }
-    }
+
 })();
-
-
-
-
