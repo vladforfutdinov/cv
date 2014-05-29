@@ -39,6 +39,36 @@ var app = {
 
         return trigger;
     },
+    initFolders: function(){
+        var label, innerSpans,
+            headers = app.toArray(document.getElementsByTagName('h2')),
+            sections = app.toArray(document.getElementsByTagName('section'));
+
+        for (var i = 0, ilength = headers.length; i < ilength; i++) {
+            innerSpans = app.toArray(headers[i].getElementsByTagName('span'));
+
+            for (var j = 0, jlength = innerSpans.length; j < jlength; j++) {
+                label = app.createEl('label', {for: ('section' + i), lang: innerSpans[j].lang}, innerSpans[j].innerText);
+                headers[i].appendChild(label);
+                innerSpans[j].parentNode.removeChild(innerSpans[j]);
+            }
+            app._appendAfter(headers[i], app.createEl('input', {id: ('section' + i), type: 'checkbox'}));
+        }
+
+        for (var i = 0, ilength = sections.length; i < ilength; i++) {
+            sections[i].style.maxHeight =  sections[i].clientHeight + 'px';
+        }
+
+
+    },
+    _appendAfter: function(node, insertNode){
+        if (node.nextSibling) {
+            node.parentNode.insertBefore(insertNode, node.nextSibling);
+        }
+        else {
+            node.parentNode.appendChild(insertNode);
+        }
+    },
     toggleClass: function (el, first, second, bool) {
         if (app.isArray(el)) {
             for (var i = 0, length = el.length; i < length; i++) {
@@ -49,13 +79,12 @@ var app = {
         }
     },
     _toggle: function (el, first, second, bool) {
-
         var classes = (' ' + el.className + ' ').split(/\s+/gi),
             firstIndex = -1,
             secondIndex = -1,
             isBool = bool !== undefined;
 
-        console.log(isBool);
+//        console.log(isBool);
         for (var i = 0, length = classes.length; i < length; i++) {
             firstIndex = (classes[i] === first ? i : firstIndex);
             secondIndex = (classes[i] === second ? i : secondIndex);
@@ -79,6 +108,9 @@ var app = {
     },
     isArray: function (obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
+    },
+    isFunc: function (obj) {
+        return typeof(obj) === 'function';
     },
     toArray: function (list) {
         return Array.prototype.slice.call(list);
@@ -108,12 +140,27 @@ var app = {
         }
 
         return has;
+    },
+    onload: function (func) {
+        window.onload = function() {
+            if (app.isArray(func)) {
+                for (var i = 0, length = func.length; i < length; i++) {
+                    if (app.isFunc(func[i])) {
+                        func[i].call();
+                    }
+                }
+            } else {
+                console.log(2);
+                func();
+            }
+        };
     }
 };
 
 (function () {
     var body = document.body,
         lv = lv || false,
+        lngBase = document.body,
         header = document.getElementsByTagName('header')[0],
         triggerTitles = {
             'lg': {
@@ -130,38 +177,30 @@ var app = {
             }
         };
 
-    app.initTrigger(header, app.createEl('span', {class: 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
+    app.initTrigger(lngBase, app.createEl('span', {class: 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
+
+    app.onload([app.initFolders]);
+
 
     if (!lv) {
         var headers = app.toArray(document.getElementsByTagName('h2')),
-            checkFolder = function (els, trigger) {
-                var checkHeaders = app.every(els, function (el) {
-                    return app.hasClass(el, 'hide');
-                });
-                app.toggleClass(trigger, 'show', 'hide', checkHeaders);
-            },
             folder = app.initTrigger(header, app.createEl('span', {class: 'folder hide'}), triggerTitles.fb,
                 function () {
-                    var el = this.parentNode;
-                    app.toggleClass(headers, 'show', 'hide', app.hasClass(el, 'show'));
-                    checkFolder(headers, el);
+                    var el = this.parentNode,
+                        state = app.hasClass(el, 'show'),
+                        checkboxes = app.toArray(document.getElementsByTagName('input'));
+
+                    app.toggleClass(headers, 'show', 'hide', !state);
+
+                    console.log(state);
+
+                    for (var i = 0, length = checkboxes.length; i < length; i++) {
+                        checkboxes[i].checked = !state;
+                    }
+
                 }
             );
 
         body.className += 'modern';
-
-        window.onmousedown = function (e) {
-            if (e.target.tagName.toLowerCase() == 'h2') {
-                e.preventDefault();
-            }
-        };
-        window.onclick = function (e) {
-            var header = e.target.tagName.toString().toLowerCase() == 'h2' ? e.target : e.target.parentNode;
-            if (header.tagName && header.tagName.toLowerCase() === 'h2') {
-                app.toggleClass(header, 'hide', 'show');
-                console.log(header);
-            }
-            checkFolder(headers, folder);
-        };
     }
 })();
