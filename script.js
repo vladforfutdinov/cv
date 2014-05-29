@@ -181,7 +181,6 @@ var app = {
 
     app.onload([app.initFolders]);
 
-
     if (!lv) {
         var headers = app.toArray(document.getElementsByTagName('h2')),
             folder = app.initTrigger(header, app.createEl('span', {class: 'folder hide'}), triggerTitles.fb,
