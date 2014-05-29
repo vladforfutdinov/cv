@@ -55,6 +55,7 @@ var storageApp = {
         return listItem;
     },
     refresh: function(){
+        var _this = this;
         array = [];
         store = [];
         noHover = false;
@@ -68,20 +69,20 @@ var storageApp = {
             store = JSON.parse(getStorage);
             if (store.length){
                 $(store).each(function(i){
-                    var element = makeElement(i, this.coord);
+                    var element = _this.makeElement(i, this.coord);
                     $(element).css(this.coord);
-                    array.push(makeObject(this, element));
+                    array.push(_this.makeObject(this, element));
                     $(zone).append(element);
                 });
-                fillList(array, list);
+                _this.fillList(array, list);
             } else {
-                flushStorage();
+                _this.flushStorage();
             }
         }
 
         $(zone).off();
         $(zone).on(handleHovers, '.item');
-        $(zone).on({'mousedown' : drawArea});
+        $(zone).on({'mousedown' : _this.drawArea});
         $(zone).on({'click' : drawAreaPoint});
         $(zone).on({'dblclick' : closeArea});
         $(zone).on({'click' : removeArea}, 'span');
@@ -91,7 +92,7 @@ var storageApp = {
         $(list).on({'click' : removeArea}, 'span');
 
         $(flush).off('click');
-        $(flush).on({'click' : flushStorage});
+        $(flush).on({'click' : _this.flushStorage});
     },
     setStartPx: function(e, _top, _left){
         var top = e.pageY;
@@ -179,6 +180,45 @@ function init(){
     var list = $('#list ol')[0];
     var size = $('#size')[0];
     var flush = $('#flush')[0];
+    var refresh = function(){
+        array = [];
+        store = [];
+        noHover = false;
+
+        $(zone).find('div').remove();
+        $(list).children().remove();
+        $(size).text($.jStorage.storageSize());
+
+        var getStorage = $.jStorage.get('mapa');
+        if (getStorage){
+            store = JSON.parse(getStorage);
+            if (store.length){
+                $(store).each(function(i){
+                    var element = makeElement(i, this.coord);
+                    $(element).css(this.coord);
+                    array.push(makeObject(this, element));
+                    $(zone).append(element);
+                });
+                fillList(array, list);
+            } else {
+                flushStorage();
+            }
+        }
+
+        $(zone).off();
+        $(zone).on(handleHovers, '.item');
+        $(zone).on({'mousedown' : drawArea});
+        $(zone).on({'click' : drawAreaPoint});
+        $(zone).on({'dblclick' : closeArea});
+        $(zone).on({'click' : removeArea}, 'span');
+
+        $(list).off();
+        $(list).on(handleHovers, 'li');
+        $(list).on({'click' : removeArea}, 'span');
+
+        $(flush).off('click');
+        $(flush).on({'click' : flushStorage});
+    };
 
     coords(zone);
 
@@ -370,46 +410,6 @@ function init(){
             }
         });
         refresh();
-    };
-
-    var refresh = function(){
-        array = [];
-        store = [];
-        noHover = false;
-
-        $(zone).find('div').remove();
-        $(list).children().remove();
-        $(size).text($.jStorage.storageSize());
-
-        var getStorage = $.jStorage.get('mapa');
-        if (getStorage){
-            store = JSON.parse(getStorage);
-            if (store.length){
-                $(store).each(function(i){
-                    var element = makeElement(i, this.coord);
-                    $(element).css(this.coord);
-                    array.push(makeObject(this, element));
-                    $(zone).append(element);
-                });
-                fillList(array, list);
-            } else {
-                flushStorage();
-            }
-        }
-
-        $(zone).off();
-        $(zone).on(handleHovers, '.item');
-        $(zone).on({'mousedown' : drawArea});
-        $(zone).on({'click' : drawAreaPoint});
-        $(zone).on({'dblclick' : closeArea});
-        $(zone).on({'click' : removeArea}, 'span');
-
-        $(list).off();
-        $(list).on(handleHovers, 'li');
-        $(list).on({'click' : removeArea}, 'span');
-
-        $(flush).off('click');
-        $(flush).on({'click' : flushStorage});
     };
 
     function fillList(array, destnation){

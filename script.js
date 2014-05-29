@@ -36,27 +36,79 @@ var app = {
             fn.call(fnThis || e.target);
         };
         dest.appendChild(trigger);
-    },
-    toggleClass: function (el, first, second) {
-        var classes = el.className.split(' '),
-            firstIndex = -1,
-            secondIndex = -1;
 
+        return trigger;
+    },
+    toggleClass: function (el, first, second, bool) {
+        if (app.isArray(el)) {
+            for (var i = 0, length = el.length; i < length; i++) {
+                app._toggle(el[i], first, second, bool);
+            }
+        } else {
+            app._toggle(el, first, second, bool);
+        }
+    },
+    _toggle: function (el, first, second, bool) {
+
+        var classes = (' ' + el.className + ' ').split(/\s+/gi),
+            firstIndex = -1,
+            secondIndex = -1,
+            isBool = bool !== undefined;
+
+        console.log(isBool);
         for (var i = 0, length = classes.length; i < length; i++) {
             firstIndex = (classes[i] === first ? i : firstIndex);
             secondIndex = (classes[i] === second ? i : secondIndex);
         }
-        if (firstIndex != -1) {
-            classes[firstIndex] = second || '';
-        } else if (secondIndex != -1) {
-            classes[secondIndex] = first || '';
+
+        if (isBool) {
+            classes[firstIndex] = '';
+            classes[secondIndex] = '';
+            classes.push(bool ? first : second);
         } else {
-            classes.push(first);
+            if (firstIndex != -1) {
+                classes[firstIndex] = second || '';
+            } else if (secondIndex != -1) {
+                classes[secondIndex] = first || '';
+            } else {
+                classes.push(first);
+            }
         }
 
-        el.className = classes.join(' ');
-    }
+        el.className = classes.join(' ').replace(/\s+/g, ' ').trim();
+    },
+    isArray: function (obj) {
+        return Object.prototype.toString.call(obj) === '[object Array]';
+    },
+    toArray: function (list) {
+        return Array.prototype.slice.call(list);
+    },
+    addClass: function (el, className) {
+        if (app.isArray(el)) {
+            for (var i = 0, length = el.length; i < length; i++) {
+                el[i].className += ' ' + className;
+            }
+        } else {
+            el.className += ' ' + className;
+        }
+    },
+    every: function (els, fn) {
+        var every = true;
+        for (var i = 0, length = els.length; i < length; i++) {
+            every = fn(els[i]);
+        }
+        return every;
+    },
+    hasClass: function (el, className) {
+        var classes = el.className.split(' '),
+            has = false;
 
+        for (var i = 0, length = classes.length; i < length; i++) {
+            has = classes[i] === className;
+        }
+
+        return has;
+    }
 };
 
 (function () {
@@ -68,47 +120,48 @@ var app = {
                 'ru': 'In English', 'en': 'По-русски'},
             'fb': {
                 ru: {
-                    true: 'Развернуть все',
-                    false:'Свернуть все'
+                    show: 'Развернуть все',
+                    hide: 'Свернуть все'
                 },
                 en: {
-                    true: 'Unfold all',
-                    false:'Fold up all'
+                    show: 'Unfold all',
+                    hide: 'Fold all'
                 }
             }
         };
 
-    app.initTrigger(header, app.createEl('span', {class : 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
+    app.initTrigger(header, app.createEl('span', {class: 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
 
     if (!lv) {
-        var sections = document.getElementsByTagName('section');
+        var headers = app.toArray(document.getElementsByTagName('h2')),
+            checkFolder = function (els, trigger) {
+                var checkHeaders = app.every(els, function (el) {
+                    return app.hasClass(el, 'hide');
+                });
+                app.toggleClass(trigger, 'show', 'hide', checkHeaders);
+            },
+            folder = app.initTrigger(header, app.createEl('span', {class: 'folder hide'}), triggerTitles.fb,
+                function () {
+                    var el = this.parentNode;
+                    app.toggleClass(headers, 'show', 'hide', app.hasClass(el, 'show'));
+                    checkFolder(headers, el);
+                }
+            );
 
         body.className += 'modern';
 
-        var flipTrigger = function () {
-            var el = this.parentNode;
-            var foldStatus = el.className.indexOf(' folded') == -1;
-            el.className = foldStatus ? el.className + ' folded' : el.className.replace(' folded', '');
-            for (var i = 0, length = sections.length; i < length; i++) {
-                if (foldStatus) {
-                    sections[i].className = sections[i].className.replace('hidden', '');
-                } else if (sections[i].className.indexOf('hidden') == -1) {
-                    sections[i].className = sections[i].className + ' hidden';
-                }
-            }
-        };
         window.onmousedown = function (e) {
             if (e.target.tagName.toLowerCase() == 'h2') {
                 e.preventDefault();
             }
         };
         window.onclick = function (e) {
-            if (e.target.tagName.toLowerCase() == 'h2') {
-                e.target.parentNode.className = e.target.parentNode.className.indexOf('hidden') == -1 ? e.target.parentNode.className + ' hidden' : e.target.parentNode.className.replace('hidden', '')
+            var header = e.target.tagName.toString().toLowerCase() == 'h2' ? e.target : e.target.parentNode;
+            if (header.tagName && header.tagName.toLowerCase() === 'h2') {
+                app.toggleClass(header, 'hide', 'show');
+                console.log(header);
             }
+            checkFolder(headers, folder);
         };
-
-//        app.initTrigger(header, app.createEl('span', {class : 'flp unfolded'}), triggerTitles.fb, flipTrigger);
     }
-
 })();
