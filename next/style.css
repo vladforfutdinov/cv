@@ -1,0 +1,231 @@
+html {
+    min-width: 700px;
+}
+
+body {
+    margin: 0 15%;
+    font-family: times, serif;
+}
+
+a {
+    color: #3465bd;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+header, section, footer {
+    display: block;
+}
+
+header {
+    position: relative;
+}
+
+img {
+    float: right;
+    margin: .3em 0 0 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    clear: left;
+    overflow: hidden;
+    margin: 0;
+    padding: 0 0 .5em;
+    vertical-align: top;
+    font-weight: bold;
+    font-style: italic;
+}
+
+h1 {
+    padding: .5em 0;
+}
+
+h2 {
+    margin: .66em 0 .5em;
+    padding: .33em 0;
+    clear: both;
+    border-bottom: 1px solid #ccc;
+}
+
+h3 {
+    padding: 1.5em 0 .5em;
+}
+
+h2 + h3 {
+    padding-top: 0;
+}
+
+.modern h2:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.modern h2:before {
+    float: left;
+    padding-right: .5em;
+    padding-top: .3em;
+    content: " \25BC";
+    font-size: .7em;
+}
+.modern h2 + section {
+    overflow: hidden;
+    max-height: 300em;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    -ms-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all .5s ease-in-out;
+}
+
+.modern h2.hide + section {
+    max-height:0;
+}
+.modern h2.show + section {
+}
+
+
+.modern h2.hide:before {
+    content: " \25BA";
+    vertical-align: middle;
+    font-size: .7em;
+}
+
+dl, dt, dd {
+    margin: 0;
+}
+
+section dl:after {
+    display: block;
+    clear: both;
+    height: 0;
+    content: "";
+}
+
+dt, dd {
+    display: block;
+    overflow: hidden;
+}
+
+dt {
+    float: left;
+    clear: left;
+    margin-left: -.2em;
+    padding-left: .2em;
+    width: 10em;
+    font-weight: bold;
+    font-style: italic;
+    /*white-space: nowrap;*/
+}
+
+dt.date {
+    float: none;
+    clear: both;
+    margin-bottom: .2em;
+    width: auto;
+    border-bottom: 1px solid #eee;
+}
+
+dd {
+    margin-left: 1.5em;
+    padding: 0 0 .25em;
+}
+
+dt + dd {
+    margin-left: 11em;
+}
+
+dd.strong {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.topmargin {
+    padding-top: 1em;
+}
+
+.andnothingelse {
+    width: auto;
+}
+
+dl.andnothingelse + dd {
+    display: none;
+}
+
+ul {
+    display: table;
+    margin: 0;
+    padding: 0 0 0 10em;
+    list-style: none;
+}
+
+ul ul {
+    padding: .5em 0 .5em 1.5em;
+}
+
+dd ul {
+    padding-left: 0;
+}
+
+dd ul ul {
+    padding-left: 1.5em;
+}
+
+ul li {
+    padding: 0 0 .33em;
+}
+
+footer {
+    display: block;
+    text-align: right;
+    font-style: italic;
+    font-size: .75em;
+    line-height: 2em;
+}
+
+footer dl, footer dt, footer dd {
+    display: inline;
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.lng {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    margin-right: 1em;
+    text-decoration: underline;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: .9em;
+    cursor: pointer;
+}
+html[lang] [lang] {
+    display: none;
+}
+
+html[lang=en] [lang=en],
+html[lang=ru] [lang=ru] {
+    display: inherit;
+}
+
+.flp {
+    position: absolute;
+    right: 100%;
+    bottom: -3.2em;
+    margin-right: 1em;
+    text-decoration: underline;
+    white-space: nowrap;
+    font-weight: normal;
+    font-size: .9em;
+    cursor: pointer;
+}
+.flp span {
+    display: none;
+}
+.flp.hide .hide,
+.flp.show .show{display: inline;}
+
