@@ -4,11 +4,35 @@
     display: inherit;
 }
 
-/* lang switching */
-.lng {
+/* triggers stile */
+.trigger {
     position: absolute;
-    top: 0;
+    margin-top: 1px;
+}
+
+.trigger  span span {
+    display: inline-block;
+    background: #eee;
+    cursor: pointer;
+    font-size: .8em;
+    padding: .25em .75em .3em;
+}
+
+@media print {
+    .trigger {
+        display: none;
+    }
+}
+
+/* lang switching */
+.trigger.lng {
+    position: absolute;
+    bottom: 0;
     left: 0;
+}
+.trigger.lng span span{
+    border-radius:7px 7px 0 0;
+    width: auto;
 }
 
 html[lang] [lang] {
@@ -28,43 +52,40 @@ html[lang=ru] .show [lang=ru].hide {
 }
 
 /* folder switching */
-.folder {
-    position: absolute;
-    top: 100%;
+.trigger.folder {
     right: 0;
+    top:100%;
     margin-top: 1px;
 }
 
-.folder span span {
-    display: inline-block;
-    background: #eee;
-    width: 8.5em;
-    cursor: pointer;
-    font-size: .8em;
-    padding: .25em .75em .3em;
+.trigger.folder span span {
     border-radius: 0 0 7px 7px;
 }
-.folder:before{
+
+
+.trigger.folder :before {
     content: '';
     position: absolute;
-    bottom:0;
-    left:50%;
+    left: 50%;
+    bottom: 0;
     margin: 0 0 -4px -4px;
     display: block;
     background-color: #fff;
     width: 8px;
     height: 8px;
     transition: all .5s;
-    -webkit-transform:rotate(45deg);
-    transform:rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
-.folder.show:before{background-color: #eee;}
 
-[lang=en] .folder span span {
+.trigger.show:before {
+    background-color: #eee;
+}
+
+[lang=en] .trigger.folder span span {
     width: 4.5em;
 }
-
-[lang=ru] .folder span span {
+[lang=ru] .trigger.folder span span {
     width: 7.5em;
 }
 
@@ -87,13 +108,27 @@ a:hover {
     color: #666;
     border-color: #ccc;
 }
+@media print {
+    body {
+        font-size: .85em;
+    }
+    a {
+        border-bottom: none;
+    }
+    a:after{
+        content: attr(data-link);
+        font-size: .83em;
+        margin-left: .3em;
+        color:#666;
+    }
+}
 
 /* header section */
 header {
     text-align: center;
     font-size: 1.2em;
     border-bottom: 1px dashed #ccc;
-    padding-bottom: 1em;
+    padding-bottom: 2em;
     position: relative;
 }
 
@@ -114,7 +149,6 @@ h1 {
     font-weight: normal;
     font-size: 2em;
     line-height: 1;
-    text-align: center;
 }
 
 header dl, header dt, header dd {
@@ -130,13 +164,48 @@ header dd {
     margin-right: 1em;
 }
 
+@media print {
+    header {
+        text-align: left;
+    }
+
+    h1 {
+        font-weight: normal;
+        font-size: 1.5em;
+        line-height: 1;
+    }
+
+    header img {
+        float: right;
+        border: none;
+        border-radius: 0;
+        height: 150px;
+        transition: none;
+    }
+    header dl{
+        font-size: .85em;
+    }
+    header dt {
+        float: left;
+        clear: left;
+        margin-right: .33em;
+    }
+    header dd {
+        display: block;
+    }
+}
+
 /* sections */
 section {
     overflow: hidden;
+    opacity: 1;
     transition: all .5s;
 }
+section h3:first-child + h3,
+section h3:first-child{margin-top: 0;}
 
 input:checked + section {
+    opacity: 0;
     max-height: 0 !important;
 }
 
@@ -145,7 +214,10 @@ h2 {
     clear: both;
 
 }
-h2 label{cursor: pointer;}
+
+h2 label {
+    cursor: pointer;
+}
 
 h2 + input {
     display: none;
@@ -155,15 +227,24 @@ section dl,
 section ul {
     margin: 0
 }
+
 section dd {
     margin-bottom: 1em;
 }
-section p{margin: 0;}
 
-@media screen and (min-width: 701px){
-    .half{float: left;
-    width: 45%;}
-    .half + .half{margin-left: 5%;}
+section p {
+    margin: 0;
+}
+
+@media screen and (min-width: 701px) {
+    /*.half {*/
+        /*float: left;*/
+        /*width: 45%;*/
+    /*}*/
+
+    /*.half + .half {*/
+        /*margin-left: 5%;*/
+    /*}*/
 }
 
 }

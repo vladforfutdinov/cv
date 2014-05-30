@@ -1,5 +1,5 @@
 var app = {
-    createEl: function (tag, attr, injection) {
+    _createEl: function (tag, attr, injection) {
         var el = tag ? document.createElement(tag) : document.createDocumentFragment();
         for (var key in attr) {
             if (attr.hasOwnProperty(key)) {
@@ -15,48 +15,6 @@ var app = {
         }
         return el;
     },
-    translate: function () {
-        this.lang = (this.lang == 'en' ? 'ru' : 'en');
-        app.setSectionsSize();
-    },
-    initTrigger: function (dest, trigger, array, fn, fnThis) {
-        for (var key in array) {
-            if (array.hasOwnProperty(key)) {
-                if (array[key].toString() === array[key]) {
-                    trigger.appendChild(app.createEl('span', {lang: key}, app.createEl('span', null, array[key])));
-                } else {
-                    for (var subKey in array[key]) {
-                        if (array[key].hasOwnProperty(subKey)) {
-                            trigger.appendChild(app.createEl('span', {lang: key, class: subKey}, app.createEl('span', null, array[key][subKey])));
-                        }
-                    }
-                }
-            }
-        }
-        trigger.onclick = function (e) {
-            fn.call(fnThis || e.target);
-        };
-        dest.appendChild(trigger);
-
-        return trigger;
-    },
-    initFolders: function () {
-        var label, innerSpans,
-            headers = app.toArray(document.getElementsByTagName('h2'));
-
-        for (var i = 0, ilength = headers.length; i < ilength; i++) {
-            innerSpans = app.toArray(headers[i].getElementsByTagName('span'));
-
-            for (var j = 0, jlength = innerSpans.length; j < jlength; j++) {
-                label = app.createEl('label', {for: ('section' + i), lang: innerSpans[j].lang}, innerSpans[j].innerText);
-                headers[i].appendChild(label);
-                innerSpans[j].parentNode.removeChild(innerSpans[j]);
-            }
-            app._appendAfter(headers[i], app.createEl('input', {id: ('section' + i), type: 'checkbox'}));
-        }
-
-        app.setSectionsSize();
-    },
     _appendAfter: function (node, insertNode) {
         if (node.nextSibling) {
             node.parentNode.insertBefore(insertNode, node.nextSibling);
@@ -65,9 +23,9 @@ var app = {
             node.parentNode.appendChild(insertNode);
         }
     },
-    toggleClass: function (el, first, second, bool) {
+    _toggleClass: function (el, first, second, bool) {
         if (el) {
-            if (app.isArray(el)) {
+            if (app._isArray(el)) {
                 for (var i = 0, length = el.length; i < length; i++) {
                     app._toggle(el[i], first, second, bool);
                 }
@@ -104,17 +62,17 @@ var app = {
 
         el.className = classes.join(' ').replace(/\s+/g, ' ').trim();
     },
-    isArray: function (obj) {
+    _isArray: function (obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
     },
-    isFunc: function (obj) {
+    _isFunc: function (obj) {
         return typeof(obj) === 'function';
     },
-    toArray: function (list) {
+    _toArray: function (list) {
         return Array.prototype.slice.call(list);
     },
-    addClass: function (el, className) {
-        if (app.isArray(el)) {
+    _addClass: function (el, className) {
+        if (app._isArray(el)) {
             for (var i = 0, length = el.length; i < length; i++) {
                 el[i].className += ' ' + className;
             }
@@ -122,37 +80,27 @@ var app = {
             el.className += ' ' + className;
         }
     },
-    every: function (els, fn) {
+    _every: function (els, fn) {
         var every = true;
+
         for (var i = 0, length = els.length; i < length; i++) {
             every = fn(els[i]);
         }
+
         return every;
     },
-    hasClass: function (el, className) {
+    _hasClass: function (el, className) {
         var classes = el.className.split(' ');
 
         for (var i = 0, length = classes.length; i < length; i++) {
-            if(classes[i] === className){
+            if (classes[i] === className) {
                 return true;
             }
         }
 
         return false;
     },
-    setSectionsSize: function () {
-        var sections = app.toArray(document.getElementsByTagName('section'));
-
-        for (var i = 0, ilength = sections.length; i < ilength; i++) {
-            sections[i].style.maxHeight = '';
-            (function(el){
-                setTimeout(function(){
-                    el.style.maxHeight = el.clientHeight + 'px';
-                }, 0);
-            })(sections[i]);
-        }
-    },
-    parent: function(el, className){
+    _parent: function (el, className) {
         var isMatch = false,
             currentNode = el,
             firstLoop = true;
@@ -164,19 +112,17 @@ var app = {
                     return false;
                 }
             }
-
-            isMatch = app.hasClass(currentNode, className);
-
+            isMatch = app._hasClass(currentNode, className);
             firstLoop = false;
         }
 
         return currentNode;
     },
-    onload: function (func) {
+    _onload: function (func) {
         window.onload = function () {
-            if (app.isArray(func)) {
+            if (app._isArray(func)) {
                 for (var i = 0, length = func.length; i < length; i++) {
-                    if (app.isFunc(func[i])) {
+                    if (app._isFunc(func[i])) {
                         func[i].call();
                     }
                 }
@@ -184,13 +130,75 @@ var app = {
                 func();
             }
         };
+    },
+    translate: function () {
+        this.lang = (this.lang == 'en' ? 'ru' : 'en');
+        app.setSectionsSize();
+    },
+    initTrigger: function (dest, trigger, array, fn, fnThis) {
+        for (var key in array) {
+            if (array.hasOwnProperty(key)) {
+                if (array[key].toString() === array[key]) {
+                    trigger.appendChild(app._createEl('span', {lang: key}, app._createEl('span', null, array[key])));
+                } else {
+                    for (var subKey in array[key]) {
+                        if (array[key].hasOwnProperty(subKey)) {
+                            trigger.appendChild(app._createEl('span', {lang: key, class: subKey}, app._createEl('span', null, array[key][subKey])));
+                        }
+                    }
+                }
+            }
+        }
+        trigger.onclick = function (e) {
+            fn.call(fnThis || e.target);
+        };
+        dest.appendChild(trigger);
+
+        return trigger;
+    },
+    initFolders: function () {
+        var label, innerSpans,
+            headers = app._toArray(document.getElementsByTagName('h2'));
+
+        for (var i = 0, ilength = headers.length; i < ilength; i++) {
+            innerSpans = app._toArray(headers[i].getElementsByTagName('span'));
+
+            for (var j = 0, jlength = innerSpans.length; j < jlength; j++) {
+                label = app._createEl('label', {for: ('section' + i), lang: innerSpans[j].lang}, innerSpans[j].innerText);
+                headers[i].appendChild(label);
+                innerSpans[j].parentNode.removeChild(innerSpans[j]);
+            }
+            app._appendAfter(headers[i], app._createEl('input', {id: ('section' + i), type: 'checkbox'}));
+        }
+
+        app.setSectionsSize();
+    },
+    setSectionsSize: function () {
+        var sections = app._toArray(document.getElementsByTagName('section'));
+
+        for (var i = 0, length = sections.length; i < length; i++) {
+            sections[i].style.maxHeight = '';
+            (function (el) {
+                setTimeout(function () {
+                    el.style.maxHeight = el.clientHeight + 'px';
+                }, 0);
+            })(sections[i]);
+        }
+    },
+    addFullLinks: function(){
+        var links = app._toArray(document.getElementsByTagName('a'));
+
+        for (var i = 0, length = links.length; i < length; i++) {
+            if (links[i].href.indexOf(window.location.host) != -1){
+                links[i].setAttribute('data-link', links[i].href);
+            }
+        }
     }
 };
 
 (function () {
     var body = document.body,
         lv = lv || false,
-        lngBase = document.body,
         header = document.getElementsByTagName('header')[0],
         triggerTitles = {
             'lg': {
@@ -207,23 +215,27 @@ var app = {
             }
         };
 
-    app.initTrigger(lngBase, app.createEl('span', {class: 'lng'}), triggerTitles.lg, app.translate, document.documentElement);
+    app.initTrigger(
+        header,
+        app._createEl('span', {class: 'lng trigger'}),
+        triggerTitles.lg,
+        app.translate,
+        document.documentElement
+    );
 
-    app.onload([app.initFolders]);
+    app._onload([app.initFolders, app.addFullLinks]);
 
     if (!lv) {
-        var headers = app.toArray(document.getElementsByTagName('h2')),
-            folder = app.initTrigger(
+        app.initTrigger(
                 header,
-                app.createEl('span', {class: 'folder hide'}),
+                app._createEl('span', {class: 'folder trigger hide'}),
                 triggerTitles.fb,
                 function () {
-                    console.log(this);
-                    var el = app.parent(this, 'folder'),
-                        state = app.hasClass(el, 'show'),
-                        checkboxes = app.toArray(document.getElementsByTagName('input'));
+                    var el = app._parent(this, 'folder'),
+                        state = app._hasClass(el, 'show'),
+                        checkboxes = app._toArray(document.getElementsByTagName('input'));
 
-                    app.toggleClass(el, 'show', 'hide');
+                    app._toggleClass(el, 'show', 'hide');
 
                     for (var i = 0, length = checkboxes.length; i < length; i++) {
                         checkboxes[i].checked = !state;
