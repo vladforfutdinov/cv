@@ -1,4 +1,10 @@
-/* lang selection */
+/* switchers common */
+.hide .hide,
+.show .show {
+    display: inherit;
+}
+
+/* lang switching */
 .lng {
     position: absolute;
     top: 0;
@@ -21,9 +27,45 @@ html[lang=ru] .show [lang=ru].hide {
     display: none;
 }
 
-.hide .hide,
-.show .show {
-    display: inherit;
+/* folder switching */
+.folder {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 1px;
+}
+
+.folder span span {
+    display: inline-block;
+    background: #eee;
+    width: 8.5em;
+    cursor: pointer;
+    font-size: .8em;
+    padding: .25em .75em .3em;
+    border-radius: 0 0 7px 7px;
+}
+.folder:before{
+    content: '';
+    position: absolute;
+    bottom:0;
+    left:50%;
+    margin: 0 0 -4px -4px;
+    display: block;
+    background-color: #fff;
+    width: 8px;
+    height: 8px;
+    transition: all .5s;
+    -webkit-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+.folder.show:before{background-color: #eee;}
+
+[lang=en] .folder span span {
+    width: 4.5em;
+}
+
+[lang=ru] .folder span span {
+    width: 7.5em;
 }
 
 /* common styles */
@@ -52,6 +94,7 @@ header {
     font-size: 1.2em;
     border-bottom: 1px dashed #ccc;
     padding-bottom: 1em;
+    position: relative;
 }
 
 header img {
@@ -88,19 +131,39 @@ header dd {
 }
 
 /* sections */
-section{
+section {
     overflow: hidden;
     transition: all .5s;
 }
-input:checked + section{
+
+input:checked + section {
     max-height: 0 !important;
 }
 
 h2 {
+    display: block;
+    clear: both;
 
 }
-h2 + input {display: none;}
+h2 label{cursor: pointer;}
+
+h2 + input {
+    display: none;
+}
 
 section dl,
-section ul{margin: 0}
+section ul {
+    margin: 0
+}
+section dd {
+    margin-bottom: 1em;
+}
+section p{margin: 0;}
 
+@media screen and (min-width: 701px){
+    .half{float: left;
+    width: 45%;}
+    .half + .half{margin-left: 5%;}
+}
+
+}
