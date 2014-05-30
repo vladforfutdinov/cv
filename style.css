@@ -8,14 +8,20 @@
 .trigger {
     position: absolute;
     margin-top: 1px;
+    text-shadow: 0 1px 1px #ccc;
+}
+.trigger > span{
+    -webkit-transition: none !important;
+    transition: none !important;
+
 }
 
-.trigger  span span {
+.trigger span span {
     display: inline-block;
     background: #eee;
     cursor: pointer;
     font-size: .8em;
-    padding: .25em .75em .3em;
+    padding: .25em .75em .5em;
 }
 
 @media print {
@@ -35,20 +41,23 @@
     width: auto;
 }
 
+html[lang=en] .hide [lang=en].show,
+html[lang=en] .show [lang=en].hide,
+html[lang=ru] .hide [lang=ru].show,
+html[lang=ru] .show [lang=ru].hide,
 html[lang] [lang] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    left:-200%;
+    -webkit-transition: all 1s;
+    transition: all 1s;
 }
 
 html[lang=en] [lang=en],
 html[lang=ru] [lang=ru] {
-    display: inherit;
-}
-
-html[lang=en] .hide [lang=en].show,
-html[lang=en] .show [lang=en].hide,
-html[lang=ru] .hide [lang=ru].show,
-html[lang=ru] .show [lang=ru].hide {
-    display: none;
+    position: static;
+    opacity: 1;
+    left: auto;
 }
 
 /* folder switching */
@@ -62,8 +71,7 @@ html[lang=ru] .show [lang=ru].hide {
     border-radius: 0 0 7px 7px;
 }
 
-
-.trigger.folder :before {
+.trigger.folder:before {
     content: '';
     position: absolute;
     left: 50%;
@@ -76,9 +84,9 @@ html[lang=ru] .show [lang=ru].hide {
     transition: all .5s;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+    z-index: 1;
 }
-
-.trigger.show:before {
+.trigger.folder.show:before {
     background-color: #eee;
 }
 
@@ -151,18 +159,27 @@ h1 {
     line-height: 1;
 }
 
-header dl, header dt, header dd {
+header ul, header li, header li span{
     margin: 0;
+    padding: 0;
+    list-style: none;
     display: inline-block;
+    line-height: 1;
 }
 
-header dt:after {
+header li {
+    margin-right: 1em;
+    white-space: nowrap;
+    padding-bottom: .5em;
+}
+
+header li span {
+
+}
+header li span:after {
     content: ':';
 }
 
-header dd {
-    margin-right: 1em;
-}
 
 @media print {
     header {
@@ -229,12 +246,27 @@ section ul {
 }
 
 section dd {
-    margin-bottom: 1em;
+    margin:0 0 1em 1em;
+
+}
+section.onerow dt{
+    float: left;
+    clear: left;
+    margin-left: 1em;
+}
+section.onerow dt:after{content: ':';}
+
+section.onerow dd{
+    display: block;
+    padding-left: .3em;
+    overflow: hidden;
+    margin-bottom: 0;
 }
 
 section p {
     margin: 0;
 }
+
 
 @media screen and (min-width: 701px) {
     /*.half {*/
@@ -247,4 +279,15 @@ section p {
     /*}*/
 }
 
+footer{
+    text-align: right;
+    font-size: .7em;
 }
+footer dl,
+footer dt,
+footer dd{
+    display: inline;
+    margin: 0;
+}
+footer dt:after{content: ':';}
+

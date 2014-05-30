@@ -90,14 +90,15 @@ var app = {
         return every;
     },
     _hasClass: function (el, className) {
-        var classes = el.className.split(' ');
+        if (el && el.hasOwnProperty('tagName')) {
+            var classes = el.className.split(' ');
 
-        for (var i = 0, length = classes.length; i < length; i++) {
-            if (classes[i] === className) {
-                return true;
+            for (var i = 0, length = classes.length; i < length; i++) {
+                if (classes[i] === className) {
+                    return true;
+                }
             }
         }
-
         return false;
     },
     _parent: function (el, className) {
@@ -133,7 +134,7 @@ var app = {
     },
     translate: function () {
         this.lang = (this.lang == 'en' ? 'ru' : 'en');
-        app.setSectionsSize();
+        app.switchSections();
     },
     initTrigger: function (dest, trigger, array, fn, fnThis) {
         for (var key in array) {
@@ -185,13 +186,31 @@ var app = {
             })(sections[i]);
         }
     },
-    addFullLinks: function(){
+    addFullLinks: function () {
         var links = app._toArray(document.getElementsByTagName('a'));
 
         for (var i = 0, length = links.length; i < length; i++) {
-            if (links[i].href.indexOf(window.location.host) != -1){
+            if (links[i].href.indexOf(window.location.host) != -1) {
                 links[i].setAttribute('data-link', links[i].href);
             }
+        }
+    },
+    switchSections: function() {
+        var el = document.getElementsByClassName('folder')[0],
+            isFolderSwitcher = (this.hasOwnProperty('tagName') && app._parent(this, 'folder') ? true : false),
+            state = app._hasClass(el, 'show'),
+            checkboxes = app._toArray(document.getElementsByTagName('input'));
+
+        if (isFolderSwitcher || (!isFolderSwitcher && state)) {
+            app._toggleClass(el, 'show', 'hide');
+
+            for (var i = 0, length = checkboxes.length; i < length; i++) {
+                checkboxes[i].checked = !state;
+            }
+
+        }
+        if (!isFolderSwitcher){
+            app.setSectionsSize();
         }
     }
 };
@@ -227,22 +246,11 @@ var app = {
 
     if (!lv) {
         app.initTrigger(
-                header,
-                app._createEl('span', {class: 'folder trigger hide'}),
-                triggerTitles.fb,
-                function () {
-                    var el = app._parent(this, 'folder'),
-                        state = app._hasClass(el, 'show'),
-                        checkboxes = app._toArray(document.getElementsByTagName('input'));
-
-                    app._toggleClass(el, 'show', 'hide');
-
-                    for (var i = 0, length = checkboxes.length; i < length; i++) {
-                        checkboxes[i].checked = !state;
-                    }
-
-                }
-            );
+            header,
+            app._createEl('span', {class: 'folder trigger hide'}),
+            triggerTitles.fb,
+            app.switchSections
+        );
 
         body.className += 'modern';
     }
