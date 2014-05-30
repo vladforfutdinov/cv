@@ -9,8 +9,10 @@
     position: absolute;
     margin-top: 1px;
     text-shadow: 0 1px 1px #ccc;
+    overflow: hidden;
 }
-.trigger > span{
+
+.trigger > span {
     -webkit-transition: none !important;
     transition: none !important;
 
@@ -36,8 +38,9 @@
     bottom: 0;
     left: 0;
 }
-.trigger.lng span span{
-    border-radius:7px 7px 0 0;
+
+.trigger.lng span span {
+    border-radius: 7px 7px 0 0;
     width: auto;
 }
 
@@ -48,9 +51,9 @@ html[lang=ru] .show [lang=ru].hide,
 html[lang] [lang] {
     position: absolute;
     opacity: 0;
-    left:-200%;
-    -webkit-transition: all 1s;
-    transition: all 1s;
+    left: -200%;
+    -webkit-transition: all .5s;
+    transition: all .5s;
 }
 
 html[lang=en] [lang=en],
@@ -63,7 +66,7 @@ html[lang=ru] [lang=ru] {
 /* folder switching */
 .trigger.folder {
     right: 0;
-    top:100%;
+    top: 100%;
     margin-top: 1px;
 }
 
@@ -71,28 +74,10 @@ html[lang=ru] [lang=ru] {
     border-radius: 0 0 7px 7px;
 }
 
-.trigger.folder:before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    margin: 0 0 -4px -4px;
-    display: block;
-    background-color: #fff;
-    width: 8px;
-    height: 8px;
-    transition: all .5s;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    z-index: 1;
-}
-.trigger.folder.show:before {
-    background-color: #eee;
-}
-
 [lang=en] .trigger.folder span span {
     width: 4.5em;
 }
+
 [lang=ru] .trigger.folder span span {
     width: 7.5em;
 }
@@ -116,18 +101,21 @@ a:hover {
     color: #666;
     border-color: #ccc;
 }
+
 @media print {
     body {
         font-size: .85em;
     }
+
     a {
         border-bottom: none;
     }
-    a:after{
+
+    a:after {
         content: attr(data-link);
         font-size: .83em;
         margin-left: .3em;
-        color:#666;
+        color: #666;
     }
 }
 
@@ -159,7 +147,7 @@ h1 {
     line-height: 1;
 }
 
-header ul, header li, header li span{
+header ul, header li, header li span {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -173,13 +161,9 @@ header li {
     padding-bottom: .5em;
 }
 
-header li span {
-
-}
-header li span:after {
+header li > span:after {
     content: ':';
 }
-
 
 @media print {
     header {
@@ -199,14 +183,17 @@ header li span:after {
         height: 150px;
         transition: none;
     }
-    header dl{
+
+    header dl {
         font-size: .85em;
     }
+
     header dt {
         float: left;
         clear: left;
         margin-right: .33em;
     }
+
     header dd {
         display: block;
     }
@@ -216,10 +203,14 @@ header li span:after {
 section {
     overflow: hidden;
     opacity: 1;
-    transition: all .5s;
+    -webkit-transition: all .25s;
+    transition: all .25s;
 }
+
 section h3:first-child + h3,
-section h3:first-child{margin-top: 0;}
+section h3:first-child {
+    margin-top: 0;
+}
 
 input:checked + section {
     opacity: 0;
@@ -246,17 +237,21 @@ section ul {
 }
 
 section dd {
-    margin:0 0 1em 1em;
+    margin: 0 0 1em 1em;
 
 }
-section.onerow dt{
+
+section.onerow dt {
     float: left;
     clear: left;
     margin-left: 1em;
 }
-section.onerow dt:after{content: ':';}
 
-section.onerow dd{
+section.onerow dt:after {
+    content: ':';
+}
+
+section.onerow dd {
     display: block;
     padding-left: .3em;
     overflow: hidden;
@@ -267,27 +262,49 @@ section p {
     margin: 0;
 }
 
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+    article {
+        float: left;
+        width: 45%;
+    }
 
-@media screen and (min-width: 701px) {
-    /*.half {*/
-        /*float: left;*/
-        /*width: 45%;*/
-    /*}*/
-
-    /*.half + .half {*/
-        /*margin-left: 5%;*/
-    /*}*/
+    article:nth-child(2n) {
+        clear: left;
+        margin-right: 5%;
+    }
 }
 
-footer{
+@media screen and (min-width: 1201px) {
+    article {
+        float: left;
+        width: 32%;
+    }
+
+    article:nth-child(3n - 1),
+    article:nth-child(3n - 1) + article {
+        margin-right: 1%;
+    }
+
+    article:nth-child(3n - 1) {
+        clear: left;
+    }
+}
+
+footer {
     text-align: right;
     font-size: .7em;
+    clear: both;
+    padding-top: 1em;
 }
+
 footer dl,
 footer dt,
-footer dd{
+footer dd {
     display: inline;
     margin: 0;
 }
-footer dt:after{content: ':';}
+
+footer dt:after {
+    content: ':';
+}
 
