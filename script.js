@@ -40,11 +40,12 @@ var app = {
             secondIndex = -1,
             isBool = bool !== undefined;
 
-//        console.log(isBool);
         for (var i = 0, length = classes.length; i < length; i++) {
             firstIndex = (classes[i] === first ? i : firstIndex);
             secondIndex = (classes[i] === second ? i : secondIndex);
         }
+
+        console.log(bool);
 
         if (isBool) {
             classes[firstIndex] = '';
@@ -119,22 +120,24 @@ var app = {
 
         return currentNode;
     },
-    _onload: function (func) {
-        window.onload = function () {
-            if (app._isArray(func)) {
-                for (var i = 0, length = func.length; i < length; i++) {
-                    if (app._isFunc(func[i])) {
-                        func[i].call();
+    _event: function (target, object) {
+        for (var key in object){
+            if (object.hasOwnProperty(key)){
+                    if (app._isArray(object[key])) {
+                        for (var i = 0, length = object[key].length; i < length; i++) {
+                            if (app._isFunc(object[key][i])) {
+                                target.addEventListener(key, object[key][i]);
+                            }
+                        }
+                    } else {
+                        target.addEventListener(key, object[key]);
                     }
-                }
-            } else {
-                func();
             }
-        };
+        }
     },
     translate: function () {
         this.lang = (this.lang == 'en' ? 'ru' : 'en');
-        app.switchSections();
+        app.switchSections(true);
     },
     initTrigger: function (dest, trigger, array, fn, fnThis) {
         for (var key in array) {
@@ -195,14 +198,14 @@ var app = {
             }
         }
     },
-    switchSections: function() {
+    switchSections: function(force) {
         var el = document.getElementsByClassName('folder')[0],
             isFolderSwitcher = (this.hasOwnProperty('tagName') && app._parent(this, 'folder') ? true : false),
-            state = app._hasClass(el, 'show'),
+            state = force != undefined ? force : app._hasClass(el, 'show'),
             checkboxes = app._toArray(document.getElementsByTagName('input'));
 
         if (isFolderSwitcher || (!isFolderSwitcher && state)) {
-            app._toggleClass(el, 'show', 'hide');
+            app._toggleClass(el, 'show', 'hide', !force);
 
             for (var i = 0, length = checkboxes.length; i < length; i++) {
                 checkboxes[i].checked = !state;
@@ -242,7 +245,10 @@ var app = {
         document.documentElement
     );
 
-    app._onload([app.initFolders, app.addFullLinks]);
+    app._event(window, {
+        load: [app.initFolders, app.addFullLinks],
+        resize: app.setSectionsSize
+    });
 
     if (!lv) {
         app.initTrigger(

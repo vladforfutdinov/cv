@@ -1,9 +1,3 @@
-/* switchers common */
-.hide .hide,
-.show .show {
-    display: inherit;
-}
-
 /* triggers stile */
 .trigger {
     position: absolute;
