@@ -1,4 +1,18 @@
 var app = {
+    triggerTitles: {
+        'lg': {
+            'ru': 'In English', 'en': 'По-русски'},
+        'fb': {
+            ru: {
+                show: 'Развернуть все',
+                hide: 'Свернуть все'
+            },
+            en: {
+                show: 'Unfold all',
+                hide: 'Fold all'
+            }
+        }
+    },
     _createEl: function (tag, attr, injection) {
         var el = tag ? document.createElement(tag) : document.createDocumentFragment();
         for (var key in attr) {
@@ -40,12 +54,17 @@ var app = {
             secondIndex = -1,
             isBool = bool !== undefined;
 
+        if (typeof second === "boolean") {
+            isBool = second;
+            second = '';
+        }
+
         for (var i = 0, length = classes.length; i < length; i++) {
             firstIndex = (classes[i] === first ? i : firstIndex);
             secondIndex = (classes[i] === second ? i : secondIndex);
         }
 
-        console.log(bool);
+//        console.log(bool);
 
         if (isBool) {
             classes[firstIndex] = '';
@@ -120,18 +139,18 @@ var app = {
 
         return currentNode;
     },
-    _event: function (target, object) {
-        for (var key in object){
-            if (object.hasOwnProperty(key)){
-                    if (app._isArray(object[key])) {
-                        for (var i = 0, length = object[key].length; i < length; i++) {
-                            if (app._isFunc(object[key][i])) {
-                                target.addEventListener(key, object[key][i]);
-                            }
+    event: function (target, func) {
+        for (var key in func) {
+            if (func.hasOwnProperty(key)) {
+                if (app._isArray(func[key])) {
+                    for (var i = 0, length = func[key].length; i < length; i++) {
+                        if (app._isFunc(func[key][i])) {
+                            target.addEventListener(key, func[key][i]);
                         }
-                    } else {
-                        target.addEventListener(key, object[key]);
                     }
+                } else {
+                    target.addEventListener(key, func[key]);
+                }
             }
         }
     },
@@ -198,7 +217,7 @@ var app = {
             }
         }
     },
-    switchSections: function(force) {
+    switchSections: function (force) {
         var el = document.getElementsByClassName('folder')[0],
             isFolderSwitcher = (this.hasOwnProperty('tagName') && app._parent(this, 'folder') ? true : false),
             state = force != undefined ? force : app._hasClass(el, 'show'),
@@ -212,9 +231,51 @@ var app = {
             }
 
         }
-        if (!isFolderSwitcher){
+        if (!isFolderSwitcher) {
             app.setSectionsSize();
         }
+        app.initFlyoutHeader();
+    },
+    initFlyoutHeader: function () {
+        var header = document.getElementsByTagName('header')[0],
+            body = document.body;
+
+        app.event(header, {click: app.setFlyoutHeader});
+
+        app.checkFlyoutHeader(function(){
+            app._addClass(body, 'flyout-ready');
+        });
+    },
+    setFlyoutHeader: function (e) {
+        var header = document.getElementsByTagName('header')[0],
+            headerChildren = header.children;
+
+        for (var i = 0, length = headerChildren.length; i < length; i++) {
+            if (!app._hasClass(headerChildren[i], 'trigger')) {
+//                headerChildren[i].setAttribute()
+            }
+        }
+
+        app._toggleClass(this, 'flyout', app._hasClass(this, 'flyout'));
+
+    },
+    checkFlyoutHeader: function (callback) {
+        var headerHeight,
+            header = document.getElementsByTagName('header')[0];
+
+        setTimeout(function () {
+            headerHeight = header.clientHeight;
+
+            header.setAttribute('data-fullheight', headerHeight);
+            header.style.height = headerHeight + 'px';
+            document.body.style.paddingTop = headerHeight + 'px';
+
+            if (callback){
+                setTimeout(function () {
+                    callback.call();
+                }, 0);
+            }
+        }, 0);
     }
 };
 
@@ -222,30 +283,20 @@ var app = {
     var body = document.body,
         lv = lv || false,
         header = document.getElementsByTagName('header')[0],
-        triggerTitles = {
-            'lg': {
-                'ru': 'In English', 'en': 'По-русски'},
-            'fb': {
-                ru: {
-                    show: 'Развернуть все',
-                    hide: 'Свернуть все'
-                },
-                en: {
-                    show: 'Unfold all',
-                    hide: 'Fold all'
-                }
-            }
-        };
+        toc = document.getElementById('toc'),
+        titles = document.getElementsByTagName('h2');
+
+    app.initFlyoutHeader();
 
     app.initTrigger(
         header,
         app._createEl('span', {class: 'lng trigger'}),
-        triggerTitles.lg,
+        app.triggerTitles.lg,
         app.translate,
         document.documentElement
     );
 
-    app._event(window, {
+    app.event(window, {
         load: [app.initFolders, app.addFullLinks],
         resize: app.setSectionsSize
     });
@@ -254,10 +305,15 @@ var app = {
         app.initTrigger(
             header,
             app._createEl('span', {class: 'folder trigger hide'}),
-            triggerTitles.fb,
+            app.triggerTitles.fb,
             app.switchSections
         );
 
-        body.className += 'modern';
+        body.className += ' modern';
     }
+
+    for (var i = 0, length = titles.length; i < length; i++) {
+        titles[i].setAttribute('id', 'art' + i);
+    }
+
 })();
