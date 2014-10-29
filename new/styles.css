@@ -1,0 +1,19 @@
+nav {text-align: center;}
+
+nav a{
+    display: inline-block;
+    padding: .75em 3em;
+    margin: 0 .5em;
+    color: #333;
+    text-decoration: none;
+    border: 2px solid transparent;
+    font:bold 1.2em sans-serif;
+}
+nav a:hover{background-color: rgba(0,0,0,.25);}
+
+[lang='ru'] nav a[href*='ru'],
+[lang='en'] nav a[href*='en']{
+    border-color: rgba(0,0,0,.25);
+}
+[lang='ru'] nav a[href*='ru']:hover,
+[lang='en'] nav a[href*='en']:hover{background-color: rgba(0,0,0,.05);}

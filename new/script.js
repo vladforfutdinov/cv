@@ -1,6 +1,5 @@
 (function () {
-    var head = document.head,
-        body = document.body,
+    var html = document.documentElement,
         namedSections = [].slice.call(document.querySelectorAll('[data-name]')),
         $http = {
             _http: function () {
@@ -10,7 +9,8 @@
                 } catch (e) {
                     try {
                         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (E) {
+                    }
+                    catch (E) {
                         xmlhttp = false;
                     }
                 }
@@ -35,14 +35,14 @@
             }
         },
         isString = function (string) {
-            return string === '' + string;
+            return typeof string === 'string';
         },
         forEach = function (arg, callback) {
-            if (Array.isArray(arg)) {
-                var result;
+            var result;
 
+            if (Array.isArray(arg)) {
                 for (var i = 0, length = arg.length; i < length; i++) {
-                    result = callback.apply(arg[i]);
+                    result = callback.call(arg[i], arg[i], i, arg);
                     if (result) {
                         return result;
                     }
@@ -50,7 +50,7 @@
             } else if (!isString(arg)) {
                 for (var key in arg) {
                     if (arg.hasOwnProperty(key)) {
-                        result = callback.apply(arg[i]);
+                        result = callback.apply(arg[i], arg[i], i, arg);
                         if (result) {
                             return result;
                         }
@@ -61,7 +61,7 @@
         onError = function (error) {
             console.log("Error:" + error);
         },
-        init = function (data) {
+        initArticle = function (data) {
             var getNamedSection = function (name) {
                     return forEach(namedSections, function () {
                         if (this.dataset && this.dataset.name === name) {
@@ -69,10 +69,50 @@
                         }
                     });
                 },
+                getTable = function (data) {
+                    var table = document.createElement('table'),
+                        thead = table.createTHead(0),
+                        colspan = 0;
+
+                    forEach(data.value, function () {
+                        var row = document.createElement('tr'),
+                            cells = this.split('\t'),
+                            cellsLength = cells.length;
+
+                        forEach(cells, function (val, i) {
+                            var cell = document.createElement(i === 0 ? 'th' : 'td');
+                            if (cells.length == 1){
+                                cell.setAttribute('colspan', colspan);
+                            }
+                            cell.appendChild(document.createTextNode(val));
+                            row.appendChild(cell);
+                        });
+
+                        colspan = cellsLength > 1 ? cellsLength : colspan;
+                        if (cells[0] === ''){
+                            thead.appendChild(row);
+                        } else {
+                            table.appendChild(row);
+                        }
+                    });
+
+                    return table;
+                },
+                getParagraphs = function (data) {
+                    var value = document.createDocumentFragment();
+
+                    forEach(data.split('\n'), function (val) {
+                        var p = document.createElement('p');
+                        p.appendChild(document.createTextNode(val));
+                        value.appendChild(p);
+                    });
+
+                    return value
+                },
                 fillIt = function (data, depth) {
                     var body = document.createDocumentFragment(),
-                        title = document.createElement('h' + depth),
-                        value = document.createElement('p');
+                        title = document.createElement('h' + (depth + 1)),
+                        value = document.createElement('div');
 
                     if (Array.isArray(data)) {
                         forEach(data, function () {
@@ -80,32 +120,23 @@
                         });
                     } else {
                         if (data && data.title) {
-                            title.innerHTML = data.title;
+                            title.appendChild(document.createTextNode(data.title));
                             body.appendChild(title);
                         }
 
                         if (data && data.value) {
                             if (Array.isArray(data.value)) {
-                                value = document.createElement('div');
                                 forEach(data.value, function () {
                                     value.appendChild(fillIt(this, depth + 1));
                                 });
                             } else if (!isString(data.value) && data.value !== undefined) {
                                 if (data.value.type === 'table') {
-                                    forEach(data.value.value, function () {
-                                        var row = document.createElement('p'),
-                                            string = this.toString(),
-                                            isHeading = !/\t/gi.test(string);
-
-                                        row.className = 'row';
-                                        row.innerHTML = '<span class="' + (isHeading ? 'heading' : '') + '">' + string.replace(/\t/gi, '</span><span>') + '</span>';
-                                        value.appendChild(row);
-                                    });
+                                    value.appendChild(getTable(data.value));
                                 } else {
                                     value.appendChild(fillIt(data.value, depth + 1));
                                 }
                             } else {
-                                value.innerHTML = data.value.replace(/\n/gi, '<br>');
+                                value.appendChild(getParagraphs(data.value));
                             }
                             body.appendChild(value);
                         }
@@ -130,10 +161,17 @@
                     }
 
                     return body;
+                },
+                clearArlicle = function () {
+                    forEach(namedSections, function (val) {
+                        val.innerHTML = '';
+                    });
                 };
 
+            clearArlicle();
+
             if (data.title) {
-                head.getElementsByTagName('title')[0].innerHTML = data.title;
+                document.title = data.title;
             }
 
             for (var key in data) {
@@ -145,9 +183,28 @@
                     }
                 }
             }
+        },
+        initNav = function () {
+            var nav = document.getElementById('nav'),
+                links = [].slice.call(nav.getElementsByTagName('a')),
+                getLang = function () {
+                    var lang = window.location.hash.replace('#', '');
+                    html.setAttribute('lang', lang);
+                    return lang;
+                },
+                lang = getLang();
+
+            if (!!lang) {
+                $http.get(lang + '.json', initArticle, onError);
+            }
+
+            window.addEventListener("hashchange", function () {
+                $http.get(getLang() + '.json', initArticle, onError);
+            }, false);
+
         };
 
-    $http.get('data.json', init, onError);
+    initNav();
 
     if (!Array.isArray) {
         Array.isArray = function (arg) {
