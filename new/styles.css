@@ -6,7 +6,7 @@ nav a{
     margin: 0 .5em;
     color: #333;
     text-decoration: none;
-    border: 2px solid transparent;
+    border: 2px solid #eee;
     font:bold 1.2em sans-serif;
 }
 nav a:hover{background-color: rgba(0,0,0,.25);}

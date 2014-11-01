@@ -1,6 +1,68 @@
 (function () {
     var html = document.documentElement,
+        lang = {
+            get: function () {
+                var lang = window.location.hash.replace('#', '');
+                html.setAttribute('lang', lang);
+                return lang;
+            }
+        },
         namedSections = [].slice.call(document.querySelectorAll('[data-name]')),
+        isString = function (string) {
+            return typeof string === 'string';
+        },
+        forEach = function (arg, callback) {
+            var result;
+            if (Array.isArray(arg)) {
+                for (var i = 0, length = arg.length; i < length; i++) {
+                    result = callback.call(arg[i], arg[i], i, arg);
+                    if (result) {
+                        return result;
+                    }
+                }
+            } else if (!isString(arg)) {
+                for (var key in arg) {
+                    if (arg.hasOwnProperty(key)) {
+                        result = callback.apply(arg[key], arg[key], key, arg);
+                        if (result) {
+                            return result;
+                        }
+                    }
+                }
+            }
+        },
+        onError = function (error) {
+            console.log("Error:" + error);
+        },
+        $storage = {
+            _storage: (function () {
+                if (typeof(Storage) !== "undefined") {
+                    return window.sessionStorage;
+                } else {
+                    return null;
+                }
+            })(),
+            get: function (key) {
+                var data;
+                if (this._storage) {
+                    data = this._storage.getItem(key);
+                    if (data) {
+                        return JSON.parse(data);
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            },
+            set: function (key, value) {
+                if (this._storage) {
+                    return this._storage.setItem(key, value);
+                } else {
+                    return null;
+                }
+            }
+        },
         $http = {
             _http: function () {
                 var xmlhttp;
@@ -19,13 +81,14 @@
                 }
                 return xmlhttp;
             },
-            get: function (uri, success, fail) {
+            get: function (key, success, fail) {
                 var transport = this._http();
-                transport.open('GET', uri, true);
+                transport.open('GET', key + '.json', true);
                 transport.onreadystatechange = function () {
                     if (transport.readyState == 4) {
                         if (transport.status == 200) {
                             success.call(this, JSON.parse(transport.responseText));
+                            $storage.set(key, transport.responseText);
                         } else {
                             fail.call(this, transport.statusText);
                         }
@@ -34,32 +97,13 @@
                 transport.send(null);
             }
         },
-        isString = function (string) {
-            return typeof string === 'string';
-        },
-        forEach = function (arg, callback) {
-            var result;
-
-            if (Array.isArray(arg)) {
-                for (var i = 0, length = arg.length; i < length; i++) {
-                    result = callback.call(arg[i], arg[i], i, arg);
-                    if (result) {
-                        return result;
-                    }
-                }
-            } else if (!isString(arg)) {
-                for (var key in arg) {
-                    if (arg.hasOwnProperty(key)) {
-                        result = callback.apply(arg[i], arg[i], i, arg);
-                        if (result) {
-                            return result;
-                        }
-                    }
-                }
+        getData = function(lng, success, error) {
+            var data = $storage.get(lng);
+            if (data) {
+                success.call(this, data);
+            } else {
+                $http.get(lng, success, error)
             }
-        },
-        onError = function (error) {
-            console.log("Error:" + error);
         },
         initArticle = function (data) {
             var getNamedSection = function (name) {
@@ -81,7 +125,7 @@
 
                         forEach(cells, function (val, i) {
                             var cell = document.createElement(i === 0 ? 'th' : 'td');
-                            if (cells.length == 1){
+                            if (cells.length == 1) {
                                 cell.setAttribute('colspan', colspan);
                             }
                             cell.appendChild(document.createTextNode(val));
@@ -89,11 +133,8 @@
                         });
 
                         colspan = cellsLength > 1 ? cellsLength : colspan;
-                        if (cells[0] === ''){
-                            thead.appendChild(row);
-                        } else {
-                            table.appendChild(row);
-                        }
+
+                        (cells[0] === '' ? thead : table).appendChild(row);
                     });
 
                     return table;
@@ -163,8 +204,10 @@
                     return body;
                 },
                 clearArlicle = function () {
-                    forEach(namedSections, function (val) {
-                        val.innerHTML = '';
+                    forEach(namedSections, function (el) {
+                        while (el.lastChild) {
+                            el.removeChild(el.lastChild);
+                        }
                     });
                 };
 
@@ -185,26 +228,16 @@
             }
         },
         initNav = function () {
-            var nav = document.getElementById('nav'),
-                links = [].slice.call(nav.getElementsByTagName('a')),
-                getLang = function () {
-                    var lang = window.location.hash.replace('#', '');
-                    html.setAttribute('lang', lang);
-                    return lang;
-                },
-                lang = getLang();
-
-            if (!!lang) {
-                $http.get(lang + '.json', initArticle, onError);
-            }
-
             window.addEventListener("hashchange", function () {
-                $http.get(getLang() + '.json', initArticle, onError);
+                getData(lang.get(), initArticle, onError);
             }, false);
-
         };
 
     initNav();
+
+    if (!!lang.get()) {
+        getData(lang.get(), initArticle, onError);
+    }
 
     if (!Array.isArray) {
         Array.isArray = function (arg) {
