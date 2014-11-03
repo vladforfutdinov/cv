@@ -1,6 +1,7 @@
 /* css reset */
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 /* imports */
@@ -19,8 +20,10 @@ body {
 .for(@langs);
 .-each(@lang) {
   @name: e(@lang);
+
   [lang=@{name}] nav a[href*=@{name}] {
     border-color: rgba(0, 0, 0, .25);
+
     &:hover {
       background-color: rgba(0, 0, 0, .05);
     }
@@ -57,7 +60,7 @@ nav {
     color: #333;
     text-decoration: none;
     font: bold 1.2em/2.5em sans-serif;
-    .vendor(transition, all 1s);
+    .vendor(transition, all .33s);
 
     &:hover {
       background-color: rgba(0, 0, 0, .25);
@@ -76,18 +79,44 @@ nav {
 /* style article */
 article {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5em;
   bottom: 0;
-  left: 0;
+  left: 100%;
+  width: 100%;
+  padding: .33em 1em;
   z-index: 0;
   display: block;
   overflow: auto;
+  box-sizing: border-box;
   .vendor(transition, all 1s);
 
   [lang] & {
-    top: 5em;
-    bottom: 0;
+    left: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    text-align: left;
+
+    td, th {
+      padding: .33em .66em;
+      border-top: 1px solid #eee;
+      font-weight: normal;
+
+      &[colspan] {
+        font-weight: bold;
+        border: none;
+        background: #eee;
+      }
+
+    }
+    thead {
+      td, th {
+        font-style: italic;
+        font-size: .82em;
+        border: none;
+      }
+    }
   }
 }
 

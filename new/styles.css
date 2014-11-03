@@ -1,6 +1,7 @@
 /* css reset */
 body {
   margin: 0;
+  overflow: hidden;
 }
 /* imports */
 /* mixins */
@@ -49,10 +50,10 @@ nav a {
   color: #333;
   text-decoration: none;
   font: bold 1.2em/2.5em sans-serif;
-  -webkit-transition: all 1s;
-  -khtml-transition: all 1s;
-  -moz-transition: all 1s;
-  transition: all 1s;
+  -webkit-transition: all 0.33s;
+  -khtml-transition: all 0.33s;
+  -moz-transition: all 0.33s;
+  transition: all 0.33s;
 }
 nav a:hover {
   background-color: rgba(0, 0, 0, 0.25);
@@ -66,19 +67,42 @@ nav a:hover {
 /* style article */
 article {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5em;
   bottom: 0;
-  left: 0;
+  left: 100%;
+  width: 100%;
+  padding: .33em 1em;
   z-index: 0;
   display: block;
   overflow: auto;
+  box-sizing: border-box;
   -webkit-transition: all 1s;
   -khtml-transition: all 1s;
   -moz-transition: all 1s;
   transition: all 1s;
 }
 [lang] article {
-  top: 5em;
-  bottom: 0;
+  left: 0;
+}
+article table {
+  border-collapse: collapse;
+  text-align: left;
+}
+article table td,
+article table th {
+  padding: .33em .66em;
+  border-top: 1px solid #eee;
+  font-weight: normal;
+}
+article table td[colspan],
+article table th[colspan] {
+  font-weight: bold;
+  border: none;
+  background: #eee;
+}
+article table thead td,
+article table thead th {
+  font-style: italic;
+  font-size: .82em;
+  border: none;
 }

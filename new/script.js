@@ -1,6 +1,7 @@
 (function () {
     var useStorage = false,
         html = document.documentElement,
+        nav = document.getElementById('nav'),
         lang = {
             get: function () {
                 var lang = window.location.hash.replace('#', '');
@@ -42,6 +43,15 @@
             }
         },
         onError = function (error) {
+            var location = window.location;
+
+            lang.reset();
+            window.history.pushState("", "", location.href.replace(location.hash, ''));
+
+            setOnceEventCallback(nav, 'transitionend', function(){
+                clearArticle();
+            });
+
             console.log("Error:" + error);
         },
         $storage = {
@@ -151,8 +161,13 @@
                 }
             });
         },
-        setTransitionCallback = function(el, callback){
-            el.addEventListener("transitionend", callback, true);
+        setOnceEventCallback = function(el, eventType, callback){
+            var handler =function(e){
+                callback.call(e);
+                this.removeEventListener(eventType, handler);
+            };
+
+            el.addEventListener(eventType, handler, false);
         },
         initArticle = function (data) {
             var getNamedSection = function (name) {
@@ -258,6 +273,8 @@
                     return body;
                 };
 
+            clearArticle();
+
             if (data.title) {
                 document.title = data.title;
             }
@@ -274,7 +291,6 @@
         },
         initNav = function () {
             window.addEventListener("hashchange", function () {
-                clearArticle();
                 getData(lang.get(), initArticle, onError);
             }, false);
         };
