@@ -1,19 +1,84 @@
-nav {text-align: center;}
-
-nav a{
-    display: inline-block;
-    padding: .75em 3em;
-    margin: 0 .5em;
-    color: #333;
-    text-decoration: none;
-    border: 2px solid #eee;
-    font:bold 1.2em sans-serif;
+/* css reset */
+body {
+  margin: 0;
 }
-nav a:hover{background-color: rgba(0,0,0,.25);}
-
-[lang='ru'] nav a[href*='ru'],
-[lang='en'] nav a[href*='en']{
-    border-color: rgba(0,0,0,.25);
+/* imports */
+/* mixins */
+/* style language selector */
+[lang=en] nav a[href*=en] {
+  border-color: rgba(0, 0, 0, 0.25);
 }
-[lang='ru'] nav a[href*='ru']:hover,
-[lang='en'] nav a[href*='en']:hover{background-color: rgba(0,0,0,.05);}
+[lang=en] nav a[href*=en]:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+[lang=ru] nav a[href*=ru] {
+  border-color: rgba(0, 0, 0, 0.25);
+}
+[lang=ru] nav a[href*=ru]:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+/* style navigation */
+nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: table;
+  box-sizing: border-box;
+  min-height: 100%;
+  width: 100%;
+  -webkit-transition: all 1s;
+  -khtml-transition: all 1s;
+  -moz-transition: all 1s;
+  transition: all 1s;
+}
+nav div {
+  display: table-cell;
+  background: #eee;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 5em;
+}
+nav a {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0 12.5%;
+  padding: 0 3em;
+  border: 2px solid #eee;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  font: bold 1.2em/2.5em sans-serif;
+  -webkit-transition: all 1s;
+  -khtml-transition: all 1s;
+  -moz-transition: all 1s;
+  transition: all 1s;
+}
+nav a:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+[lang] nav {
+  min-height: 0;
+}
+[lang] nav a {
+  margin: 0 .5em;
+}
+/* style article */
+article {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  display: block;
+  overflow: auto;
+  -webkit-transition: all 1s;
+  -khtml-transition: all 1s;
+  -moz-transition: all 1s;
+  transition: all 1s;
+}
+[lang] article {
+  top: 5em;
+  bottom: 0;
+}

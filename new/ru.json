@@ -4,26 +4,30 @@
   "name": "Форфутдинов Владимир",
   "contact": [
     {
-      "title": "Phone",
+      "type": "phone",
+      "title": "Телефон",
       "value": "+380667160454"
     },
     {
+      "type": "skype",
       "title": "Skype",
       "value": "vladfrandom"
     },
     {
+      "type": "email",
       "title": "Email",
       "value": "randf@mail.ru"
     },
     {
-      "title": "Location",
-      "value": "Kharkov, Ukraine"
+      "title": "Место жительства",
+      "value": "Харьков, Украина"
+    },
+    {
+      "title": "Дата рождения",
+      "value": "1977"
     }
+
   ],
-  "age": {
-    "title": "Born",
-    "value": "1977"
-  },
   "section": [
     {
       "title": "Summary",

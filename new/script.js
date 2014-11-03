@@ -1,10 +1,20 @@
 (function () {
-    var html = document.documentElement,
+    var useStorage = false,
+        html = document.documentElement,
         lang = {
             get: function () {
                 var lang = window.location.hash.replace('#', '');
-                html.setAttribute('lang', lang);
+
+                if (lang) {
+                    html.setAttribute('lang', lang);
+                } else {
+                    this.reset();
+                }
+
                 return lang;
+            },
+            reset: function () {
+                html.removeAttribute('lang');
             }
         },
         namedSections = [].slice.call(document.querySelectorAll('[data-name]')),
@@ -97,13 +107,52 @@
                 transport.send(null);
             }
         },
-        getData = function(lng, success, error) {
-            var data = $storage.get(lng);
-            if (data) {
-                success.call(this, data);
-            } else {
-                $http.get(lng, success, error)
+        checkContent = function (obj) {
+            var el, protocol,
+                postfix = '';
+
+            if (obj.type) {
+
+                switch (obj.type) {
+                    case "phone":
+                        protocol = 'tel:';
+                        break;
+                    case "skype":
+                        protocol = 'skype:';
+                        postfix = '?chat';
+                        break;
+                    case "email":
+                        protocol = 'mailto:';
+                        break;
+                }
+
+                el = document.createElement('a');
+                el.href = protocol + obj.value + postfix;
+                el.appendChild(document.createTextNode(obj.value));
             }
+
+            return el;
+        },
+        getData = function (lng, success, error) {
+            var data = $storage.get(lng);
+
+            if (lng) {
+                if (data && useStorage) {
+                    success.call(this, data);
+                } else {
+                    $http.get(lng, success, error)
+                }
+            }
+        },
+        clearArticle = function () {
+            forEach(namedSections, function (el) {
+                while (el.lastChild) {
+                    el.removeChild(el.lastChild);
+                }
+            });
+        },
+        setTransitionCallback = function(el, callback){
+            el.addEventListener("transitionend", callback, true);
         },
         initArticle = function (data) {
             var getNamedSection = function (name) {
@@ -140,13 +189,18 @@
                     return table;
                 },
                 getParagraphs = function (data) {
-                    var value = document.createDocumentFragment();
+                    var value = document.createDocumentFragment(),
+                        node = checkContent(data);
 
-                    forEach(data.split('\n'), function (val) {
-                        var p = document.createElement('p');
-                        p.appendChild(document.createTextNode(val));
-                        value.appendChild(p);
-                    });
+                    if (node) {
+                        value.appendChild(node);
+                    } else {
+                        forEach(data.value.split('\n'), function (val) {
+                            var p = document.createElement('p');
+                            p.appendChild(document.createTextNode(val));
+                            value.appendChild(p);
+                        });
+                    }
 
                     return value
                 },
@@ -177,7 +231,7 @@
                                     value.appendChild(fillIt(data.value, depth + 1));
                                 }
                             } else {
-                                value.appendChild(getParagraphs(data.value));
+                                value.appendChild(getParagraphs(data));
                             }
                             body.appendChild(value);
                         }
@@ -202,16 +256,7 @@
                     }
 
                     return body;
-                },
-                clearArlicle = function () {
-                    forEach(namedSections, function (el) {
-                        while (el.lastChild) {
-                            el.removeChild(el.lastChild);
-                        }
-                    });
                 };
-
-            clearArlicle();
 
             if (data.title) {
                 document.title = data.title;
@@ -229,6 +274,7 @@
         },
         initNav = function () {
             window.addEventListener("hashchange", function () {
+                clearArticle();
                 getData(lang.get(), initArticle, onError);
             }, false);
         };
