@@ -23,8 +23,12 @@
       "value": "Kharkov, Ukraine"
     },
     {
-      "title": "Born",
-      "value": "1977"
+      "title": "Ready for relocation",
+      "value": "no"
+    },
+    {
+      "_title": "Born",
+      "_value": "1977"
     }
   ],
   "section": [
@@ -73,15 +77,15 @@
       "title": "Work experience",
       "value": [
         {
-          "title": "&quot;Sigma Ukraine&quot; (Kharkov, Ukraine). 12/2013 – present",
+          "title": "\"Sigma Ukraine\" (Kharkov, Ukraine). 12/2013 – present",
           "value": "Senior Javascript Developer"
         },
         {
-          "title": "&quot;EPAM Systems&quot; 11/2009 – 09/2013",
+          "title": "\"EPAM Systems\" 11/2009 – 09/2013",
           "value": "Senior Software Engineer"
         },
         {
-          "title": "&quot;W3 Ukraine&quot; 09/2005 – 10/2009",
+          "title": "\"W3 Ukraine\" 09/2005 – 10/2009",
           "value": "Web-developer\nMarkup Team Lead\nHead of Training Dept.\nLead Analyst"
         }
       ]

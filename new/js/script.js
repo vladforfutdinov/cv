@@ -1,4 +1,6 @@
 (function () {
+    'use strict';
+
     var useStorage = false,
         html = document.documentElement,
         nav = document.getElementById('nav'),
@@ -23,16 +25,17 @@
             return typeof string === 'string';
         },
         forEach = function (arg, callback) {
-            var result;
+            var result, key, i, length;
             if (Array.isArray(arg)) {
-                for (var i = 0, length = arg.length; i < length; i++) {
+                length = arg.length;
+                for (i = 0; i < length; i = i + 1) {
                     result = callback.call(arg[i], arg[i], i, arg);
                     if (result) {
                         return result;
                     }
                 }
             } else if (!isString(arg)) {
-                for (var key in arg) {
+                for (key in arg) {
                     if (arg.hasOwnProperty(key)) {
                         result = callback.apply(arg[key], arg[key], key, arg);
                         if (result) {
@@ -48,11 +51,21 @@
             lang.reset();
             window.history.pushState("", "", location.href.replace(location.hash, ''));
 
-            setOnceEventCallback(nav, 'transitionend', function(){
+            setOnceEventCallback(nav, 'transitionend', function () {
                 clearArticle();
             });
 
             console.log("Error:" + error);
+        },
+        setAttr = function (el, obj) {
+            var key;
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    el.setAttribute(key, obj[key]);
+                }
+            }
+
+            return el;
         },
         $storage = {
             _storage: (function () {
@@ -91,8 +104,7 @@
                 } catch (e) {
                     try {
                         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
-                    catch (E) {
+                    } catch (E) {
                         xmlhttp = false;
                     }
                 }
@@ -103,7 +115,7 @@
             },
             get: function (key, success, fail) {
                 var transport = this._http();
-                transport.open('GET', key + '.json', true);
+                transport.open('GET', 'data/' + key + '.json', true);
                 transport.onreadystatechange = function () {
                     if (transport.readyState == 4) {
                         if (transport.status == 200) {
@@ -116,6 +128,25 @@
                 };
                 transport.send(null);
             }
+        },
+        getData = function (lng, success, error) {
+            var data = $storage.get(lng);
+
+            if (lng) {
+                if (data && useStorage) {
+                    success.call(this, data);
+                } else {
+                    $http.get(lng, success, error)
+                }
+            }
+        },
+        setOnceEventCallback = function (el, eventType, callback) {
+            var handler = function (e) {
+                callback.call(e);
+                this.removeEventListener(eventType, handler);
+            };
+
+            el.addEventListener(eventType, handler, false);
         },
         checkContent = function (obj) {
             var el, protocol,
@@ -143,31 +174,12 @@
 
             return el;
         },
-        getData = function (lng, success, error) {
-            var data = $storage.get(lng);
-
-            if (lng) {
-                if (data && useStorage) {
-                    success.call(this, data);
-                } else {
-                    $http.get(lng, success, error)
-                }
-            }
-        },
         clearArticle = function () {
             forEach(namedSections, function (el) {
                 while (el.lastChild) {
                     el.removeChild(el.lastChild);
                 }
             });
-        },
-        setOnceEventCallback = function(el, eventType, callback){
-            var handler =function(e){
-                callback.call(e);
-                this.removeEventListener(eventType, handler);
-            };
-
-            el.addEventListener(eventType, handler, false);
         },
         initArticle = function (data) {
             var getNamedSection = function (name) {
@@ -220,18 +232,31 @@
                     return value
                 },
                 fillIt = function (data, depth) {
-                    var body = document.createDocumentFragment(),
+                    var body = document.createElement('section'),
                         title = document.createElement('h' + (depth + 1)),
-                        value = document.createElement('div');
+                        value = document.createElement('div'),
+                        id = 'id' + Math.random().toString().replace('0.', ''),
+                        checkbox = setAttr(document.createElement('input'), {
+                            type: 'checkbox',
+                            id: id
+                        }),
+                        label = setAttr(document.createElement('label'), {
+                            for: id
+                        });
 
                     if (Array.isArray(data)) {
                         forEach(data, function () {
                             value.appendChild(fillIt(this, depth + 1));
                         });
                     } else {
+                        if (depth < 2){
+                            body.appendChild(checkbox);
+                            body.appendChild(label);
+                        }
                         if (data && data.title) {
+                            setAttr(label, {'data-title': data.title});
                             title.appendChild(document.createTextNode(data.title));
-                            body.appendChild(title);
+                            value.appendChild(title);
                         }
 
                         if (data && data.value) {
@@ -251,7 +276,6 @@
                             body.appendChild(value);
                         }
                     }
-
                     return body;
                 },
                 fillSection = function (data) {

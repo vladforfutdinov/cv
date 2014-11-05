@@ -10,21 +10,25 @@
     },
     {
       "type": "skype",
-      "title": "Skype",
+      "title": "Скайп",
       "value": "vladfrandom"
     },
     {
       "type": "email",
-      "title": "Email",
+      "title": "Почта",
       "value": "randf@mail.ru"
     },
     {
-      "title": "Место жительства",
+      "title": "Проживаю",
       "value": "Харьков, Украина"
     },
     {
-      "title": "Дата рождения",
-      "value": "1977"
+      "title": "Готовность к переезду",
+      "value": "нет"
+    },
+    {
+      "_title": "Родился",
+      "_value": "1977"
     }
 
   ],
