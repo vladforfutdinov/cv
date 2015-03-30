@@ -1,6 +1,10 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500&subset=latin,cyrillic);
 /* imports */
 /* css reset */
+html,
+body {
+  height: 100%;
+}
 body {
   overflow: hidden;
   margin: 0;
@@ -9,102 +13,66 @@ body {
 /* mixins */
 /* style language selector */
 [lang=en] nav a[href*=en] {
-  border-color: rgba(0, 0, 0, 0.25);
+  background: #fff;
+  color: #333;
+  border-color: #ccc;
+  cursor: default;
 }
 [lang=en] nav a[href*=en]:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background: #fff;
 }
 [lang=ru] nav a[href*=ru] {
-  border-color: rgba(0, 0, 0, 0.25);
+  background: #fff;
+  color: #333;
+  border-color: #ccc;
+  cursor: default;
 }
 [lang=ru] nav a[href*=ru]:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background: #fff;
 }
 /* style navigation */
 nav {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 5px;
+  right: 5px;
   z-index: 1;
-  display: table;
   box-sizing: border-box;
-  min-height: 100%;
-  width: 100%;
-  -webkit-transition: all 0.66s ease-out;
-  -khtml-transition: all 0.66s ease-out;
-  -moz-transition: all 0.66s ease-out;
-  transition: all 0.66s ease-out;
-}
-nav div {
-  display: table-cell;
-  background: #eee;
-  vertical-align: middle;
-  text-align: center;
-  line-height: 5em;
 }
 nav a {
-  display: inline-block;
+  display: table-cell;
   box-sizing: border-box;
-  margin: 0 12.5%;
-  padding: 0 3em;
-  border: 2px solid #eee;
-  background: #fff;
-  color: #333;
+  padding: 0 1em;
+  border: 1px solid transparent;
+  background: #ccc;
+  color: #eee;
   text-decoration: none;
-  font: bold 1.2em/2.5em sans-serif;
-  -webkit-transition: all 0.66s ease-in;
-  -khtml-transition: all 0.66s ease-in;
-  -moz-transition: all 0.66s ease-in;
-  transition: all 0.66s ease-in;
+  font: bold 0.8em/1.5 sans-serif;
 }
 nav a:hover {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-[lang] nav a {
-  -webkit-transition: all 0.4s ease-out;
-  -khtml-transition: all 0.4s ease-out;
-  -moz-transition: all 0.4s ease-out;
-  transition: all 0.4s ease-out;
-}
-[lang] nav {
-  min-height: 0;
-}
-[lang] nav a {
-  margin: 0 .5em;
-}
-[lang] nav a:hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
 /* style article section */
 article {
   position: absolute;
-  top: 5em;
+  top: 0;
   bottom: 0;
-  left: 100%;
+  left: 0;
   z-index: 0;
   display: block;
   clear: both;
-  overflow: auto;
   box-sizing: border-box;
-  padding: 0 12.5vw;
+  padding: 0 2.5vw;
   width: 100%;
+  overflow: auto;
   -webkit-transition: all 0.5s;
   -khtml-transition: all 0.5s;
   -moz-transition: all 0.5s;
   transition: all 0.5s;
   /* style article content */
 }
-[lang] article {
-  left: 0;
-}
 article [data-name] {
   position: relative;
   text-align: center;
-}
-article [data-name]:after {
-  display: block;
-  clear: both;
-  content: '';
 }
 article h1,
 article h2 {
@@ -113,24 +81,16 @@ article h2 {
 }
 article h1 {
   font-weight: 300;
-  font-size: 4em;
+  font-size: 3em;
   text-align: center;
 }
 article h2 {
   font-weight: 500;
   text-align: right;
 }
-article input,
-article label {
+article input {
   position: absolute;
   display: none;
-}
-article label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 article table {
   border-collapse: collapse;
@@ -161,44 +121,51 @@ article table thead th {
   font-size: .82em;
 }
 article [data-name='contact'] section,
+article [data-name='addon'] section,
 article [data-name='contact'] div,
+article [data-name='addon'] div,
 article [data-name='contact'] h2,
-article [data-name='contact'] p {
+article [data-name='addon'] h2,
+article [data-name='contact'] p,
+article [data-name='addon'] p {
   display: inline-block;
   margin: 0;
   vertical-align: baseline;
   font-size: 1em;
 }
-article [data-name='contact'] section {
+article [data-name='contact'] section,
+article [data-name='addon'] section {
   padding: .165em 0;
 }
-article [data-name='contact'] h2 {
+article [data-name='contact'] h2,
+article [data-name='addon'] h2 {
   margin: 0;
   padding-right: .33em;
 }
-article [data-name='contact'] h2:after {
+article [data-name='contact'] h2:after,
+article [data-name='addon'] h2:after {
   content: ':';
 }
-article [data-name='contact'] section {
+article [data-name='contact'] section,
+article [data-name='addon'] section {
   margin: 0 .66em;
 }
 article [data-name='section'] {
   padding-top: 2em;
 }
 article [data-name='section'] label {
-  display: table;
-  vertical-align: middle;
-  text-align: center;
-  font-weight: 300;
-  font-size: 1.75em;
+  position: relative;
+  display: block;
+  padding: 0 1vw;
+  font-size: 1em;
+  font-weight: 500;
   cursor: pointer;
 }
-article [data-name='section'] label:after {
-  display: table-cell;
-  content: attr(data-title);
-  vertical-align: middle;
-}
 article [data-name='section'] label:before {
+  display: block;
+  content: attr(data-title);
+}
+article [data-name='section'] label:after {
   display: none;
   width: 1em;
   height: 1em;
@@ -207,29 +174,27 @@ article [data-name='section'] label:before {
   content: '\00D7';
   font-size: 1.5em;
   line-height: .85em;
-}
-article [data-name='section'] label:hover {
-  background-color: rgba(255, 0, 0, 0.25);
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 article [data-name='section'] > section {
-  position: relative;
   display: inline-block;
   overflow: hidden;
   margin: 0 0 .3% .3%;
-  width: 33%;
-  height: 33vh;
   background: #eee;
   vertical-align: top;
   text-align: left;
-}
-article [data-name='section'] > section:nth-child(3n + 1) {
-  clear: left;
-  margin-left: 0;
 }
 article [data-name='section'] > section > div {
   display: none;
   box-sizing: border-box;
   padding: 0 1em;
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  overflow: auto;
 }
 article [data-name='section'] > section > div h3 {
   display: inline-block;
@@ -244,13 +209,14 @@ article [data-name='section'] > section input:checked + label {
 }
 article [data-name='section'] > section input:checked + label + div {
   display: block;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
 }
 article [data-name='section'] > section input:checked + label:after {
-  display: none;
-}
-article [data-name='section'] > section input:checked + label:before {
   display: block;
+}
+footer[data-name] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 .33em;
+  font-size: .6em;
 }

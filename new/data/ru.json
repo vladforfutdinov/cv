@@ -5,32 +5,35 @@
   "contact": [
     {
       "type": "phone",
-      "title": "Телефон",
-      "value": "+380667160454"
+      "_title": "Телефон",
+      "value": "+380 (66) 716 04 54"
     },
     {
       "type": "skype",
-      "title": "Скайп",
+      "_title": "Скайп",
       "value": "vladfrandom"
     },
     {
       "type": "email",
-      "title": "Почта",
+      "_title": "Почта",
       "value": "randf@mail.ru"
-    },
+    }
+  ],
+  "addon": [
     {
+      "type": "location",
       "title": "Проживаю",
       "value": "Харьков, Украина"
     },
     {
-      "title": "Готовность к переезду",
-      "value": "нет"
+      "type": "relocation",
+      "title": "Переезд",
+      "value": "не рассматриваю"
     },
     {
       "_title": "Родился",
       "_value": "1977"
     }
-
   ],
   "section": [
     {

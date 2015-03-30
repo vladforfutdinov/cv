@@ -5,25 +5,29 @@
   "contact": [
     {
       "type": "phone",
-      "title": "Phone",
-      "value": "+380667160454"
+      "_title": "Phone",
+      "value": "+380 (66) 716 04 54"
     },
     {
       "type": "skype",
-      "title": "Skype",
+      "_title": "Skype",
       "value": "vladfrandom"
     },
     {
       "type": "email",
-      "title": "Email",
+      "_title": "Email",
       "value": "randf@mail.ru"
-    },
+    }
+  ],
+  "addon": [
     {
+      "type": "location",
       "title": "Location",
       "value": "Kharkov, Ukraine"
     },
     {
-      "title": "Ready for relocation",
+      "type": "relocation",
+      "title": "Relocation",
       "value": "no"
     },
     {

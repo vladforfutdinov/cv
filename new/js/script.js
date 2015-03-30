@@ -2,11 +2,13 @@
     'use strict';
 
     var useStorage = false,
+        defLang = 'en',
+        location = window.location,
         html = document.documentElement,
         nav = document.getElementById('nav'),
         lang = {
             get: function () {
-                var lang = window.location.hash.replace('#', '');
+                var lang = location.hash.replace('#', '') || defLang || '';
 
                 if (lang) {
                     html.setAttribute('lang', lang);
@@ -25,11 +27,12 @@
             return typeof string === 'string';
         },
         forEach = function (arg, callback) {
-            var result, key, i, length;
+            var result, key, i, length, val;
             if (Array.isArray(arg)) {
                 length = arg.length;
                 for (i = 0; i < length; i = i + 1) {
-                    result = callback.call(arg[i], arg[i], i, arg);
+                    val = arg[i];
+                    result = callback.call(val, val, i, arg);
                     if (result) {
                         return result;
                     }
@@ -37,7 +40,8 @@
             } else if (!isString(arg)) {
                 for (key in arg) {
                     if (arg.hasOwnProperty(key)) {
-                        result = callback.apply(arg[key], arg[key], key, arg);
+                        val = arg[key];
+                        result = callback.apply(val, val, key, arg);
                         if (result) {
                             return result;
                         }
@@ -46,9 +50,8 @@
             }
         },
         onError = function (error) {
-            var location = window.location;
-
             lang.reset();
+
             window.history.pushState("", "", location.href.replace(location.hash, ''));
 
             setOnceEventCallback(nav, 'transitionend', function () {
@@ -66,6 +69,9 @@
             }
 
             return el;
+        },
+        createEl = function(attr){
+            return document.createElement(attr);
         },
         $storage = {
             _storage: (function () {
@@ -167,9 +173,14 @@
                         break;
                 }
 
-                el = document.createElement('a');
-                el.href = protocol + obj.value + postfix;
-                el.appendChild(document.createTextNode(obj.value));
+                if (protocol) {
+                    el = createEl('a');
+                    setAttr(el, {
+                        "data-type": obj.type,
+                        href: protocol + obj.value + postfix
+                    });
+                    el.innerHTML = obj.value;
+                }
             }
 
             return el;
@@ -190,21 +201,21 @@
                     });
                 },
                 getTable = function (data) {
-                    var table = document.createElement('table'),
+                    var table = createEl('table'),
                         thead = table.createTHead(0),
                         colspan = 0;
 
                     forEach(data.value, function () {
-                        var row = document.createElement('tr'),
+                        var row = createEl('tr'),
                             cells = this.split('\t'),
                             cellsLength = cells.length;
 
                         forEach(cells, function (val, i) {
-                            var cell = document.createElement(i === 0 ? 'th' : 'td');
+                            var cell = createEl(i === 0 ? 'th' : 'td');
                             if (cells.length == 1) {
                                 cell.setAttribute('colspan', colspan);
                             }
-                            cell.appendChild(document.createTextNode(val));
+                            cell.innerHTML = val;
                             row.appendChild(cell);
                         });
 
@@ -223,8 +234,8 @@
                         value.appendChild(node);
                     } else {
                         forEach(data.value.split('\n'), function (val) {
-                            var p = document.createElement('p');
-                            p.appendChild(document.createTextNode(val));
+                            var p = createEl('p');
+                            p.innerHTML = val;
                             value.appendChild(p);
                         });
                     }
@@ -232,15 +243,15 @@
                     return value
                 },
                 fillIt = function (data, depth) {
-                    var body = document.createElement('section'),
-                        title = document.createElement('h' + (depth + 1)),
-                        value = document.createElement('div'),
+                    var body = createEl('section'),
+                        title = createEl('h' + (depth + 1)),
+                        value = createEl('div'),
                         id = 'id' + Math.random().toString().replace('0.', ''),
-                        checkbox = setAttr(document.createElement('input'), {
+                        checkbox = setAttr(createEl('input'), {
                             type: 'checkbox',
                             id: id
                         }),
-                        label = setAttr(document.createElement('label'), {
+                        label = setAttr(createEl('label'), {
                             for: id
                         });
 
@@ -255,7 +266,7 @@
                         }
                         if (data && data.title) {
                             setAttr(label, {'data-title': data.title});
-                            title.appendChild(document.createTextNode(data.title));
+                            title.innerHTML = data.title;
                             value.appendChild(title);
                         }
 
@@ -279,7 +290,7 @@
                     return body;
                 },
                 fillSection = function (data) {
-                    var text = document.createElement('span'),
+                    var text = createEl('span'),
                         body = document.createDocumentFragment(),
                         depth = 1;
 

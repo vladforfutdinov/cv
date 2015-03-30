@@ -3,6 +3,9 @@
 @import "for";
 
 /* css reset */
+html,body {
+  height: 100%;
+}
 body {
   overflow: hidden;
   margin: 0;
@@ -24,10 +27,14 @@ body {
   @name: e(@lang);
 
   [lang=@{name}] nav a[href*=@{name}] {
-    border-color: rgba(0, 0, 0, .25);
+    background: #fff;
+    color: #333;
+    border-color: #ccc;
+    cursor: default;
+    //    border-color: rgba(0, 0, 0, .25);
 
     &:hover {
-      background-color: rgba(0, 0, 0, .05);
+      background: #fff;
     }
   }
 }
@@ -35,53 +42,23 @@ body {
 /* style navigation */
 nav {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 5px;
+  right: 5px;
   z-index: 1;
-  display: table;
   box-sizing: border-box;
-  min-height: 100%;
-  width: 100%;
-  .vendor(transition, all .66s ease-out);
-
-  div {
-    display: table-cell;
-    background: #eee;
-    vertical-align: middle;
-    text-align: center;
-    line-height: 5em;
-  }
 
   a {
-    display: inline-block;
+    display: table-cell;
     box-sizing: border-box;
-    margin: 0 12.5%;
-    padding: 0 3em;
-    border: 2px solid #eee;
-    background: #fff;
-    color: #333;
+    padding: 0 1em;
+    border: 1px solid transparent;
+    background:  #ccc;
+    color: #eee;
     text-decoration: none;
-    font: bold 1.2em/2.5em sans-serif;
-    .vendor(transition, all .66s ease-in);
+    font: bold .8em/1.5 sans-serif;
 
     &:hover {
       background-color: rgba(0, 0, 0, .25);
-    }
-
-    [lang] & {
-      .vendor(transition, all .4s ease-out);
-    }
-  }
-
-  [lang] & {
-    min-height: 0;
-
-    a {
-      margin: 0 .5em;
-
-      &:hover {
-        background-color: rgba(0, 0, 0, .25);
-      }
     }
   }
 }
@@ -89,32 +66,21 @@ nav {
 /* style article section */
 article {
   position: absolute;
-  top: 5em;
+  top: 0;
   bottom: 0;
-  left: 100%;
+  left: 0;
   z-index: 0;
   display: block;
   clear: both;
-  overflow: auto;
   box-sizing: border-box;
-  padding: 0 12.5vw;
+  padding: 0 2.5vw;
   width: 100%;
+  overflow: auto;
   .vendor(transition, all .5s);
-
-  [lang] & {
-    left: 0;
-  }
 
   [data-name] {
     position: relative;
     text-align: center;
-
-    &:after {
-      display: block;
-      clear: both;
-      content: '';
-    }
-
   }
 
   /* style article content */
@@ -125,24 +91,16 @@ article {
 
   h1 {
     font-weight: 300;
-    font-size: 4em;
+    font-size: 3em;
     text-align: center;
   }
   h2 {
     font-weight: 500;
     text-align: right;
   }
-  input, label {
+  input {
     position: absolute;
     display: none;
-
-  }
-  label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
   }
 
   table {
@@ -177,7 +135,8 @@ article {
     }
   }
 
-  [data-name='contact'] {
+  [data-name='contact'],
+  [data-name='addon'] {
     section, div, h2, p {
       display: inline-block;
       margin: 0;
@@ -201,22 +160,22 @@ article {
   }
 
   [data-name='section'] {
+//    position: relative;
     padding-top: 2em;
 
     label {
-      display: table;
-      vertical-align: middle;
-      text-align: center;
-      font-weight: 300;
-      font-size: 1.75em;
+      position: relative;
+      display: block;
+      padding: 0 1vw;
+      font-size: 1em;
+      font-weight: 500;
       cursor: pointer;
 
-      &:after {
-        display: table-cell;
-        content: attr(data-title);
-        vertical-align: middle;
-      }
       &:before {
+        display: block;
+        content: attr(data-title);
+      }
+      &:after {
         display: none;
         width: 1em;
         height: 1em;
@@ -225,32 +184,30 @@ article {
         content: '\00D7';
         font-size: 1.5em;
         line-height: .85em;
-      }
-      &:hover {
-        background-color: rgba(255, 0, 0, .25);
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
 
     > section {
-      position: relative;
       display: inline-block;
       overflow: hidden;
       margin: 0 0 .3% .3%;
-      width: 33%;
-      height: 33vh;
       background: #eee;
       vertical-align: top;
       text-align: left;
-
-      &:nth-child(3n + 1) {
-        clear: left;
-        margin-left: 0;
-      }
 
       > div {
         display: none;
         box-sizing: border-box;
         padding: 0 1em;
+        position: absolute;
+        top: auto;
+        left: 0;
+        right: 0;
+//        bottom: 0;
+        overflow: auto;
 
         h3 {
           display: inline-block;
@@ -268,14 +225,8 @@ article {
 
           & + div {
             display: block;
-            overflow: auto;
-            width: 100%;
-            height: 100%;
           }
           &:after {
-            display: none;
-          }
-          &:before {
             display: block;
           }
         }
@@ -284,4 +235,10 @@ article {
     }
   }
 }
-
+footer[data-name] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 .33em;
+  font-size: .6em;
+}
