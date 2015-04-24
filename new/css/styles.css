@@ -71,7 +71,6 @@ article {
   /* style article content */
 }
 article [data-name] {
-  position: relative;
   text-align: center;
 }
 article h1,
@@ -108,12 +107,6 @@ article table th[colspan] {
   background: #eee;
   font-weight: bold;
 }
-article table th {
-  padding-left: 0;
-}
-article table td:last-child {
-  padding-right: 0;
-}
 article table thead td,
 article table thead th {
   border: none;
@@ -136,6 +129,7 @@ article [data-name='addon'] p {
 article [data-name='contact'] section,
 article [data-name='addon'] section {
   padding: .165em 0;
+  margin: 0 .66em;
 }
 article [data-name='contact'] h2,
 article [data-name='addon'] h2 {
@@ -146,18 +140,17 @@ article [data-name='contact'] h2:after,
 article [data-name='addon'] h2:after {
   content: ':';
 }
-article [data-name='contact'] section,
-article [data-name='addon'] section {
-  margin: 0 .66em;
-}
 article [data-name='section'] {
   padding-top: 2em;
+  display: table;
+  width: 100%;
+  border-spacing: 5px;
 }
 article [data-name='section'] label {
   position: relative;
   display: block;
-  padding: 0 1vw;
-  font-size: 1em;
+  padding: 1vh 0;
+  font-size: 1.3em;
   font-weight: 500;
   cursor: pointer;
 }
@@ -178,23 +171,30 @@ article [data-name='section'] label:after {
   right: 0;
   top: 0;
 }
+article [data-name='section'] h2 {
+  display: none;
+}
 article [data-name='section'] > section {
-  display: inline-block;
+  display: table-cell;
   overflow: hidden;
   margin: 0 0 .3% .3%;
   background: #eee;
   vertical-align: top;
-  text-align: left;
 }
 article [data-name='section'] > section > div {
   display: none;
   box-sizing: border-box;
-  padding: 0 1em;
+  padding: 0 3vw;
   position: absolute;
-  top: auto;
+  top: 250px;
   left: 0;
   right: 0;
+  bottom: 0;
   overflow: auto;
+}
+article [data-name='section'] > section > div div,
+article [data-name='section'] > section > div p {
+  text-align: left;
 }
 article [data-name='section'] > section > div h3 {
   display: inline-block;
@@ -206,12 +206,15 @@ article [data-name='section'] > section > div h3 + p {
 article [data-name='section'] > section input:checked + label {
   width: auto;
   height: auto;
+  background: #fff;
 }
 article [data-name='section'] > section input:checked + label + div {
   display: block;
 }
-article [data-name='section'] > section input:checked + label:after {
-  display: block;
+article [data-name='section'] > section .table {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 .5em;
 }
 footer[data-name] {
   position: absolute;

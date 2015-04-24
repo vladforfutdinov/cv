@@ -3,9 +3,10 @@
 @import "for";
 
 /* css reset */
-html,body {
+html, body {
   height: 100%;
 }
+
 body {
   overflow: hidden;
   margin: 0;
@@ -52,7 +53,7 @@ nav {
     box-sizing: border-box;
     padding: 0 1em;
     border: 1px solid transparent;
-    background:  #ccc;
+    background: #ccc;
     color: #eee;
     text-decoration: none;
     font: bold .8em/1.5 sans-serif;
@@ -79,7 +80,7 @@ article {
   .vendor(transition, all .5s);
 
   [data-name] {
-    position: relative;
+    //position: relative;
     text-align: center;
   }
 
@@ -120,10 +121,10 @@ article {
 
     }
     th {
-      padding-left: 0;
+      //padding-left: 0;
     }
     td:last-child {
-      padding-right: 0;
+      //padding-right: 0;
     }
 
     thead {
@@ -145,6 +146,7 @@ article {
     }
     section {
       padding: .165em 0;
+      margin: 0 .66em;
     }
     h2 {
       margin: 0;
@@ -154,20 +156,19 @@ article {
         content: ':';
       }
     }
-    section {
-      margin: 0 .66em;
-    }
   }
 
   [data-name='section'] {
-//    position: relative;
     padding-top: 2em;
+    display: table;
+    width: 100%;
+    border-spacing: 5px;
 
     label {
       position: relative;
       display: block;
-      padding: 0 1vw;
-      font-size: 1em;
+      padding: 1vh 0;
+      font-size: 1.3em;
       font-weight: 500;
       cursor: pointer;
 
@@ -190,29 +191,32 @@ article {
       }
     }
 
+    h2 { display: none; }
+
     > section {
-      display: inline-block;
+      display: table-cell;
       overflow: hidden;
       margin: 0 0 .3% .3%;
       background: #eee;
       vertical-align: top;
-      text-align: left;
 
       > div {
         display: none;
         box-sizing: border-box;
-        padding: 0 1em;
+        padding: 0 3vw;
         position: absolute;
-        top: auto;
+        top: 250px;
         left: 0;
         right: 0;
-//        bottom: 0;
+        bottom: 0;
         overflow: auto;
+
+        div, p { text-align: left; }
 
         h3 {
           display: inline-block;
           margin: 1em .33em 0 0;
-           + p {
+          + p {
             display: inline;
           }
         }
@@ -222,19 +226,27 @@ article {
         & + label {
           width: auto;
           height: auto;
+          background: #fff;
 
           & + div {
             display: block;
           }
           &:after {
-            display: block;
+            //display: block;
           }
         }
+      }
+
+      .table {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 .5em;
       }
 
     }
   }
 }
+
 footer[data-name] {
   position: absolute;
   bottom: 0;

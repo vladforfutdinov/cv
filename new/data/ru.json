@@ -42,33 +42,53 @@
     },
     {
       "title": "Skills and Experience",
-      "value": {
-        "type": "table",
-        "value": [
-          "\tProficiency\tYears",
-          "Languages",
-          "HTML5/CSS3\tExpert\t10+",
-          "XML/XSLT/XPath\tBasic\t2",
-          "JSP\tIntermediate\t3",
-          "JavaScript\tIntermediate\t6+",
-          "Google Closure JavaScript\tIntermediate\t2+",
-          "jQuery\tIntermediate\t4+",
-          "AngularJS\tIntermediate\t1",
-          "BackboneJS\tBasic\t1",
-          "Technologies",
-          "AJAX\tIntermediate\t3+",
-          "Responsive layout\tIntermediate\t1+",
-          "Agile (SCRUM)\tIntermediate\t3+",
-          "Tools/Products",
-          "Photoshop\tAdvanced\t10+",
-          "InDesign \tAdvanced\t5+",
-          "Illustrator\tAdvanced\t5+",
-          "WebStorm\tIntermediate\t2+",
-          "Eclipse\tBasic\t2+",
-          "Foreign Languages",
-          "English\tIntermediate\t"
-        ]
-      }
+      "value": [
+        {
+          "type": "table",
+          "value": [
+            "\tProficiency\tYears",
+            "Languages",
+            "HTML5/CSS3\tExpert\t10+",
+            "XML/XSLT/XPath\tBasic\t2",
+            "JSP\tIntermediate\t3",
+            "JavaScript\tIntermediate\t6+",
+            "Google Closure JavaScript\tIntermediate\t2+",
+            "jQuery\tIntermediate\t4+",
+            "AngularJS\tIntermediate\t1",
+            "BackboneJS\tBasic\t1"
+          ]
+        },
+        {
+          "type": "table",
+          "value": [
+            "Technologies",
+            "\tProficiency\tYears",
+            "AJAX\tIntermediate\t3+",
+            "Responsive layout\tIntermediate\t1+",
+            "Agile (SCRUM)\tIntermediate\t3+"
+          ]
+        },
+        {
+          "type": "table",
+          "value": [
+            "Tools/Products",
+            "\tProficiency\tYears",
+            "Photoshop\tAdvanced\t10+",
+            "InDesign \tAdvanced\t5+",
+            "Illustrator\tAdvanced\t5+",
+            "WebStorm\tIntermediate\t2+",
+            "Eclipse\tBasic\t2+"
+          ]
+        },
+        {
+          "type": "table",
+          "value": [
+            "Foreign Languages",
+            "\tProficiency\tYears",
+            "English\tIntermediate\t"
+          ]
+        }
+      ]
     },
     {
       "title": "Education",

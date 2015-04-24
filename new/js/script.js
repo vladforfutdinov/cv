@@ -248,12 +248,15 @@
                         value = createEl('div'),
                         id = 'id' + Math.random().toString().replace('0.', ''),
                         checkbox = setAttr(createEl('input'), {
-                            type: 'checkbox',
-                            id: id
+                            type: 'radio',
+                            id: id,
+                            name: 'section'
                         }),
                         label = setAttr(createEl('label'), {
                             for: id
                         });
+
+                    if (data.type) setAttr(body, {class: data.type});
 
                     if (Array.isArray(data)) {
                         forEach(data, function () {
@@ -271,13 +274,14 @@
                         }
 
                         if (data && data.value) {
-                            if (Array.isArray(data.value)) {
+                            if (Array.isArray(data.value) && data.type !== 'table') {
                                 forEach(data.value, function () {
-                                    value.appendChild(fillIt(this, depth + 1));
+                                    var node = fillIt(this, depth + 1);
+                                    if (node) value.appendChild(node);
                                 });
                             } else if (!isString(data.value) && data.value !== undefined) {
-                                if (data.value.type === 'table') {
-                                    value.appendChild(getTable(data.value));
+                                if (data.type === 'table') {
+                                    value.appendChild(getTable(data));
                                 } else {
                                     value.appendChild(fillIt(data.value, depth + 1));
                                 }
@@ -287,7 +291,7 @@
                             body.appendChild(value);
                         }
                     }
-                    return body;
+                    return body.textContent ? body : null;
                 },
                 fillSection = function (data) {
                     var text = createEl('span'),
@@ -296,7 +300,8 @@
 
                     if (Array.isArray(data)) {
                         forEach(data, function () {
-                            body.appendChild(fillIt(this, depth));
+                            var node = fillIt(this, depth);
+                            if (node) body.appendChild(node);
                         });
                     } else if (!isString(data)) {
                         body.appendChild(fillIt(data, depth));
