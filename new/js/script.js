@@ -27,10 +27,10 @@
             return typeof string === 'string';
         },
         forEach = function (arg, callback) {
-            var result, key, i, length, val;
+            var result, length, val;
             if (Array.isArray(arg)) {
                 length = arg.length;
-                for (i = 0; i < length; i = i + 1) {
+                for (var i = 0; i < length; i = i + 1) {
                     val = arg[i];
                     result = callback.call(val, val, i, arg);
                     if (result) {
@@ -38,7 +38,7 @@
                     }
                 }
             } else if (!isString(arg)) {
-                for (key in arg) {
+                for (var key in arg) {
                     if (arg.hasOwnProperty(key)) {
                         val = arg[key];
                         result = callback.apply(val, val, key, arg);
@@ -61,8 +61,7 @@
             console.log("Error:" + error);
         },
         setAttr = function (el, obj) {
-            var key;
-            for (key in obj) {
+            for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     el.setAttribute(key, obj[key]);
                 }
@@ -202,7 +201,7 @@
                 },
                 getTable = function (data) {
                     var table = createEl('table'),
-                        thead = table.createTHead(0),
+                        thead = table.createTHead(),
                         colspan = 0;
 
                     forEach(data.value, function () {
@@ -213,7 +212,7 @@
                         forEach(cells, function (val, i) {
                             var cell = createEl(i === 0 ? 'th' : 'td');
                             if (cells.length == 1) {
-                                cell.setAttribute('colspan', colspan);
+                                cell.setAttribute('colspan', colspan.toString());
                             }
                             cell.innerHTML = val;
                             row.appendChild(cell);
@@ -242,7 +241,7 @@
 
                     return value
                 },
-                fillIt = function (data, depth) {
+                fillIt = function (data, depth, i) {
                     var body = createEl('section'),
                         title = createEl('h' + (depth + 1)),
                         value = createEl('div'),
@@ -256,11 +255,14 @@
                             for: id
                         });
 
+                    if (i === 0) setAttr(checkbox, {checked: ''});
+
                     if (data.type) setAttr(body, {class: data.type});
 
                     if (Array.isArray(data)) {
                         forEach(data, function () {
-                            value.appendChild(fillIt(this, depth + 1));
+                            var node = fillIt(this, depth + 1);
+                            if (node) value.appendChild(node);
                         });
                     } else {
                         if (depth < 2){
@@ -299,8 +301,8 @@
                         depth = 1;
 
                     if (Array.isArray(data)) {
-                        forEach(data, function () {
-                            var node = fillIt(this, depth);
+                        forEach(data, function (val, i) {
+                            var node = fillIt(this, depth, i);
                             if (node) body.appendChild(node);
                         });
                     } else if (!isString(data)) {
