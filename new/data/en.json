@@ -4,9 +4,9 @@
   "name": "Forfutdinov Vladimir",
   "contact": [
     {
-      "type": "phone",
-      "_title": "Phone",
-      "value": "+380 (66) 716 04 54"
+      "type": "email",
+      "_title": "Email",
+      "value": "randf@mail.ru"
     },
     {
       "type": "skype",
@@ -14,9 +14,9 @@
       "value": "vladfrandom"
     },
     {
-      "type": "email",
-      "_title": "Email",
-      "value": "randf@mail.ru"
+      "type": "phone",
+      "_title": "Phone",
+      "value": "+380 (66) 716 04 54"
     }
   ],
   "addon": [
@@ -50,12 +50,12 @@
             "Languages",
             "HTML5/CSS3\tExpert\t10+",
             "XML/XSLT/XPath\tBasic\t2",
-            "JSP\tIntermediate\t3",
-            "JavaScript\tIntermediate\t6+",
+            "JSP\tIntermediate\t5+",
+            "JavaScript\tIntermediate\t7+",
             "Google Closure JavaScript\tIntermediate\t2+",
-            "jQuery\tIntermediate\t4+",
-            "AngularJS\tIntermediate\t1",
-            "BackboneJS\tBasic\t1"
+            "jQuery\tIntermediate\t7+",
+            "AngularJS\tIntermediate\t2+",
+            "BackboneJS\tBasic\t1+"
           ]
         },
         {
@@ -63,9 +63,10 @@
           "value": [
             "\tProficiency\tYears",
             "Technologies",
-            "AJAX\tIntermediate\t3+",
-            "Responsive layout\tIntermediate\t1+",
-            "Agile (SCRUM)\tIntermediate\t3+"
+            "AJAX\tIntermediate\t4+",
+            "Responsive layout\tIntermediate\t3+",
+            "Agile (SCRUM)\tIntermediate\t3+",
+            "Kanban\tIntermediate\t<1"
           ]
         },
         {
@@ -76,16 +77,16 @@
             "Photoshop\tAdvanced\t10+",
             "InDesign \tAdvanced\t5+",
             "Illustrator\tAdvanced\t5+",
-            "WebStorm\tIntermediate\t2+",
+            "WebStorm\tIntermediate\t3+",
             "Eclipse\tBasic\t2+"
           ]
         },
         {
           "type": "table",
           "value": [
-            "\tProficiency\tYears",
+            "\tProficiency\t",
             "Foreign Languages",
-            "English\tIntermediate\t"
+            "English\tIntermediate\t&nbsp;"
           ]
         }
       ]

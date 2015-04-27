@@ -3,9 +3,7 @@
 @import "for";
 
 /* css reset */
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   overflow: hidden;
@@ -13,17 +11,23 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* mixins */
+/* mixin */
 .vendor(@property, @value) {
   -webkit-@{property}: @value;
   -khtml-@{property}: @value;
   -moz-@{property}: @value;
+  -ms-@{property}: @value;
+  -o-@{property}: @value;
   @{property}: @value;
 }
 
+.transition (@prop: all, @time: 1s, @ease: linear) {
+  .vendor(transition, @prop @time @ease);
+}
+
 /* style language selector */
-@langs: 'en', 'ru';
-.for(@langs);
+@lang_s: 'en', 'ru';
+.for(@lang_s);
 .-each(@lang) {
   @name: e(@lang);
 
@@ -32,11 +36,8 @@ body {
     color: #333;
     border-color: #ccc;
     cursor: default;
-    //    border-color: rgba(0, 0, 0, .25);
 
-    &:hover {
-      background: #fff;
-    }
+    &:hover { background: #fff; }
   }
 }
 
@@ -58,9 +59,7 @@ nav {
     text-decoration: none;
     font: bold .8em/1.5 sans-serif;
 
-    &:hover {
-      background-color: rgba(0, 0, 0, .25);
-    }
+    &:hover { background-color: rgba(0, 0, 0, .25); }
   }
 }
 
@@ -74,15 +73,11 @@ article {
   display: block;
   clear: both;
   box-sizing: border-box;
-  padding: 0 2.5vw;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
   .vendor(transition, all .5s);
 
-  [data-name] {
-    //position: relative;
-    text-align: center;
-  }
+  [data-name] { text-align: center; }
 
   /* style article content */
   h1, h2 {
@@ -120,12 +115,6 @@ article {
       }
 
     }
-    th {
-      //padding-left: 0;
-    }
-    td:last-child {
-      //padding-right: 0;
-    }
 
     thead {
       td, th {
@@ -152,43 +141,35 @@ article {
       margin: 0;
       padding-right: .33em;
 
-      &:after {
-        content: ':';
-      }
+      &:after { content: ':'; }
     }
   }
 
   [data-name='section'] {
-    padding-top: 2em;
+    margin-top: 1em;
     display: table;
     width: 100%;
-    border-spacing: 5px;
+    border-collapse: collapse;
+    border-spacing: 0;
 
     label {
       position: relative;
-      display: block;
-      padding: 1vh 0;
+      display: inline-block;
       font-size: 1.3em;
       font-weight: 500;
       cursor: pointer;
 
       &:before {
-        display: block;
         content: attr(data-title);
+        display: inline-block;
+        padding: 1vh 1vw;
+        border-style: solid;
+        border-width: 0 0 3px 0;
+        border-color: transparent;
+        .transition(border-color, .2s);
       }
-      &:after {
-        display: none;
-        width: 1em;
-        height: 1em;
-        background: red;
-        color: #fff;
-        content: '\00D7';
-        font-size: 1.5em;
-        line-height: .85em;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
+      &:hover:before { border-color: #ddd; }
+      &:active:before { border-color: #bbb; }
     }
 
     h2 { display: none; }
@@ -197,42 +178,44 @@ article {
       display: table-cell;
       overflow: hidden;
       margin: 0 0 .3% .3%;
-      background: #eee;
-      vertical-align: top;
+      vertical-align: baseline;
 
       > div {
-        display: none;
         box-sizing: border-box;
         padding: 0 3vw;
         position: absolute;
-        top: 250px;
         left: 0;
         right: 0;
-        bottom: 0;
-        overflow: auto;
+        overflow-y: hidden;
+        opacity: 0;
+        top: 100%;
+        bottom: -100%;
+        z-index: -1;
+        .transition(top, .33s, ease-out);
 
         div, p { text-align: left; }
 
         h3 {
           display: inline-block;
           margin: 1em .33em 0 0;
-          + p {
-            display: inline;
-          }
+          + p { display: inline; }
+        }
+
+        h2 {
+          + section h3,
+          + p { margin-top: 0; }
         }
       }
 
       input:checked {
         & + label {
-          width: auto;
-          height: auto;
-          background: #fff;
-
+          &:before { border-color: #888; }
           & + div {
-            display: block;
-          }
-          &:after {
-            //display: block;
+            overflow-y: auto;
+            top: 13em;
+            bottom: 0;
+            opacity: 1;
+            z-index: 1;
           }
         }
       }
@@ -242,7 +225,6 @@ article {
         vertical-align: top;
         margin: 0 .5em;
       }
-
     }
   }
 }
