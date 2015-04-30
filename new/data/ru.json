@@ -38,10 +38,12 @@
   "section": [
     {
       "title": "Summary",
+      "keywords":"html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
       "value": "HTML5/CSS3/JavaScript cross-browser and cross-platform semantic markup.\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, node.js, backbone.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
       "title": "Skills and Experience",
+      "keywords":"html5,xml,javascript,css3,ajax,adobe photoshop,adobe illustralor,webstorm",
       "value": [
         {
           "type": "table",
@@ -93,6 +95,7 @@
     },
     {
       "title": "Education",
+      "keywords":"bachelor,kharkiv,aviation institute",
       "value": {
         "title": "Bachelor Degree Certificate in Computer Science, 2007",
         "value": "National Aerospace University – Kharkiv Aviation Institute"
@@ -100,23 +103,29 @@
     },
     {
       "title": "Work experience",
+      "keywords":"sigma software,epam,p2h",
       "value": [
         {
-          "title": "&quot;Sigma Ukraine&quot; (Kharkov, Ukraine). 12/2013 – present",
+          "title": "\"Sigma Software\" 12/2013 – present",
           "value": "Senior Javascript Developer"
         },
         {
-          "title": "&quot;EPAM Systems&quot; 11/2009 – 09/2013",
+          "title": "\"Sigma Software\" 12/2013 – present",
+          "value": "Senior Javascript Developer"
+        },
+        {
+          "title": "\"EPAM Systems\" 11/2009 – 09/2013",
           "value": "Senior Software Engineer"
         },
         {
-          "title": "&quot;W3 Ukraine&quot; 09/2005 – 10/2009",
+          "title": "\"W3 Ukraine\" 09/2005 – 10/2009",
           "value": "Web-developer\nMarkup Team Lead\nHead of Training Dept.\nLead Analyst"
         }
       ]
     },
     {
       "title": "Project experience",
+      "keywords":"javascript,mentor,markup,browser",
       "value": [
         {
           "title": "Senior JavaScript Developer",

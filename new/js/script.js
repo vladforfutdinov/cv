@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   var useStorage = false,
     defLang = 'en',
     location = window.location,
@@ -68,6 +67,9 @@
       }
       return el;
     },
+    getAttr = function (el, name) {
+      return el.getAttribute(name);
+    },
     removeAttr = function (el, name) {
       el.removeAttribute(name);
       return el;
@@ -116,7 +118,7 @@
       },
       set: function (key, value) {
         if (this._storage) {
-          return this._storage.setItem(key, value);
+          return this._storage.setItem(key, isString(value) ? value : JSON.stringify(value));
         } else {
           return null;
         }
@@ -139,30 +141,39 @@
         }
         return xmlhttp;
       },
-      get: function (key, success, fail) {
+      get: function (address, success, fail, args) {
         var transport = this._http();
-        transport.open('GET', 'data/' + key + '.json', true);
+        transport.open('GET', address, true);
         transport.onreadystatechange = function () {
           if (transport.readyState == 4) {
             if (transport.status == 200) {
-              success.call(this, JSON.parse(transport.responseText));
-              $storage.set(key, transport.responseText);
+              success.call(this, JSON.parse(transport.responseText), args);
             } else {
-              fail.call(this, transport.statusText);
+              fail.call(this, transport.statusText, args);
             }
           }
         };
         transport.send(null);
       }
     },
+    buildParams = function (obj) {
+      var arr = [];
+
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          arr.push(key + '=' + obj[key]);
+        }
+      }
+
+      return '?' + arr.join('&');
+    },
     getData = function (lng, success, error) {
       var data = $storage.get(lng);
-
       if (lng) {
         if (data && useStorage) {
-          success.call(this, data);
+          success.call(this, data, lng);
         } else {
-          $http.get(lng, success, error)
+          $http.get('data/' + lng + '.json', success, error, lng);
         }
       }
     },
@@ -212,7 +223,7 @@
         }
       });
     },
-    initArticle = function (data) {
+    initArticle = function (data, key) {
       var sections,
         getNamedSection = function (name) {
           return forEach(namedSections, function () {
@@ -261,7 +272,7 @@
             });
           }
 
-          return value
+          return value;
         },
         fillIt = function (data, depth, i) {
           var body = createEl('section'),
@@ -269,13 +280,12 @@
             value = createEl('div'),
             id = 'id' + Math.random().toString().substring(2, 6),
             checkbox = setAttr(createEl('input'), {
-              type: 'radio',
-              id: id,
-              name: 'section'
+              'type': 'radio',
+              'id': id,
+              'name': 'section',
+              'data-keywords': data.keywords
             }),
-            label = setAttr(createEl('label'), {
-              for: id
-            });
+            label = setAttr(createEl('label'), {for: id});
 
           if (data.type) setAttr(body, {class: data.type});
 
@@ -288,6 +298,11 @@
               body.appendChild(checkbox);
               body.appendChild(label);
               if (i === 0) setAttr(checkbox, {checked: ''});
+/*
+              handleEvent(checkbox, 'change', function () {
+                getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
+              });
+*/
             }
             if (data && data.title) {
               setAttr(label, {'data-title': data.title});
@@ -331,9 +346,29 @@
           }
 
           return body;
+        },
+        getImagesByKeywords = function (keywordsArr) {
+          var requestParams = {
+            key: 'AIzaSyBe1OnzKJuuRd_7SkJxns9pC_8aEo_A-ss',
+            cx: '003590701350310628363:e2gnnylh6ii'
+          };
+          forEach(keywordsArr, function(item){
+            requestParams.q = item;
+            $http.get('https://www.googleapis.com/customsearch/v1' + buildParams(requestParams), function (resp) {
+              console.log(resp);
+            }, function (err) {
+              console.log(err);
+            });
+          });
+          console.log(keywordsArr);
+        },
+        setBackgrounds = function (imageLinks) {
+
         };
 
       clearArticle();
+
+      if (key) $storage.set(key, data);
 
       if (data.title) {
         document.title = data.title;
@@ -382,7 +417,6 @@
   if (!!lang.get()) {
     getData(lang.get(), initArticle, onError);
   }
-
 
   if (!Array.isArray) {
     Array.isArray = function (arg) {
