@@ -2,6 +2,7 @@
   'use strict';
   var useStorage = false,
     defLang = 'en',
+    activeTab = 0,
     location = window.location,
     html = document.documentElement,
     nav = document.getElementById('nav'),
@@ -63,6 +64,7 @@
       for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
           el.setAttribute(key, obj[key]);
+          el[key] = obj[key];
         }
       }
       return el;
@@ -83,18 +85,40 @@
     appendChildIf = function (parent, child) {
       if (child) parent.appendChild(child);
     },
-    handleEvent = function (node, type, callback) {
-      var callbackRun = function (e) {
-        callback.call(node, e);
+    eventHandler = (function () {
+      var i = 1,
+        listeners = {};
+      return {
+        addListener: function (element, event, handler, capture) {
+          var addListener = function (element) {
+            element.addEventListener(event, handler, capture);
+            listeners[i] = {
+              element: element,
+              event: event,
+              handler: handler,
+              capture: capture
+            };
+            return i++;
+          };
+
+          if (Array.isArray(element)) {
+            forEach(element, function (node) {
+              addListener(node);
+            });
+          } else {
+            return addListener(element);
+          }
+
+        },
+        removeListener: function (id) {
+          if (id in listeners) {
+            var h = listeners[id];
+            h.element.removeEventListener(h.event, h.handler, h.capture);
+            delete listeners[id];
+          }
+        }
       };
-      if (node.addEventListener) { // DOM standard
-        if (node.customHandler) node.removeEventListener(type, callbackRun);
-        node.customHandler = node.addEventListener(type, callbackRun, false)
-      } else if (node.attachEvent) { // IE
-        if (node.customHandler) node.detachEvent(type, callbackRun);
-        node.customHandler = node.attachEvent(type, callbackRun)
-      }
-    },
+    }()),
     $storage = {
       _storage: (function () {
         if (typeof(Storage) !== "undefined") {
@@ -297,12 +321,7 @@
             if (depth < 2) {
               body.appendChild(checkbox);
               body.appendChild(label);
-              if (i === 0) setAttr(checkbox, {checked: ''});
-/*
-              handleEvent(checkbox, 'change', function () {
-                getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
-              });
-*/
+              if (i === activeTab) setAttr(checkbox, {checked: true});
             }
             if (data && data.title) {
               setAttr(label, {'data-title': data.title});
@@ -347,23 +366,33 @@
 
           return body;
         },
+        resetTabs = function () {
+          forEach(sections, function (item, i) {
+            removeAttr(sections[i], 'checked');
+          });
+        },
+        getActiveTabId = function (node) {
+            return sections.indexOf(node);
+        },
         getImagesByKeywords = function (keywordsArr) {
           var requestParams = {
             key: 'AIzaSyBe1OnzKJuuRd_7SkJxns9pC_8aEo_A-ss',
-            cx: '003590701350310628363:e2gnnylh6ii'
+            cx: '003590701350310628363:e2gnnylh6ii',
+            imgSize: 'huge',
+            imgColorType: 'gray',
+            imgType: 'photo'
           };
-          forEach(keywordsArr, function(item){
-            requestParams.q = item;
-            $http.get('https://www.googleapis.com/customsearch/v1' + buildParams(requestParams), function (resp) {
-              console.log(resp);
-            }, function (err) {
-              console.log(err);
-            });
+          //forEach(keywordsArr, function (item) {
+          requestParams.q = keywordsArr.join(' ');
+          $http.get('https://www.googleapis.com/customsearch/v1' + buildParams(requestParams), function (resp) {
+            console.log(resp.items);
+          }, function (err) {
+            console.log(err);
           });
+          //});
           console.log(keywordsArr);
         },
         setBackgrounds = function (imageLinks) {
-
         };
 
       clearArticle();
@@ -374,40 +403,45 @@
         document.title = data.title;
       }
 
-      for (var key in data) {
+      for (var k in data) {
         var section;
-        if (data.hasOwnProperty(key)) {
-          section = getNamedSection(key);
+        if (data.hasOwnProperty(k)) {
+          section = getNamedSection(k);
           if (section) {
-            section.appendChild(fillSection(data[key]));
+            section.appendChild(fillSection(data[k]));
           }
         }
       }
 
       sections = [].slice.call(document.querySelectorAll('[data-name=section] [type=radio]'));
 
-      handleEvent(window, 'keydown', function (e) {
+      // add event listeners for set active tab
+      eventHandler.addListener(sections, 'change', function () {
+        resetTabs();
+        activeTab = getActiveTabId(this);
+        setAttr(sections[activeTab], {checked: true});
+
+        //getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
+      });
+
+      if (window.keynavHandler) eventHandler.removeListener(window.keynavHandler);
+      window.keynavHandler = eventHandler.addListener(window, 'keydown', function (e) {
         var nextIdx,
-          activeIndex = 0,
           charCode = (typeof e.which == "number") ? e.which : e.keyCode,
           ff = charCode === 39,
           rw = charCode === 37,
-          delta = ff ? +1 : (rw ? -1 : 0);
+          delta = ff ? 1 : (rw ? -1 : 0);
 
-        forEach(sections, function (item, i) {
-          activeIndex = item.checked ? i : activeIndex;
-          removeAttr(sections[i], 'checked');
-        });
+        resetTabs();
 
-        nextIdx = activeIndex + delta;
-        nextIdx = nextIdx < 0 ? nextIdx = sections.length - 1 : (nextIdx > sections.length - 1 ? 0 : nextIdx);
+        nextIdx = activeTab + delta;
+        activeTab = nextIdx < 0 ? nextIdx = sections.length - 1 : (nextIdx > sections.length - 1 ? 0 : nextIdx);
 
-        setAttr(sections[nextIdx], {checked: ''});
+        setAttr(sections[activeTab], {checked: true});
       });
-
     },
     initNav = function () {
-      handleEvent(window, 'hashchange', function () {
+      eventHandler.addListener(window, 'hashchange', function () {
         getData(lang.get(), initArticle, onError);
       });
     };
