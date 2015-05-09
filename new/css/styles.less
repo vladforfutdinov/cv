@@ -2,6 +2,9 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,500&subset=latin,cyrillic);
 @import "for";
 
+/* variables */
+@transition-time: .2s;
+
 /* css reset */
 html, body { height: 100%; }
 
@@ -20,7 +23,6 @@ body {
   -o-@{property}: @value;
   @{property}: @value;
 }
-
 .transition (@prop: all, @time: 1s, @ease: linear) {
   .vendor(transition, @prop @time @ease);
 }
@@ -75,7 +77,7 @@ article {
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-  .vendor(transition, all .5s);
+  .transition(all, @transition-time);
 
   [data-name] { text-align: center; }
 
@@ -102,6 +104,8 @@ article {
   table {
     border-collapse: collapse;
     text-align: left;
+    margin: 0 0 1em;
+    border-bottom: 1px solid #eee;
 
     td, th {
       padding: .33em .66em;
@@ -165,7 +169,7 @@ article {
         padding: 1vh 1vw;
         border: solid transparent;
         border-width: 0 0 3px 0;
-        .transition(border-color, .2s);
+        .transition(border-color, @transition-time);
       }
       &:hover:before { border-color: #ddd; }
       &:active:before { border-color: #bbb; }
@@ -183,14 +187,15 @@ article {
         box-sizing: border-box;
         padding: 0 3vw;
         position: absolute;
+        overflow: auto;
+        opacity: 0;
         left: 0;
         right: 0;
-        overflow-y: hidden;
-        opacity: 0;
-        top: 100%;
-        bottom: -100%;
+        bottom: 0;
+        top: 13em;
         z-index: -1;
-        .transition(top, .33s, ease-out);
+        background: #fff;
+        .transition(all, @transition-time);
 
         div, p { text-align: left; }
 
@@ -202,7 +207,7 @@ article {
 
         h2 {
           + section h3,
-          + p { margin-top: 0; }
+          + p { margin-top: .33em; }
         }
       }
 
@@ -210,9 +215,6 @@ article {
         & + label {
           &:before { border-color: #888; }
           & + div {
-            overflow-y: auto;
-            top: 13em;
-            bottom: 0;
             opacity: 1;
             z-index: 1;
           }
@@ -225,6 +227,52 @@ article {
         margin: 0 .5em;
       }
     }
+  }
+}
+
+#tutorial {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: table;
+  background: rgba(0, 0, 0, .8);
+  font-size: 1.33em;
+  z-index: 2;
+  .transition(top, @transition-time);
+
+  &.hide { top: -100%; }
+
+  div {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  section {
+    display: table;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  p {
+    margin: 0 auto;
+    color: #fff;
+    display: table-row;
+    span {
+      display: table-cell;
+      padding: .66em .33em;
+      &:last-of-type {
+        text-align: left;
+        padding-left: .66em;
+      }
+    }
+  }
+  button {
+    font: 1.15em 'Ubuntu', sans-serif;
+    border: none;
+    background: #fff;
+    padding: .33em .66em;
   }
 }
 

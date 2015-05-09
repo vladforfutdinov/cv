@@ -1,28 +1,47 @@
 (function () {
   'use strict';
   var useStorage = false,
-    defLang = 'en',
-    activeTab = 0,
-    location = window.location,
-    html = document.documentElement,
-    nav = document.getElementById('nav'),
+    getElements = function (selector) {
+      return [].slice.call(document.querySelectorAll(selector));
+    },
+    getHashValue = function (string) {
+      var result = string ? string.replace(/^(.*?)\#(.*?)$/, '$2') : null;
+      return string !== result ? result : null;
+    },
+    langs = {
+      arr: getElements('#nav a'),
+      active: 0
+    },
     lang = {
-      get: function () {
-        var lang = location.hash.replace('#', '') || defLang || '';
-
+      set: function (lang) {
         if (lang) {
-          html.setAttribute('lang', lang);
+          setAttr(html, {'lang': lang});
         } else {
           this.reset();
         }
-
+      },
+      get: function (src) {
+        var lang = getHashValue(src) || getHashValue(langs.arr[langs.active].href) || '';
+        this.set(lang);
         return lang;
       },
       reset: function () {
         html.removeAttribute('lang');
       }
     },
-    namedSections = [].slice.call(document.querySelectorAll('[data-name]')),
+    tabs = {
+      arr: [],
+      active: 0,
+      reset: function () {
+        forEach(tabs.arr, function (item, i) {
+          removeAttr(tabs.arr[i], 'checked');
+        });
+      }
+    },
+    location = window.location,
+    html = document.documentElement,
+    nav = document.getElementById('nav'),
+    namedSections = getElements('[data-name]'),
     isString = function (string) {
       return typeof string === 'string';
     },
@@ -85,11 +104,26 @@
     appendChildIf = function (parent, child) {
       if (child) parent.appendChild(child);
     },
+    getCharCode = function (e) {
+      return (typeof e.which == "number") ? e.which : e.keyCode;
+    },
     eventHandler = (function () {
       var i = 1,
         listeners = {};
       return {
         addListener: function (element, event, handler, capture) {
+          if (Array.isArray(element)) {
+            var same = this,
+              ids = [];
+            forEach(element, function (el) {
+              ids.push(same._addListener(el, event, handler, capture));
+            });
+            return ids;
+          } else {
+            return this._addListener(element, event, handler, capture);
+          }
+        },
+        _addListener: function (element, event, handler, capture) {
           var addListener = function (element) {
             element.addEventListener(event, handler, capture);
             listeners[i] = {
@@ -111,6 +145,16 @@
 
         },
         removeListener: function (id) {
+          if (Array.isArray(id)) {
+            var same = this;
+            forEach(id, function (val) {
+              same._removeListener(val);
+            });
+          } else {
+            this._removeListener(id);
+          }
+        },
+        _removeListener: function (id) {
           if (id in listeners) {
             var h = listeners[id];
             h.element.removeEventListener(h.event, h.handler, h.capture);
@@ -248,8 +292,7 @@
       });
     },
     initArticle = function (data, key) {
-      var sections,
-        getNamedSection = function (name) {
+      var getNamedSection = function (name) {
           return forEach(namedSections, function () {
             if (this.dataset && this.dataset.name === name) {
               return this;
@@ -321,7 +364,7 @@
             if (depth < 2) {
               body.appendChild(checkbox);
               body.appendChild(label);
-              if (i === activeTab) setAttr(checkbox, {checked: true});
+              if (i === tabs.active) setAttr(checkbox, {checked: true});
             }
             if (data && data.title) {
               setAttr(label, {'data-title': data.title});
@@ -366,13 +409,8 @@
 
           return body;
         },
-        resetTabs = function () {
-          forEach(sections, function (item, i) {
-            removeAttr(sections[i], 'checked');
-          });
-        },
         getActiveTabId = function (node) {
-            return sections.indexOf(node);
+          return tabs.arr.indexOf(node);
         },
         getImagesByKeywords = function (keywordsArr) {
           var requestParams = {
@@ -413,43 +451,61 @@
         }
       }
 
-      sections = [].slice.call(document.querySelectorAll('[data-name=section] [type=radio]'));
+      tabs.arr = getElements('[data-name=section] [type=radio]');
 
-      // add event listeners for set active tab
-      eventHandler.addListener(sections, 'change', function () {
-        resetTabs();
-        activeTab = getActiveTabId(this);
-        setAttr(sections[activeTab], {checked: true});
+      // event listeners for set active tab
+      eventHandler.addListener(tabs.arr, 'change', function () {
+        tabs.reset();
+        tabs.active = getActiveTabId(this);
+        //setAttr(tabs.arr[tabs.active], {checked: true});
 
         //getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
+      });
+
+      eventHandler.addListener(getElements("#tutorial button"), 'click', function () {
+        getElements("#tutorial")[0].classList.add('hide');
+      });
+      eventHandler.addListener(window, 'keyup', function (e) {
+        if (getCharCode(e) === 27) {
+          getElements("#tutorial")[0].classList.add('hide');
+        }
       });
 
       if (window.keynavHandler) eventHandler.removeListener(window.keynavHandler);
       window.keynavHandler = eventHandler.addListener(window, 'keydown', function (e) {
         var nextIdx,
-          charCode = (typeof e.which == "number") ? e.which : e.keyCode,
+          activeEl,
+          hasShift = e.shiftKey,
+          obj = hasShift ? langs : tabs,
+          charCode = getCharCode(e),
           ff = charCode === 39,
           rw = charCode === 37,
           delta = ff ? 1 : (rw ? -1 : 0);
 
-        resetTabs();
+        if (!delta) return;
 
-        nextIdx = activeTab + delta;
-        activeTab = nextIdx < 0 ? nextIdx = sections.length - 1 : (nextIdx > sections.length - 1 ? 0 : nextIdx);
+        nextIdx = obj.active + delta;
+        obj.active = nextIdx < 0 ? nextIdx = obj.arr.length - 1 : (nextIdx > obj.arr.length - 1 ? 0 : nextIdx);
+        activeEl = obj.arr[obj.active];
 
-        setAttr(sections[activeTab], {checked: true});
+        if (hasShift) {
+          window.location.hash = lang.get(activeEl.href);
+        } else {
+          tabs.reset();
+          setAttr(activeEl, {checked: true});
+        }
       });
     },
     initNav = function () {
       eventHandler.addListener(window, 'hashchange', function () {
-        getData(lang.get(), initArticle, onError);
+        getData(lang.get(window.location.href), initArticle, onError);
       });
     };
 
   initNav();
 
   if (!!lang.get()) {
-    getData(lang.get(), initArticle, onError);
+    getData(lang.get(window.location.href), initArticle, onError);
   }
 
   if (!Array.isArray) {
