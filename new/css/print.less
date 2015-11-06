@@ -1,0 +1,131 @@
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+#tutorial {
+  display: none;
+}
+
+nav {
+  display: none;
+}
+
+/* style article section */
+article {
+  [data-name] {
+    text-align: center;
+  }
+
+  /* style article content */
+  h1, h2 {
+    margin: 0;
+    padding: .33em 0;
+  }
+
+  h1 {
+    font-weight: 300;
+    font-size: 2em;
+    text-align: center;
+  }
+  h2 {
+    page-break-after: avoid;
+    font-weight: 500;
+  }
+  input {
+    display: none;
+  }
+
+  table {
+    width: 75%;
+    border-collapse: collapse;
+    text-align: left;
+    margin: 0 auto 1em;
+    border-bottom: 1px solid #eee;
+    page-break-inside: avoid;
+
+    td, th {
+      padding: .33em .66em;
+      border-top: 1px solid #eee;
+      font-weight: normal;
+
+      &[colspan] {
+        border: none;
+        background: #eee;
+        font-weight: bold;
+      }
+
+    }
+
+    thead {
+      td, th {
+        border: none;
+        font-style: italic;
+        font-size: .82em;
+      }
+    }
+  }
+
+  [data-name='contact'],
+  [data-name='addon'] {
+    section, div, h2, p {
+      display: inline-block;
+      margin: 0;
+      vertical-align: baseline;
+      font-size: 1em;
+    }
+    section {
+      padding: .165em 0;
+      margin: 0 .66em;
+    }
+    h2 {
+      margin: 0;
+      padding-right: .33em;
+
+      &:after {
+        content: ':';
+      }
+    }
+  }
+
+  [data-name='section'] {
+    margin-top: 1em;
+
+    label {
+      display: none;
+    }
+
+    > section {
+      > div {
+
+        div, p {
+          page-break-inside: avoid;
+          text-align: left;
+        }
+        h3 {
+          margin: 1em .33em 0 0;
+          + p {
+            margin: 0 0 1em;
+          }
+        }
+
+        h2 {
+          + section h3,
+          + p {
+            margin-top: .33em;
+          }
+        }
+      }
+    }
+  }
+}
+
+footer[data-name] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 .33em;
+  font-size: .6em;
+}

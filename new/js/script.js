@@ -506,7 +506,7 @@
         activeEl = obj.arr[obj.active];
 
         if (hasShift) {
-          window.location.hash = lang.get(activeEl.href);
+          //window.location.hash = lang.get(activeEl.href);
         } else {
           tabs.reset();
           setAttr(activeEl, {checked: true});

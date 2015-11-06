@@ -39,7 +39,7 @@
     {
       "title": "Summary",
       "keywords":"html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
-      "value": "More than 10 years expirience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, node.js, backbone.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
+      "value": "More than 10 years expirience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, Node.js, BackboneJS.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
       "title": "Skills and Experience",
@@ -56,8 +56,9 @@
             "JavaScript\tIntermediate\t7+",
             "Google Closure JavaScript\tIntermediate\t2+",
             "jQuery\tIntermediate\t7+",
-            "AngularJS\tIntermediate\t2+",
-            "BackboneJS\tBasic\t1+"
+            "AngularJS\tIntermediate\t3+",
+            "BackboneJS\tBasic\t1+",
+            "NodeJS\tBasic\t1+"
           ]
         },
         {
@@ -65,10 +66,10 @@
           "value": [
             "\tProficiency\tYears",
             "Technologies",
-            "AJAX\tIntermediate\t4+",
-            "Responsive layout\tIntermediate\t3+",
+            "AJAX\tIntermediate\t5+",
+            "Responsive layout\tIntermediate\t4+",
             "Agile (SCRUM)\tIntermediate\t3+",
-            "Kanban\tIntermediate\t<1"
+            "Kanban\tIntermediate\t1+"
           ]
         },
         {
@@ -106,11 +107,11 @@
       "keywords":"sigma software,epam,p2h",
       "value": [
         {
-          "title": "\"Sigma Software\" 12/2013 – present",
+          "title": "\"DAXX\" 12/2014 – present",
           "value": "Senior Javascript Developer"
         },
         {
-          "title": "\"Sigma Software\" 12/2013 – present",
+          "title": "\"Sigma Software\" 12/2013 – 12/2014",
           "value": "Senior Javascript Developer"
         },
         {
@@ -129,7 +130,11 @@
       "value": [
         {
           "title": "Senior JavaScript Developer",
-          "value": "on development of frontend for one-page-application that is a part of geolocation oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: current"
+          "value": "on development of frontend for one-page-application that is a part of medical analystic system.\nResponsibilities: implementation of user interface logic.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS, Lodash, ChartJS, VisJS), AJAX.\nDuration: current"
+        },
+        {
+          "title": "Senior JavaScript Developer",
+          "value": "on development of frontend for one-page-application that is a part of geolocation oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: ~1 year"
         },
         {
           "title": "Senior JavaScript Developer",
