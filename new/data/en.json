@@ -1,25 +1,22 @@
 {
   "title": "Forfutdinov's CV",
-  "version": "20141023",
-  "name": "Forfutdinov Vladimir",
+  "version": "20151119",
+  "name": "Vladimir Forfutdinov",
   "contact": [
     {
       "type": "email",
-      "_title": "Email",
       "value": "randf@mail.ru"
     },
     {
       "type": "skype",
-      "_title": "Skype",
       "value": "vladfrandom"
     },
     {
       "type": "phone",
-      "_title": "Phone",
       "value": "+380 (66) 716 04 54"
     }
   ],
-  "addon": [
+  "other": [
     {
       "type": "location",
       "title": "Location",
@@ -29,136 +26,142 @@
       "type": "relocation",
       "title": "Relocation",
       "value": "not ready for"
-    },
-    {
-      "_title": "Born",
-      "_value": "1977"
     }
   ],
   "section": [
     {
       "title": "Summary",
-      "keywords":"html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
-      "value": "More than 10 years expirience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, Node.js, BackboneJS.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
+      "keywords": "html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
+      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, Node.js, BackboneJS.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
-      "title": "Skills and Experience",
-      "keywords":"html5,xml,javascript,css3,ajax,adobe photoshop,adobe illustralor,webstorm",
-      "value": [
-        {
-          "type": "table",
-          "value": [
-            "\tProficiency\tYears",
-            "Languages",
-            "HTML5/CSS3\tExpert\t10+",
-            "XML/XSLT/XPath\tBasic\t2",
-            "JSP\tIntermediate\t5+",
-            "JavaScript\tIntermediate\t7+",
-            "Google Closure JavaScript\tIntermediate\t2+",
-            "jQuery\tIntermediate\t7+",
-            "AngularJS\tIntermediate\t3+",
-            "BackboneJS\tBasic\t1+",
-            "NodeJS\tBasic\t1+"
-          ]
-        },
-        {
-          "type": "table",
-          "value": [
-            "\tProficiency\tYears",
-            "Technologies",
-            "AJAX\tIntermediate\t5+",
-            "Responsive layout\tIntermediate\t4+",
-            "Agile (SCRUM)\tIntermediate\t3+",
-            "Kanban\tIntermediate\t1+"
-          ]
-        },
-        {
-          "type": "table",
-          "value": [
-            "\tProficiency\tYears",
-            "Tools/Products",
-            "Photoshop\tAdvanced\t10+",
-            "InDesign \tAdvanced\t5+",
-            "Illustrator\tAdvanced\t5+",
-            "WebStorm\tIntermediate\t3+",
-            "Eclipse\tBasic\t2+"
-          ]
-        },
-        {
-          "type": "table",
-          "value": [
-            "\tProficiency\t",
-            "Foreign Languages",
-            "English\tIntermediate\t&nbsp;"
-          ]
-        }
-      ]
-    },
-    {
-      "title": "Education",
-      "keywords":"bachelor,kharkiv,aviation institute",
-      "value": {
-        "title": "Bachelor Degree Certificate in Computer Science, 2007",
-        "value": "National Aerospace University – Kharkiv Aviation Institute"
-      }
-    },
-    {
-      "title": "Work experience",
-      "keywords":"sigma software,epam,p2h",
+      "title": "Experience",
+      "keywords": "sigma software,epam,p2h",
       "value": [
         {
           "title": "\"DAXX\" 12/2014 – present",
-          "value": "Senior Javascript Developer"
+          "value": [
+            {
+              "title": "Senior JavaScript Developer",
+              "value": "on development of frontend for one-page-application that is a part of medical analystic system.\nResponsibilities: implementation of user interface logic.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS, Lodash, ChartJS, VisJS), AJAX.\nDuration: current"
+            }
+          ]
         },
         {
           "title": "\"Sigma Software\" 12/2013 – 12/2014",
-          "value": "Senior Javascript Developer"
+          "value": [
+            {
+              "title": "Senior JavaScript Developer",
+              "value": "on the development of browser-based games with adapting to PhoneGap.\nResponsibilities: selecting od tech stack for application, the implementation of a application prototype.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS 1.x, jQuery, LocalStorage).\nDuration: ~3 month"
+            },
+            {
+              "title": "Senior JavaScript Developer",
+              "value": "on development of frontend for one-page-application that is a part of geo-location oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: ~1 year"
+            }
+          ]
+        },
+        {
+          "title": "\"Zfort Group\" 9/2013 – 12/2013",
+          "value": [
+            {
+              "title": "Senior JavaScript Developer",
+              "value": "on support and improve PHP-based service that oriented to small typographies.\nResponsibilities: support and improve frontend part of service, business-trip to the client office for investigation and clarification project scope.\nTechnologies: HTML, CSS, JavaScript (jQuery), AJAX, Smarty.\nDuration: 3 month"
+            }
+          ]
         },
         {
           "title": "\"EPAM Systems\" 11/2009 – 09/2013",
-          "value": "Senior Software Engineer"
+          "value": [
+            {
+              "title": "Senior Software Engineer",
+              "value": "on development of user interface for administration component of private cloud solution. Internal project.\nResponsibilities: design and implementation of user interface.\nТехнологии:HTML5, CSS3, JavaScript (Google Closure JS, AngularJS), AJAX, JSP.\nDuration: 2.5 years"
+            },
+            {
+              "title": "Senior Software Engineer",
+              "value": "on development of user interface for dating service.\nResponsibilities: implementation of user interface, communicate with client (Skype and mail).\nTechnologies: JSP, HTML, CSS, JavaScript (jQuery), AJAX.\nDuration: 1.5 years"
+            }
+          ]
         },
         {
           "title": "\"W3 Ukraine\" 09/2005 – 10/2009",
-          "value": "Web-developer, Markup Team Lead, Head of Training Dept., Lead Analyst"
+          "value": [
+            {
+              "title": "Head of Training Dept. / Lead Analyst",
+              "value": "on markup service.\nResponsibilities: Research of new technologies of web development. Development and introduction new technologies into the development process. Expert help for solving issues that related to HTML/CSS. Support unified repository of knowledge base in actual state. Training of HTML-developers according to curriculum program developed in company. The selection of candidates for training, including qualification testing and interviews.\nTechnologies: HTML, CSS, JavaScript, mentoring\nDuration: 2 years"
+            },
+            {
+              "title": "Markup Team Lead",
+              "value": "on markup service.\nResponsibilities: Expert help for solving issues that related to HTML/CSS. Support unified repository of knowledge base in actual state. Training of HTML-developers according to curriculum program developed in company. Implementation of projects requiring special attention and skills.\nTechnologies: HTML, CSS, JavaScript\nDuration: 1 year"
+            },
+            {
+              "title": "Web-developer",
+              "value": "on markup service.\nResponsibilities: Cross-browser markup of the sites for client services. Research and introduction new technologies into the development process.\nTechnologies: HTML, CSS\nDuration: 1 year"
+            }
+          ]
         }
       ]
     },
     {
-      "title": "Project experience",
-      "keywords":"javascript,mentor,markup,browser",
+      "title": "Education & Skills",
+      "keywords": "html5,xml,javascript,css3,ajax,adobe photoshop,adobe illustralor,webstorm",
+      "addon": {
+        "align": "center"
+      },
       "value": [
         {
-          "title": "Senior JavaScript Developer",
-          "value": "on development of frontend for one-page-application that is a part of medical analystic system.\nResponsibilities: implementation of user interface logic.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS, Lodash, ChartJS, VisJS), AJAX.\nDuration: current"
+          "title": "Bachelor Degree Certificate in Computer Science, 2007",
+          "value": "National Aerospace University – Kharkiv Aviation Institute"
         },
         {
-          "title": "Senior JavaScript Developer",
-          "value": "on development of frontend for one-page-application that is a part of geolocation oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: ~1 year"
-        },
-        {
-          "title": "Senior JavaScript Developer",
-          "value": "on support and improve PHP-based service that oriented to small typographies.\nResponsibilities: support and improve frontend part of service, business-trip to the client office for investigation and clarification project scope.\nTechnologies: HTML, CSS, JavaScript (jQuery), AJAX, Smarty.\nDuration: 3 month"
-        },
-        {
-          "title": "Senior Software Engineer",
-          "value": "on development of user interface for administration component of private cloud solution. Internal project.\nResponsibilities: design and implementation of user interface.\nТехнологии:HTML5, CSS3, JavaScript (Google Closure JS, AngularJS), AJAX, JSP.\nDuration: 2.5 years"
-        },
-        {
-          "title": "Senior Software Engineer",
-          "value": "on development of user interface for dating service.\nResponsibilities: implementation of user interface, communicate with client (Skype and mail).\nTechnologies: JSP, HTML, CSS, JavaScript (jQuery), AJAX.\nDuration: 1.5 years"
-        },
-        {
-          "title": "Head of Training Dept. / Lead Analyst",
-          "value": "on markup service.\nResponsibilities: Research of new technologies of web development. Development and introduction new technologies into the development process. Expert help for solving issues that related to HTML/CSS. Support unified repository of knowledge base in actual state. Training of HTML-developers according to curriculum program developed in company. The selection of candidates for training, including qualification testing and interviews.\nTechnologies: HTML, CSS, JavaScript, mentoring\nDuration: 2 years"
-        },
-        {
-          "title": "Markup Team Lead",
-          "value": "on markup service.\nResponsibilities: Expert help for solving issues that related to HTML/CSS. Support unified repository of knowledge base in actual state. Training of HTML-developers according to curriculum program developed in company. Implementation of projects requiring special attention and skills.\nTechnologies: HTML, CSS, JavaScript\nDuration: 1 year"
-        },
-        {
-          "title": "Web-developer",
-          "value": "on markup service.\nResponsibilities: Cross-browser markup of the sites for client services. Research and introduction new technologies into the development process.\nTechnologies: HTML, CSS\nDuration: 1 year"
+          "value": [
+            {
+              "type": "table",
+              "value": [
+                "\tProficiency\tYears",
+                "Languages & frameworks",
+                "HTML5/CSS3\tExpert\t10+",
+                "XML/XSLT/XPath\tBasic\t2",
+                "JSP\tIntermediate\t5+",
+                "JavaScript\tIntermediate\t7+",
+                "Google Closure JavaScript\tIntermediate\t2+",
+                "jQuery\tIntermediate\t7+",
+                "AngularJS\tIntermediate\t3+",
+                "BackboneJS\tBasic\t1+",
+                "NodeJS\tBasic\t1+"
+              ]
+            },
+            {
+              "type": "table",
+              "value": [
+                "\tProficiency\tYears",
+                "Techniques & Methodologies",
+                "AJAX\tIntermediate\t5+",
+                "Responsive layout\tIntermediate\t4+",
+                "Agile (SCRUM)\tIntermediate\t3+",
+                "Kanban\tIntermediate\t1+"
+              ]
+            },
+            {
+              "type": "table",
+              "value": [
+                "\tProficiency\tYears",
+                "Tools & Products",
+                "Photoshop\tAdvanced\t10+",
+                "InDesign \tAdvanced\t5+",
+                "Illustrator\tAdvanced\t5+",
+                "WebStorm\tIntermediate\t3+",
+                "Eclipse\tBasic\t2+"
+              ]
+            },
+            {
+              "type": "table",
+              "value": [
+                "\tProficiency\t",
+                "Foreign Languages",
+                "English\tIntermediate\t&nbsp;"
+              ]
+            }
+          ]
         }
       ]
     }
