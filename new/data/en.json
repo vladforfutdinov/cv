@@ -19,20 +19,20 @@
   "other": [
     {
       "type": "location",
-      "title": "Location",
+      "title": "Current location",
       "value": "Kharkov, Ukraine"
     },
     {
       "type": "relocation",
-      "title": "Relocation",
-      "value": "not ready for"
+      "title": "About relocation",
+      "value": "can be discussed"
     }
   ],
   "section": [
     {
       "title": "Summary",
       "keywords": "html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
-      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Google Closure JavaScript, jQuery, AngularJS, Node.js, BackboneJS.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
+      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Underscore, Lodash, jQuery, AngularJS, BackboneJS, Google Closure JavaScript.\nFamiliar with implementation methods of interfaces with responsive/adaptive layout.\nParticipated to projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
       "title": "Experience",
@@ -122,11 +122,13 @@
                 "HTML5/CSS3\tExpert\t10+",
                 "XML/XSLT/XPath\tBasic\t2",
                 "JSP\tIntermediate\t5+",
-                "JavaScript\tIntermediate\t7+",
-                "Google Closure JavaScript\tIntermediate\t2+",
-                "jQuery\tIntermediate\t7+",
+                "VanillaJS\tIntermediate\t7+",
                 "AngularJS\tIntermediate\t3+",
                 "BackboneJS\tBasic\t1+",
+                "jQuery\tIntermediate\t7+",
+                "Google Closure JavaScript\tIntermediate\t2+",
+                "Underscore\tIntermediate\t1+",
+                "Lodash\tIntermediate\t1+",
                 "NodeJS\tBasic\t1+"
               ]
             },
