@@ -228,7 +228,6 @@
                 var transport = this._http();
                 transport.open('GET', address, true);
                 transport.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                transport.setRequestHeader('Origin', window.location.origin);
                 transport.onreadystatechange = function () {
                     if (transport.readyState == 4) {
                         if (transport.status == 200) {
