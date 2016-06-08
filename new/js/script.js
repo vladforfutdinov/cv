@@ -227,7 +227,7 @@
             get: function (address, success, fail, args) {
                 var transport = this._http();
                 transport.open('GET', address, true);
-                xmlhttp.setRequestHeader('Content-Type', 'application/json');
+                transport.setRequestHeader('Content-Type', 'application/json');
                 transport.onreadystatechange = function () {
                     if (transport.readyState == 4) {
                         if (transport.status == 200) {
