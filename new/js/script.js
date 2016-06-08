@@ -488,12 +488,14 @@
                 //getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
             });
 
+/*
             eventHandler.addListener(getElements("#tutorial button"), 'click', function () {
                 hideTutorial();
             });
             eventHandler.addListener(window, 'keyup', function (e) {
                 if (getCharCode(e) === 27) hideTutorial();
             });
+*/
 
             if (window.keynavHandler) eventHandler.removeListener(window.keynavHandler);
             window.keynavHandler = eventHandler.addListener(window, 'keydown', function (e) {
@@ -521,12 +523,14 @@
                 }
             });
         },
+/*
         hideTutorial = function () {
             getElements("#tutorial")[0].classList.add('hide');
         },
         showTutorial = function () {
             getElements("#tutorial")[0].classList.remove('hide');
         },
+*/
         initNav = function () {
             eventHandler.addListener(window, 'hashchange', function () {
                 getData(lang.get(window.location.href), initArticle, onError);
