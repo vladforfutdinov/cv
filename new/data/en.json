@@ -1,6 +1,6 @@
 {
   "title": "Forfutdinov's CV",
-  "version": "20151119",
+  "version": "20170401",
   "name": "Vladimir Forfutdinov",
   "contact": [
     {
@@ -32,18 +32,27 @@
     {
       "title": "Summary",
       "keywords": "html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
-      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Underscore, Lodash, jQuery, AngularJS, BackboneJS, Google Closure JavaScript.\nFamiliar with implementation methods of interfaces with the responsive/adaptive layout.\nParticipated in projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
+      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Underscore/Lodash, jQuery, AngularJS, BackboneJS, Google Closure JavaScript, ReactJS.\nFamiliar with implementation methods of interfaces with the responsive/adaptive layout.\nParticipated in projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
       "title": "Experience",
       "keywords": "sigma software,epam,p2h",
       "value": [
         {
-          "title": "\"DAXX\" 12/2014 – present",
+          "title": "\"Svitla Systems\" 08/2016 - 03/2017",
+          "value": [
+            {
+              "title": "Senior Frontend Developer",
+              "value": "on the development of UI components for the complex e-commerce system.\nResponsibilities: implementation of user interface component and refactoring of legacy parts.\nTechnologies: HTML5, CSS3, Twig, JavaScript (BackboneJS, Bootstrap components), AJAX.\nDuration: ~6 months"
+            }
+          ]
+        },
+        {
+          "title": "\"DAXX\" 12/2014 – 08/2016",
           "value": [
             {
               "title": "Senior JavaScript Developer",
-              "value": "on the development of frontend for one-page-application that is a part of a medical analytic system.\nResponsibilities: implementation of user interface logic.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS, Lodash, ChartJS, VisJS), AJAX.\nDuration: current"
+              "value": "on the development of frontend for one-page-application that is a part of a medical analytic system.\nResponsibilities: implementation of user interface logic.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS, Lodash, ChartJS, VisJS), AJAX.\nDuration: 1 year 8 months"
             }
           ]
         },
@@ -52,11 +61,11 @@
           "value": [
             {
               "title": "Senior JavaScript Developer",
-              "value": "on the development of browser-based games with adapting to PhoneGap.\nResponsibilities: selecting of the technical stack for application, the implementation of an application prototype.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS 1.x, jQuery, LocalStorage).\nDuration: ~3 month"
+              "value": "on the development of browser-based games with adapting to PhoneGap.\nResponsibilities: selecting of the technical stack for application, the implementation of an application prototype.\nTechnologies: HTML5, CSS3, JavaScript (AngularJS 1.x, jQuery, LocalStorage).\nDuration: 3 months"
             },
             {
               "title": "Senior JavaScript Developer",
-              "value": "on the development of frontend for one-page-application that is a part of geo-location oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: ~1 year"
+              "value": "on the development of frontend for one-page-application that is a part of geo-location oriented service.\nResponsibilities: implementation of client-side JavaScript.\nTechnologies: HTML5, CSS3, JavaScript (backbone, jQuery, OpenLayers), AJAX.\nDuration: 1 year"
             }
           ]
         },
@@ -65,7 +74,7 @@
           "value": [
             {
               "title": "Senior JavaScript Developer",
-              "value": "on support and improve PHP-based service that oriented to small typographies.\nResponsibilities: support and improve front end part of service, the business trip to the client office for investigation and clarification project scope.\nTechnologies: HTML, CSS, JavaScript (jQuery), AJAX, Smarty.\nDuration: 3 month"
+              "value": "on support and improve PHP-based service that oriented to small typographies.\nResponsibilities: support and improve front end part of service, the business trip to the client office for investigation and clarification project scope.\nTechnologies: HTML, CSS, JavaScript (jQuery), AJAX, Smarty.\nDuration: 3 months"
             }
           ]
         },
@@ -122,9 +131,11 @@
                 "HTML5/CSS3\tExpert\t10+",
                 "XML/XSLT/XPath\tBasic\t2",
                 "JSP\tIntermediate\t5+",
-                "VanillaJS\tIntermediate\t7+",
+                "ES5\tIntermediate\t7+",
+                "ES2015+\tBasic\t<1",
                 "AngularJS\tIntermediate\t3+",
                 "BackboneJS\tBasic\t1+",
+                "ReactJS\tBasic\t<1",
                 "jQuery\tIntermediate\t7+",
                 "Google Closure JavaScript\tIntermediate\t2+",
                 "Underscore\tIntermediate\t1+",
@@ -137,9 +148,9 @@
               "value": [
                 "\tProficiency\tYears",
                 "Techniques & Methodologies",
-                "AJAX\tIntermediate\t5+",
-                "Responsive layout\tIntermediate\t4+",
-                "Agile (SCRUM)\tIntermediate\t3+",
+                "AJAX\tIntermediate\t6+",
+                "Responsive layout\tIntermediate\t5+",
+                "Agile (SCRUM)\tIntermediate\t4+",
                 "Kanban\tIntermediate\t1+"
               ]
             },
