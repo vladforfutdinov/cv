@@ -285,6 +285,9 @@
                     case "email":
                         protocol = 'mailto:';
                         break;
+                    case "site":
+                        protocol = 'https://';
+                        break;
                 }
 
                 if (protocol) {

@@ -1,18 +1,26 @@
 {
   "title": "Forfutdinov's CV",
-  "version": "20170401_",
+  "version": "20200129",
   "name": "Vladimir Forfutdinov",
   "contact": [
     {
+      "type": "site",
+      "title": "CV",
+      "value": "vlad.forfutdinov.com/cv"
+    },
+    {
       "type": "email",
-      "value": "randf@mail.ru"
+      "title": "Email",
+      "value": "vlad@forfutdinov.com"
     },
     {
       "type": "skype",
+      "title": "Skype",
       "value": "vladfrandom"
     },
     {
       "type": "phone",
+      "title": "Call",
       "value": "+380 (66) 716 04 54"
     }
   ],
@@ -25,19 +33,37 @@
     {
       "type": "relocation",
       "title": "About relocation",
-      "value": "can be discussed"
+      "value": "not considered"
     }
   ],
   "section": [
     {
       "title": "Summary",
       "keywords": "html5,xml,javascript,css3,ajax,experience,agile scrum,mentoring",
-      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/AJAX development with frameworks: Underscore/Lodash, jQuery, AngularJS, BackboneJS, Google Closure JavaScript, ReactJS.\nFamiliar with implementation methods of interfaces with the responsive/adaptive layout.\nParticipated in projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
+      "value": "More than 10 years experience of cross-browser and cross-platform semantic markup (HTML5/CSS3).\nExperience on JavaScript/TypeScript/AJAX/GraphQL development with frameworks: Underscore/Lodash, jQuery, AngularJS, BackboneJS, ReactJS/Redux, Apollo GraphQL.\nFamiliar with implementation methods of interfaces with the responsive/adaptive layout.\nParticipated in projects with Agile/SCRUM process organization.\nParticipated in the trips and negotiated with the client during the project requirements analysis.\nTeam leadership and department management experience, high analytical, communicative and mentoring skills."
     },
     {
       "title": "Experience",
       "keywords": "sigma software,epam,p2h",
       "value": [
+        {
+          "title": "\"EPAM Systems\" 01/2019 - present",
+          "value": [
+            {
+              "title": "Lead Software Development Engineer",
+              "value": "Lead Software Development Engineer of UI team of e-commerce platform customization project.\nResponsibilities: mentoring and support of junior teammates, negotiating with a customer about new features, analyze and prepare new feature requirements and planning quarter-based scope. Developing requirements for ReactJS/GraphQL-based front-end transformation. Performing of React-based application and Apollo-based GraphQL server for the proof-of-concept.\nTechnologies: HTML5, CSS3, JavaScript (ReactJS, NodeJS), GraphQL; Docker, Kubernetes..\nDuration: ongoing"
+            }
+          ]
+        },
+        {
+          "title": "Remote employment 05/2017 - 12/2018",
+          "value": [
+            {
+              "title": "Senior Javascript Developer",
+              "value": "on the development of UI components and serve-side applications on the several projects, such as user support/communication service and blockchain-based service.\nResponsibilities: implementation of user interface and backend logic on migration from legacy approach to microservices based architecture, developing payment service for integration with payment gateway, implement and support continuous integration pipeline and AWS deployment. Support new employees on deployment of local development environment in different operation systems.\nTechnologies: HTML5, CSS3, JavaScript (TypeScript, AngularJS, NodeJS), AJAX, MongoBD; Docker, Kubernetes, AWS CloudFormation, Jenkins2/Groovy, Gradle, SonarQube.\nDuration: ~9 months"
+            }
+          ]
+        },
         {
           "title": "\"Svitla Systems\" 08/2016 - 03/2017",
           "value": [
@@ -83,7 +109,7 @@
           "value": [
             {
               "title": "Senior Software Engineer",
-              "value": "on the development of user interfaces for administration component of the private cloud solution. Internal project.\nResponsibilities: design and implementation of user interface.\nТехнологии:HTML5, CSS3, JavaScript (Google Closure JS, AngularJS), AJAX, JSP.\nDuration: 2.5 years"
+              "value": "on the development of user interfaces for administration component of the private cloud solution. Internal project.\nResponsibilities: design and implementation of user interface.\nTechnologies: HTML5, CSS3, JavaScript (Google Closure JS, AngularJS), AJAX, JSP.\nDuration: 2.5 years"
             },
             {
               "title": "Senior Software Engineer",
@@ -128,19 +154,18 @@
               "value": [
                 "\tProficiency\tYears",
                 "Languages & frameworks",
-                "HTML5/CSS3\tExpert\t10+",
+                "HTML5/CSS3\tExpert\t13+",
                 "XML/XSLT/XPath\tBasic\t2",
                 "JSP\tIntermediate\t5+",
-                "ES5\tIntermediate\t7+",
-                "ES2015+\tBasic\t<1",
+                "ES2015+\tIntermediate\t3+",
+                "LESS/SASS\tIntermediate\t5+",
+                "TypeScript\tIntermediate\t2+",
+                "ReactJS\tIntermediate\t2+",
                 "AngularJS\tIntermediate\t3+",
                 "BackboneJS\tBasic\t1+",
-                "ReactJS\tBasic\t<1",
-                "jQuery\tIntermediate\t7+",
-                "Google Closure JavaScript\tIntermediate\t2+",
-                "Underscore\tIntermediate\t1+",
-                "Lodash\tIntermediate\t1+",
-                "NodeJS\tBasic\t1+"
+                "jQuery\tIntermediate\t10+",
+                "Lodash/Underscore\tIntermediate\t1+",
+                "NodeJS\tIntermediate\t3+"
               ]
             },
             {
@@ -149,8 +174,9 @@
                 "\tProficiency\tYears",
                 "Techniques & Methodologies",
                 "AJAX\tIntermediate\t6+",
-                "Responsive layout\tIntermediate\t5+",
-                "Agile (SCRUM)\tIntermediate\t4+",
+                "GraphQL\tIntermediate\t<1",
+                "Responsive layout\tIntermediate\t6+",
+                "Agile (SCRUM)\tIntermediate\t7+",
                 "Kanban\tIntermediate\t1+"
               ]
             },
@@ -162,16 +188,17 @@
                 "Photoshop\tAdvanced\t10+",
                 "InDesign \tAdvanced\t5+",
                 "Illustrator\tAdvanced\t5+",
-                "WebStorm\tIntermediate\t3+",
-                "Eclipse\tBasic\t2+"
+                "WebStorm\tIntermediate\t7+"
               ]
             },
             {
               "type": "table",
               "value": [
                 "\tProficiency\t",
-                "Foreign Languages",
-                "English\tIntermediate\t&nbsp;"
+                "Languages",
+                "English\tIntermediate\t&nbsp;",
+                "Russian\tNative\t&nbsp;",
+                "Ukarinian\tFluent\t&nbsp;"
               ]
             }
           ]
