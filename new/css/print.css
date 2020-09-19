@@ -1,1 +1,117 @@
-article [data-name],article h1{text-align:center}body{overflow:hidden;margin:0;font-family:sans-serif;font-size:12px}#tutorial,article [data-name=section] label,article input,nav{display:none}article h1,article h2{margin:0;padding:.33em 0}article h1{font-weight:300;font-size:2em}article [data-name=section]>section>div div,article [data-name=section]>section>div p,article table{page-break-inside:avoid;text-align:left;table-layout:fixed;}article h2{page-break-after:avoid;font-weight:500}article table{width:75%;border-collapse:collapse;margin:0 auto 1em;border-bottom:1px solid #eee}article table td,article table th{padding:.33em .66em;border-top:1px solid #eee;font-weight:400}article table td[colspan],article table th[colspan]{border:none;background:#eee;font-weight:700}article table thead td,article table thead th{border:none;font-style:italic;font-size:.82em}article [data-name=contact] div,article [data-name=contact] h2,article [data-name=contact] p,article [data-name=contact] section,article [data-name=addon] div,article [data-name=addon] h2,article [data-name=addon] p,article [data-name=addon] section{display:inline-block;margin:0;vertical-align:baseline;font-size:1em}article [data-name=contact] section,article [data-name=addon] section{padding:.165em 0;margin:0 .66em}article [data-name=contact] h2,article [data-name=addon] h2{margin:0;padding-right:.33em}article [data-name=contact] h2:after,article [data-name=addon] h2:after{content:':'}article [data-name=section]{margin-top:1em}article [data-name=section]>section>div h3{margin:1em .33em 0 0}article [data-name=section]>section>div h3+p{margin:0 0 1em}article [data-name=section]>section>div h2+p,article [data-name=section]>section>div h2+section h3{margin-top:.33em}footer[data-name]{display:none;}
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+#tutorial {
+  display: none;
+}
+nav {
+  display: none;
+}
+/* style article section */
+article {
+  /* style article content */
+}
+article [data-name] {
+  text-align: center;
+}
+article h1,
+article h2 {
+  margin: 0;
+  padding: 0.33em 0;
+}
+article h1 {
+  font-weight: 300;
+  font-size: 2em;
+  text-align: center;
+}
+article h2 {
+  page-break-after: avoid;
+  font-weight: 500;
+}
+article input {
+  display: none;
+}
+article table {
+  width: 75%;
+  border-collapse: collapse;
+  text-align: left;
+  margin: 0 auto 1em;
+  border-bottom: 1px solid #eee;
+  page-break-inside: avoid;
+}
+article table td,
+article table th {
+  padding: 0.33em 0.66em;
+  border-top: 1px solid #eee;
+  font-weight: normal;
+}
+article table td[colspan],
+article table th[colspan] {
+  border: none;
+  background: #eee;
+  font-weight: bold;
+}
+article table thead td,
+article table thead th {
+  border: none;
+  font-style: italic;
+  font-size: 0.82em;
+}
+article [data-name='contact'] section,
+article [data-name='addon'] section,
+article [data-name='contact'] div,
+article [data-name='addon'] div,
+article [data-name='contact'] h2,
+article [data-name='addon'] h2,
+article [data-name='contact'] p,
+article [data-name='addon'] p {
+  display: inline-block;
+  margin: 0;
+  vertical-align: baseline;
+  font-size: 1em;
+}
+article [data-name='contact'] section,
+article [data-name='addon'] section {
+  padding: 0.165em 0;
+  margin: 0 0.66em;
+}
+article [data-name='contact'] h2,
+article [data-name='addon'] h2 {
+  margin: 0;
+  padding-right: 0.33em;
+}
+article [data-name='contact'] h2:after,
+article [data-name='addon'] h2:after {
+  content: ':';
+}
+article [data-name='section'] {
+  margin-top: 1em;
+}
+article [data-name='section'] label {
+  display: none;
+}
+article [data-name='section'] > section > div div,
+article [data-name='section'] > section > div p {
+  page-break-inside: avoid;
+  text-align: left;
+}
+article [data-name='section'] > section > div h3 {
+  margin: 1em 0.33em 0 0;
+}
+article [data-name='section'] > section > div h3 + p {
+  margin: 0 0 1em;
+}
+article [data-name='section'] > section > div h2 + section h3,
+article [data-name='section'] > section > div h2 + p {
+  margin-top: 0.33em;
+}
+footer[data-name] {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0 0.33em;
+  font-size: 0.6em;
+}

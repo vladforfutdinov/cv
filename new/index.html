@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title></title>
-  <link href="css/styles.css" rel="stylesheet" media="screen">
-  <link href="css/print.css" rel="stylesheet" media="print">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preload" href="./css/styles.min.css" as="styles">
+  <link rel="prefetch" href="./css/print.min.css" as="styles">
+
+  <link rel="preload" href="./js/script.prod.js" as="script">
+
+  <link rel="preload" href="./fonts/Ubuntu-Regular.woff2" as="font" type="font/woff2">
+  <link rel="preload" href="./fonts/Ubuntu-Medium.woff2" as="font" type="font/woff2">
+  <link rel="preload" href="./fonts/Ubuntu-Light.woff2" as="font" type="font/woff2">
+
+  <link href="./css/styles.min.css" rel="stylesheet" media="screen">
+  <link href="./css/print.min.css" rel="stylesheet" media="print">
 </head>
+
 <body>
-<nav id="nav">
-  <a href="#en">en</a>
-</nav>
-<article>
-  <h1 data-name="name"></h1>
-  <header data-name="contact"></header>
-  <header data-name="other"></header>
-  <div data-name="section"></div>
-</article>
-<!--<section id="tutorial">
+  <nav id="nav">
+    <a href="#en">en</a>
+  </nav>
+  <article>
+    <h1 data-name="name"></h1>
+    <header data-name="contact"></header>
+    <header data-name="other"></header>
+    <div data-name="section"></div>
+  </article>
+  <!--<section id="tutorial">
   <div>
     <section>
       <p><span>&larr;</span><span>&nbsp;</span><span>&rarr;</span><span>change CV section</span></p>
@@ -24,7 +37,8 @@
     </section>
   </div>
 </section>-->
-<footer data-name="version"></footer>
-<script src="js/script.js"></script>
+  <footer data-name="version"></footer>
+  <script src="./js/script.prod.js"></script>
 </body>
+
 </html>

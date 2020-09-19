@@ -1,6 +1,31 @@
 /* imports */
-@import url(//fonts.googleapis.com/css?family=Ubuntu:300,400,500&subset=latin,cyrillic);
+// @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500&subset=latin&display=swap);
 @import "for";
+
+/* fonts */
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url(../fonts/Ubuntu-Light.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(../fonts/Ubuntu-Regular.woff2) format('truetype');
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Ubuntu Medium'), local('Ubuntu-Medium'), url(../fonts/Ubuntu-Medium.woff2) format('truetype');
+}
 
 /* variables */
 @transition-time: .33s;
@@ -10,7 +35,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -27,7 +53,7 @@ body {
   -moz-@{property}: @value;
   -ms-@{property}: @value;
   -o-@{property}: @value;
-    @{property}: @value;
+  @{property}: @value;
 }
 
 .transition (@prop: all, @time: 1s, @ease: linear) {
@@ -37,6 +63,7 @@ body {
 /* style language selector */
 @lang_s: 'en', 'ru';
 .for(@lang_s);
+
 .-each(@lang) {
   @name: e(@lang);
 
@@ -94,13 +121,22 @@ article {
   }
 
   [data-align="center"] {
-    &, div, h1, h2, h3, h4, h5, p {
+
+    &,
+    div,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p {
       text-align: center !important;
     }
   }
 
   /* style article content */
-  h1, h2 {
+  h1,
+  h2 {
     margin: 0;
     padding: .33em 0;
   }
@@ -110,10 +146,12 @@ article {
     font-size: 3em;
     text-align: center;
   }
+
   h2 {
     font-weight: 500;
     text-align: right;
   }
+
   input {
     position: absolute;
     display: none;
@@ -125,7 +163,8 @@ article {
     margin: 0 0 1em;
     border-bottom: 1px solid #eee;
 
-    td, th {
+    td,
+    th {
       padding: .33em .66em;
       border-top: 1px solid #eee;
       font-weight: normal;
@@ -139,7 +178,9 @@ article {
     }
 
     thead {
-      td, th {
+
+      td,
+      th {
         border: none;
         font-style: italic;
         font-size: .82em;
@@ -149,7 +190,11 @@ article {
 
   [data-name='contact'],
   [data-name='other'] {
-    section, div, h2, p {
+
+    section,
+    div,
+    h2,
+    p {
       display: inline-block;
       margin: 0;
       vertical-align: baseline;
@@ -166,6 +211,7 @@ article {
       padding: .165em 0;
       margin: 0 .66em;
     }
+
     h2 {
       margin: 0;
       padding-right: .33em;
@@ -200,9 +246,11 @@ article {
         border-width: 0 0 3px 0;
         .transition(border-color, @transition-time / 2);
       }
+
       &:hover:before {
         border-color: #ddd;
       }
+
       &:active:before {
         border-color: #bbb;
       }
@@ -216,12 +264,12 @@ article {
       margin-bottom: 0;
     }
 
-    > section {
+    >section {
       overflow: hidden;
       margin: 0 0 .3% .3%;
       vertical-align: baseline;
 
-      > div {
+      >div {
         padding: .5em 3vw 0;
         position: absolute;
         overflow: auto;
@@ -233,14 +281,16 @@ article {
         background: #fff;
         .transition(all, @transition-time);
 
-        div, p {
+        div,
+        p {
           text-align: left;
         }
 
         h4 {
           font-size: inherit;
           margin: 1em .33em 0 0;
-          + p {
+
+          +p {
             display: inline;
           }
         }
@@ -252,19 +302,21 @@ article {
         }
 
         h2 {
-          + section h3,
-          + p {
+
+          +section h3,
+          +p {
             margin-top: .33em;
           }
         }
       }
 
       input:checked {
-        & + label {
+        &+label {
           &:before {
             border-color: #888;
           }
-          & + div {
+
+          &+div {
             opacity: 1;
             z-index: 1;
           }
@@ -320,15 +372,18 @@ article {
     margin: 0 auto;
     color: #fff;
     display: table-row;
+
     span {
       display: table-cell;
       padding: .66em .33em;
+
       &:last-of-type {
         text-align: left;
         padding-left: .66em;
       }
     }
   }
+
   button {
     font: 1.15em 'Ubuntu', sans-serif;
     border: 2px solid rgba(0, 0, 0, .8);
