@@ -1,11 +1,17 @@
-"use strict";
+'use strict';
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 (function () {
-  'use strict';
-
   var useStorage = false,
       getElements = function getElements(selector) {
-    return [].slice.call(document.querySelectorAll(selector));
+    return _toConsumableArray(document.querySelectorAll(selector));
   },
       getHashValue = function getHashValue(string) {
     var result = string ? string.replace(/^(.*?)\#(.*?)$/, '$2') : null;
@@ -19,7 +25,7 @@
     set: function set(lang) {
       if (lang) {
         setAttr(html, {
-          'lang': lang
+          lang: lang
         });
       } else {
         this.reset();
@@ -39,12 +45,11 @@
     active: 0,
     top: 0,
     reset: function reset() {
-      forEach(tabs.arr, function (item, i) {
-        removeAttr(tabs.arr[i], 'checked');
+      return tabs.arr.forEach(tabs.arr, function (item, i) {
+        return removeAttr(tabs.arr[i], 'checked');
       });
     }
   },
-      location = window.location,
       html = document.documentElement,
       nav = document.getElementById('nav'),
       namedSections = getElements('[data-name]'),
@@ -80,16 +85,16 @@
   },
       onError = function onError(error) {
     lang.reset();
-    window.history.pushState("", "", location.href.replace(location.hash, ''));
+    window.history.pushState('', '', location.href.replace(location.hash, ''));
     setOnceEventCallback(nav, 'transitionend', function () {
       clearArticle();
     });
-    console.log("Error:" + error);
+    console.log('Error:' + error);
   },
       setAttr = function setAttr(el, obj) {
     if (Array.isArray(el)) {
-      forEach(el, function (item) {
-        setAttr(item, obj);
+      el.forEach(function (item) {
+        return setAttr(item, obj);
       });
     } else {
       for (var key in obj) {
@@ -109,12 +114,8 @@
       return el;
     }
   },
-      getAttr = function getAttr(el, name) {
-    return el.getAttribute(name);
-  },
       removeAttr = function removeAttr(el, name) {
-    el.removeAttribute(name);
-    return el;
+    return el.removeAttribute(name);
   },
       createEl = function createEl(attr) {
     return document.createElement(attr);
@@ -126,7 +127,7 @@
     if (child) parent.appendChild(child);
   },
       getCharCode = function getCharCode(e) {
-    return typeof e.which == "number" ? e.which : e.keyCode;
+    return typeof e.which == 'number' ? e.which : e.keyCode;
   },
       eventHandler = function () {
     var i = 1,
@@ -136,7 +137,7 @@
         if (Array.isArray(element)) {
           var same = this,
               ids = [];
-          forEach(element, function (el) {
+          element.forEach(function (el) {
             ids.push(same._addListener(el, event, handler, capture));
           });
           return ids;
@@ -157,8 +158,8 @@
         };
 
         if (Array.isArray(element)) {
-          forEach(element, function (node) {
-            addListener(node);
+          element.forEach(function (node) {
+            return addListener(node);
           });
         } else {
           return addListener(element);
@@ -167,8 +168,8 @@
       removeListener: function removeListener(id) {
         if (Array.isArray(id)) {
           var same = this;
-          forEach(id, function (val) {
-            same._removeListener(val);
+          id.forEach(function (val) {
+            return same._removeListener(val);
           });
         } else {
           this._removeListener(id);
@@ -185,7 +186,7 @@
   }(),
       $storage = {
     _storage: function () {
-      if (typeof Storage !== "undefined") {
+      if (typeof Storage !== 'undefined') {
         return window.sessionStorage;
       } else {
         return null;
@@ -219,10 +220,10 @@
       var xmlhttp;
 
       try {
-        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
       } catch (e) {
         try {
-          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
         } catch (E) {
           xmlhttp = false;
         }
@@ -252,17 +253,6 @@
       transport.send(null);
     }
   },
-      buildParams = function buildParams(obj) {
-    var arr = [];
-
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        arr.push(key + '=' + obj[key]);
-      }
-    }
-
-    return '?' + arr.join('&');
-  },
       getData = function getData(lng, success, error) {
     var data = $storage.get(lng);
 
@@ -289,20 +279,20 @@
 
     if (obj.type) {
       switch (obj.type) {
-        case "phone":
+        case 'phone':
           protocol = 'tel:';
           break;
 
-        case "skype":
+        case 'skype':
           protocol = 'skype:';
           postfix = '?chat';
           break;
 
-        case "email":
+        case 'email':
           protocol = 'mailto:';
           break;
 
-        case "site":
+        case 'site':
           protocol = 'https://';
           break;
       }
@@ -310,7 +300,7 @@
       if (protocol) {
         el = createEl('a');
         setAttr(el, {
-          "data-type": obj.type,
+          'data-type': obj.type,
           href: protocol + obj.value + postfix
         });
         el.innerHTML = obj.value;
@@ -320,7 +310,7 @@
     return el;
   },
       clearArticle = function clearArticle() {
-    forEach(namedSections, function (el) {
+    namedSections.forEach(function (el) {
       while (el.lastChild) {
         el.removeChild(el.lastChild);
       }
@@ -342,7 +332,7 @@
         var row = createEl('tr'),
             cells = this.split('\t'),
             cellsLength = cells.length;
-        forEach(cells, function (val, i) {
+        cells.forEach(function (val, i) {
           var cell = createEl(i === 0 ? 'th' : 'td');
 
           if (cells.length == 1) {
@@ -364,7 +354,8 @@
       if (node) {
         value.appendChild(node);
       } else {
-        forEach(data.value.split('\n'), function (val) {
+        var lines = data.value.split('\n');
+        lines.forEach(function (val) {
           var p = createEl('p');
           p.innerHTML = val;
           value.appendChild(p);
@@ -379,9 +370,9 @@
           value = createEl('div'),
           id = 'id' + Math.random().toString().substring(2, 6),
           checkbox = setAttr(createEl('input'), {
-        'type': 'radio',
-        'id': id,
-        'name': 'section',
+        type: 'radio',
+        id: id,
+        name: 'section',
         'data-keywords': data.keywords
       }),
           label = setAttr(createEl('label'), {
@@ -461,26 +452,7 @@
     },
         getActiveTabId = function getActiveTabId(node) {
       return tabs.arr.indexOf(node);
-    },
-        getImagesByKeywords = function getImagesByKeywords(keywordsArr) {
-      var requestParams = {
-        key: 'AIzaSyBe1OnzKJuuRd_7SkJxns9pC_8aEo_A-ss',
-        cx: '003590701350310628363:e2gnnylh6ii',
-        imgSize: 'huge',
-        imgColorType: 'gray',
-        imgType: 'photo'
-      }; //forEach(keywordsArr, function (item) {
-
-      requestParams.q = keywordsArr.join(' ');
-      $http.get('https://www.googleapis.com/customsearch/v1' + buildParams(requestParams), function (resp) {
-        console.log(resp.items);
-      }, function (err) {
-        console.log(err);
-      }); //});
-
-      console.log(keywordsArr);
-    },
-        setBackgrounds = function setBackgrounds(imageLinks) {};
+    };
 
     clearArticle();
     if (key) $storage.set(key, data);
@@ -492,7 +464,7 @@
     if (data.description) {
       var metaDescription = createEl('meta');
       setAttr(metaDescription, {
-        name: "description",
+        name: 'description',
         content: data.description
       });
       document.getElementsByTagName('head')[0].appendChild(metaDescription);
@@ -513,25 +485,15 @@
     tabs.arr = getElements('[data-name=section] [type=radio]');
     tabs.top = getElements('[data-name=section]')[0].offsetTop + getElements('[data-name=section]')[0].offsetHeight;
     setAttr(getElements('[data-name=section] [type=radio] + label + div'), {
-      'style': 'top:' + tabs.top + 'px'
+      style: 'top:' + tabs.top + 'px'
     }); // event listeners for set active tab
 
     eventHandler.addListener(tabs.arr, 'change', function () {
       tabs.reset();
-      tabs.active = getActiveTabId(this); //setAttr(tabs.arr[tabs.active], {checked: true});
-      //getImagesByKeywords(getAttr(this, 'data-keywords').split(','));
+      tabs.active = getActiveTabId(this);
     });
-    /*
-                eventHandler.addListener(getElements("#tutorial button"), 'click', function () {
-                    hideTutorial();
-                });
-                eventHandler.addListener(window, 'keyup', function (e) {
-                    if (getCharCode(e) === 27) hideTutorial();
-                });
-    */
 
-    if (window.keynavHandler) eventHandler.removeListener(window.keynavHandler);
-    window.keynavHandler = eventHandler.addListener(window, 'keydown', function (e) {
+    var handleNav = function handleNav(e) {
       var nextIdx,
           activeEl,
           hasShift = e.shiftKey,
@@ -539,32 +501,27 @@
           charCode = getCharCode(e),
           ff = charCode === 39,
           rw = charCode === 37,
-          delta = ff ? 1 : rw ? -1 : 0,
-          history = window.history;
+          delta = ff ? 1 : rw ? -1 : 0;
       if (!delta) return;
       nextIdx = obj.active + delta;
-      obj.active = nextIdx < 0 ? nextIdx = obj.arr.length - 1 : nextIdx > obj.arr.length - 1 ? 0 : nextIdx;
+      obj.active = nextIdx < 0 ? nextIdx === obj.arr.length - 1 : nextIdx > obj.arr.length - 1 ? 0 : nextIdx;
       activeEl = obj.arr[obj.active];
 
-      if (hasShift) {//window.location.hash = lang.get(activeEl.href);
-      } else {
+      if (!hasShift) {
         tabs.reset();
         setAttr(activeEl, {
           checked: true
         });
       }
-    });
-  },
+    };
 
-  /*
-          hideTutorial = function () {
-              getElements("#tutorial")[0].classList.add('hide');
-          },
-          showTutorial = function () {
-              getElements("#tutorial")[0].classList.remove('hide');
-          },
-  */
-  initNav = function initNav() {
+    if (window.keynavHandler) {
+      eventHandler.removeListener(window.keynavHandler);
+    }
+
+    window.keynavHandler = eventHandler.addListener(window, 'keydown', handleNav);
+  },
+      initNav = function initNav() {
     eventHandler.addListener(window, 'hashchange', function () {
       getData(lang.get(window.location.href), initArticle, onError);
     });
