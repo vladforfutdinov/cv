@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -14,11 +14,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return _toConsumableArray(document.querySelectorAll(selector));
   },
       getHashValue = function getHashValue(string) {
-    var result = string ? string.replace(/^(.*?)\#(.*?)$/, '$2') : null;
+    var result = string ? string.replace(/^(.*?)\#(.*?)$/, "$2") : null;
     return string !== result ? result : null;
   },
       langs = {
-    arr: getElements('#nav a'),
+    arr: getElements("#nav a"),
     active: 0
   },
       lang = {
@@ -32,12 +32,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     },
     get: function get(src) {
-      var lang = getHashValue(src) || getHashValue(langs.arr[langs.active].href) || '';
+      var lang = getHashValue(src) || getHashValue(langs.arr[langs.active].href) || "";
       this.set(lang);
       return lang;
     },
     reset: function reset() {
-      html.removeAttribute('lang');
+      html.removeAttribute("lang");
     }
   },
       tabs = {
@@ -46,15 +46,15 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     top: 0,
     reset: function reset() {
       return tabs.arr.forEach(tabs.arr, function (item, i) {
-        return removeAttr(tabs.arr[i], 'checked');
+        return removeAttr(tabs.arr[i], "checked");
       });
     }
   },
       html = document.documentElement,
-      nav = document.getElementById('nav'),
-      namedSections = getElements('[data-name]'),
+      nav = document.getElementById("nav"),
+      namedSections = getElements("[data-name]"),
       isString = function isString(string) {
-    return typeof string === 'string';
+    return typeof string === "string";
   },
       forEach = function forEach(arg, callback) {
     var result, length, val;
@@ -85,11 +85,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
       onError = function onError(error) {
     lang.reset();
-    window.history.pushState('', '', location.href.replace(location.hash, ''));
-    setOnceEventCallback(nav, 'transitionend', function () {
+    window.history.pushState("", "", location.href.replace(location.hash, ""));
+    setOnceEventCallback(nav, "transitionend", function () {
       clearArticle();
     });
-    console.log('Error:' + error);
+    console.log("Error:" + error);
   },
       setAttr = function setAttr(el, obj) {
     if (Array.isArray(el)) {
@@ -102,7 +102,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         if (obj.hasOwnProperty(key)) {
           if (el[key] && el[key].setProperty) {
-            valArr = obj[key].split(':');
+            valArr = obj[key].split(":");
             el[key].setProperty(valArr[0], valArr[1]);
           } else {
             el.setAttribute(key, obj[key]);
@@ -127,7 +127,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     if (child) parent.appendChild(child);
   },
       getCharCode = function getCharCode(e) {
-    return typeof e.which == 'number' ? e.which : e.keyCode;
+    return typeof e.which == "number" ? e.which : e.keyCode;
   },
       eventHandler = function () {
     var i = 1,
@@ -186,7 +186,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   }(),
       $storage = {
     _storage: function () {
-      if (typeof Storage !== 'undefined') {
+      if (typeof Storage !== "undefined") {
         return window.sessionStorage;
       } else {
         return null;
@@ -220,16 +220,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var xmlhttp;
 
       try {
-        xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
       } catch (e) {
         try {
-          xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         } catch (E) {
           xmlhttp = false;
         }
       }
 
-      if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+      if (!xmlhttp && typeof XMLHttpRequest != "undefined") {
         xmlhttp = new XMLHttpRequest();
       }
 
@@ -238,7 +238,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     get: function get(address, success, fail, args) {
       var transport = this._http();
 
-      transport.open('GET', address, true);
+      transport.open("GET", address, true);
 
       transport.onreadystatechange = function () {
         if (transport.readyState == 4) {
@@ -260,7 +260,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (data && useStorage) {
         success.call(this, data, lng);
       } else {
-        $http.get('data/' + lng + '.json', success, error, lng);
+        $http.get("data/" + lng + ".json", success, error, lng);
       }
     }
   },
@@ -275,32 +275,32 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       checkContent = function checkContent(obj) {
     var el,
         protocol,
-        postfix = '';
+        postfix = "";
 
     if (obj.type) {
       switch (obj.type) {
-        case 'phone':
-          protocol = 'tel:';
+        case "phone":
+          protocol = "tel:";
           break;
 
-        case 'skype':
-          protocol = 'skype:';
-          postfix = '?chat';
+        case "skype":
+          protocol = "skype:";
+          postfix = "?chat";
           break;
 
-        case 'email':
-          protocol = 'mailto:';
+        case "email":
+          protocol = "mailto:";
           break;
 
-        case 'site':
-          protocol = 'https://';
+        case "site":
+          protocol = "https://";
           break;
       }
 
       if (protocol) {
-        el = createEl('a');
+        el = createEl("a");
         setAttr(el, {
-          'data-type': obj.type,
+          "data-type": obj.type,
           href: protocol + obj.value + postfix
         });
         el.innerHTML = obj.value;
@@ -325,25 +325,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
         getTable = function getTable(data) {
-      var table = createEl('table'),
+      var table = createEl("table"),
           thead = table.createTHead(),
           colspan = 0;
       forEach(data.value, function () {
-        var row = createEl('tr'),
-            cells = this.split('\t'),
+        var row = createEl("tr"),
+            cells = this.split("\t"),
             cellsLength = cells.length;
         cells.forEach(function (val, i) {
-          var cell = createEl(i === 0 ? 'th' : 'td');
+          var cell = createEl(i === 0 ? "th" : "td");
 
           if (cells.length == 1) {
-            cell.setAttribute('colspan', colspan.toString());
+            cell.setAttribute("colspan", colspan.toString());
           }
 
           cell.innerHTML = val;
           row.appendChild(cell);
         });
         colspan = cellsLength > 1 ? cellsLength : colspan;
-        (cells[0] === '' ? thead : table).appendChild(row);
+        (cells[0] === "" ? thead : table).appendChild(row);
       });
       return table;
     },
@@ -354,9 +354,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (node) {
         value.appendChild(node);
       } else {
-        var lines = data.value.split('\n');
+        var lines = data.value.split("\n");
         lines.forEach(function (val) {
-          var p = createEl('p');
+          var p = createEl("p");
           p.innerHTML = val;
           value.appendChild(p);
         });
@@ -365,24 +365,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return value;
     },
         fillIt = function fillIt(data, depth, i) {
-      var body = createEl('section'),
-          title = createEl('h' + (depth + 1)),
-          value = createEl('div'),
-          id = 'id' + Math.random().toString().substring(2, 6),
-          checkbox = setAttr(createEl('input'), {
-        type: 'radio',
+      var body = createEl("section"),
+          title = createEl("h" + (depth + 1)),
+          value = createEl("div"),
+          id = "id" + Math.random().toString().substring(2, 6),
+          checkbox = setAttr(createEl("input"), {
+        type: "radio",
         id: id,
-        name: 'section',
-        'data-keywords': data.keywords
+        name: "section",
+        "data-keywords": data.keywords
       }),
-          label = setAttr(createEl('label'), {
+          label = setAttr(createEl("label"), {
         "for": id
-      });
-      if (data.type) setAttr(body, {
+      }),
+          hasData = !!data;
+      if (hasData && data.type) setAttr(body, {
         "class": data.type
       });
 
-      if (Array.isArray(data)) {
+      if (hasData && Array.isArray(data)) {
         forEach(data, function () {
           appendChildIf(value, fillIt(this, depth + 1));
         });
@@ -395,21 +396,21 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           });
         }
 
-        if (data && data.title) {
+        if (hasData && data.title) {
           setAttr(label, {
-            'data-title': data.title
+            "data-title": data.title
           });
-          title.innerHTML = data.title + ' ';
+          title.innerHTML = data.title + " ";
           value.appendChild(title);
         }
 
-        if (data && data.value) {
-          if (Array.isArray(data.value) && data.type !== 'table') {
+        if (hasData && data.value) {
+          if (Array.isArray(data.value) && data.type !== "table") {
             forEach(data.value, function () {
               appendChildIf(value, fillIt(this, depth + 1));
             });
           } else if (!isString(data.value) && data.value !== undefined) {
-            if (data.type === 'table') {
+            if (data.type === "table") {
               value.appendChild(getTable(data));
             } else {
               value.appendChild(fillIt(data.value, depth + 1));
@@ -421,7 +422,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           if (data.addon) {
             forEach(data.addon, function (val, key) {
               var obj = {};
-              obj['data-' + key] = val;
+              obj["data-" + key] = val;
               setAttr(value, obj);
             });
           }
@@ -433,7 +434,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return body.textContent ? body : null;
     },
         fillSection = function fillSection(data) {
-      var text = createEl('span'),
+      var text = createEl("span"),
           body = createFragment(),
           depth = 1;
 
@@ -462,12 +463,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     }
 
     if (data.description) {
-      var metaDescription = createEl('meta');
+      var metaDescription = createEl("meta");
       setAttr(metaDescription, {
-        name: 'description',
+        name: "description",
         content: data.description
       });
-      document.getElementsByTagName('head')[0].appendChild(metaDescription);
+      document.getElementsByTagName("head")[0].appendChild(metaDescription);
     }
 
     for (var k in data) {
@@ -482,13 +483,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       }
     }
 
-    tabs.arr = getElements('[data-name=section] [type=radio]');
-    tabs.top = getElements('[data-name=section]')[0].offsetTop + getElements('[data-name=section]')[0].offsetHeight;
-    setAttr(getElements('[data-name=section] [type=radio] + label + div'), {
-      style: 'top:' + tabs.top + 'px'
+    tabs.arr = getElements("[data-name=section] [type=radio]");
+    tabs.top = getElements("[data-name=section]")[0].offsetTop + getElements("[data-name=section]")[0].offsetHeight;
+    setAttr(getElements("[data-name=section] [type=radio] + label + div"), {
+      style: "top:" + tabs.top + "px"
     }); // event listeners for set active tab
 
-    eventHandler.addListener(tabs.arr, 'change', function () {
+    eventHandler.addListener(tabs.arr, "change", function () {
       tabs.reset();
       tabs.active = getActiveTabId(this);
     });
@@ -519,10 +520,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       eventHandler.removeListener(window.keynavHandler);
     }
 
-    window.keynavHandler = eventHandler.addListener(window, 'keydown', handleNav);
+    window.keynavHandler = eventHandler.addListener(window, "keydown", handleNav);
   },
       initNav = function initNav() {
-    eventHandler.addListener(window, 'hashchange', function () {
+    eventHandler.addListener(window, "hashchange", function () {
       getData(lang.get(window.location.href), initArticle, onError);
     });
   };
@@ -535,7 +536,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   if (!Array.isArray) {
     Array.isArray = function (arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
+      return Object.prototype.toString.call(arg) === "[object Array]";
     };
   }
 })();

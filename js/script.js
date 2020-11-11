@@ -1,319 +1,525 @@
-var app = {
-    triggerTitles: {
-        'lg': {
-            'ru': 'In English', 'en': 'По-русски'},
-        'fb': {
-            ru: {
-                show: 'Развернуть все',
-                hide: 'Свернуть все'
-            },
-            en: {
-                show: 'Unfold all',
-                hide: 'Fold all'
-            }
-        }
+"use strict";
+(() => {
+  var useStorage = false,
+    getElements = function (selector) {
+      return [...document.querySelectorAll(selector)];
     },
-    _createEl: function (tag, attr, injection) {
-        var el = tag ? document.createElement(tag) : document.createDocumentFragment();
-        for (var key in attr) {
-            if (attr.hasOwnProperty(key)) {
-                el.setAttribute(key, attr[key]);
-            }
+    getHashValue = function (string) {
+      var result = string ? string.replace(/^(.*?)\#(.*?)$/, "$2") : null;
+      return string !== result ? result : null;
+    },
+    langs = {
+      arr: getElements("#nav a"),
+      active: 0,
+    },
+    lang = {
+      set: function (lang) {
+        if (lang) {
+          setAttr(html, {
+            lang: lang,
+          });
+        } else {
+          this.reset();
         }
-        if (injection) {
-            if (injection === injection.toString()) {
-                el.innerHTML = injection;
-            } else {
-                el.appendChild(injection);
+      },
+      get: function (src) {
+        var lang =
+          getHashValue(src) || getHashValue(langs.arr[langs.active].href) || "";
+        this.set(lang);
+        return lang;
+      },
+      reset: function () {
+        html.removeAttribute("lang");
+      },
+    },
+    tabs = {
+      arr: [],
+      active: 0,
+      top: 0,
+      reset: () =>
+        tabs.arr.forEach(tabs.arr, (item, i) =>
+          removeAttr(tabs.arr[i], "checked")
+        ),
+    },
+    html = document.documentElement,
+    nav = document.getElementById("nav"),
+    namedSections = getElements("[data-name]"),
+    isString = (string) => typeof string === "string",
+    forEach = function (arg, callback) {
+      var result, length, val;
+      if (Array.isArray(arg)) {
+        length = arg.length;
+        for (var i = 0; i < length; i = i + 1) {
+          val = arg[i];
+          result = callback.call(val, val, i, arg);
+          if (result) {
+            return result;
+          }
+        }
+      } else if (!isString(arg)) {
+        for (var key in arg) {
+          if (arg.hasOwnProperty(key)) {
+            val = arg[key];
+            result = callback.call(val, val, key, arg);
+            if (result) {
+              return result;
             }
+          }
+        }
+      }
+    },
+    onError = function (error) {
+      lang.reset();
+      window.history.pushState(
+        "",
+        "",
+        location.href.replace(location.hash, "")
+      );
+      setOnceEventCallback(nav, "transitionend", function () {
+        clearArticle();
+      });
+      console.log("Error:" + error);
+    },
+    setAttr = function (el, obj) {
+      if (Array.isArray(el)) {
+        el.forEach((item) => setAttr(item, obj));
+      } else {
+        for (var key in obj) {
+          var valArr;
+          if (obj.hasOwnProperty(key)) {
+            if (el[key] && el[key].setProperty) {
+              valArr = obj[key].split(":");
+              el[key].setProperty(valArr[0], valArr[1]);
+            } else {
+              el.setAttribute(key, obj[key]);
+              el[key] = obj[key];
+            }
+          }
         }
         return el;
+      }
     },
-    _appendAfter: function (node, insertNode) {
-        if (node.nextSibling) {
-            node.parentNode.insertBefore(insertNode, node.nextSibling);
-        }
-        else {
-            node.parentNode.appendChild(insertNode);
-        }
+    removeAttr = (el, name) => el.removeAttribute(name),
+    createEl = (attr) => document.createElement(attr),
+    createFragment = () => document.createDocumentFragment(),
+    appendChildIf = function (parent, child) {
+      if (child) parent.appendChild(child);
     },
-    _toggleClass: function (el, first, second, bool) {
-        if (el) {
-            if (app._isArray(el)) {
-                for (var i = 0, length = el.length; i < length; i++) {
-                    app._toggle(el[i], first, second, bool);
-                }
-            } else {
-                app._toggle(el, first, second, bool);
-            }
-        }
-    },
-    _toggle: function (el, first, second, bool) {
-        var classes = (' ' + el.className + ' ').split(/\s+/gi),
-            firstIndex = -1,
-            secondIndex = -1,
-            isBool = bool !== undefined;
+    getCharCode = (e) => (typeof e.which == "number" ? e.which : e.keyCode),
+    eventHandler = (function () {
+      var i = 1,
+        listeners = {};
+      return {
+        addListener: function (element, event, handler, capture) {
+          if (Array.isArray(element)) {
+            var same = this,
+              ids = [];
 
-        if (typeof second === "boolean") {
-            isBool = second;
-            second = '';
-        }
+            element.forEach(function (el) {
+              ids.push(same._addListener(el, event, handler, capture));
+            });
 
-        for (var i = 0, length = classes.length; i < length; i++) {
-            firstIndex = (classes[i] === first ? i : firstIndex);
-            secondIndex = (classes[i] === second ? i : secondIndex);
-        }
+            return ids;
+          } else {
+            return this._addListener(element, event, handler, capture);
+          }
+        },
+        _addListener: function (element, event, handler, capture) {
+          var addListener = function (element) {
+            element.addEventListener(event, handler, capture);
+            listeners[i] = {
+              element: element,
+              event: event,
+              handler: handler,
+              capture: capture,
+            };
+            return i++;
+          };
 
-//        console.log(bool);
-
-        if (isBool) {
-            classes[firstIndex] = '';
-            classes[secondIndex] = '';
-            classes.push(bool ? first : second);
+          if (Array.isArray(element)) {
+            element.forEach((node) => addListener(node));
+          } else {
+            return addListener(element);
+          }
+        },
+        removeListener: function (id) {
+          if (Array.isArray(id)) {
+            var same = this;
+            id.forEach((val) => same._removeListener(val));
+          } else {
+            this._removeListener(id);
+          }
+        },
+        _removeListener: function (id) {
+          if (id in listeners) {
+            var h = listeners[id];
+            h.element.removeEventListener(h.event, h.handler, h.capture);
+            delete listeners[id];
+          }
+        },
+      };
+    })(),
+    $storage = {
+      _storage: (function () {
+        if (typeof Storage !== "undefined") {
+          return window.sessionStorage;
         } else {
-            if (firstIndex != -1) {
-                classes[firstIndex] = second || '';
-            } else if (secondIndex != -1) {
-                classes[secondIndex] = first || '';
-            } else {
-                classes.push(first);
-            }
+          return null;
         }
-
-        el.className = classes.join(' ').replace(/\s+/g, ' ').trim();
-    },
-    _isArray: function (obj) {
-        return Object.prototype.toString.call(obj) === '[object Array]';
-    },
-    _isFunc: function (obj) {
-        return typeof(obj) === 'function';
-    },
-    _toArray: function (list) {
-        return Array.prototype.slice.call(list);
-    },
-    _addClass: function (el, className) {
-        if (app._isArray(el)) {
-            for (var i = 0, length = el.length; i < length; i++) {
-                el[i].className += ' ' + className;
-            }
+      })(),
+      get: function (key) {
+        var data;
+        if (this._storage) {
+          data = this._storage.getItem(key);
+          if (data) {
+            return JSON.parse(data);
+          } else {
+            return null;
+          }
         } else {
-            el.className += ' ' + className;
+          return null;
         }
-    },
-    _every: function (els, fn) {
-        var every = true;
-
-        for (var i = 0, length = els.length; i < length; i++) {
-            every = fn(els[i]);
+      },
+      set: function (key, value) {
+        if (this._storage) {
+          return this._storage.setItem(
+            key,
+            isString(value) ? value : JSON.stringify(value)
+          );
+        } else {
+          return null;
         }
-
-        return every;
+      },
     },
-    _hasClass: function (el, className) {
-        if (el && el.hasOwnProperty('tagName')) {
-            var classes = el.className.split(' ');
-
-            for (var i = 0, length = classes.length; i < length; i++) {
-                if (classes[i] === className) {
-                    return true;
-                }
+    $http = {
+      _http: function () {
+        var xmlhttp;
+        try {
+          xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+          try {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          } catch (E) {
+            xmlhttp = false;
+          }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest != "undefined") {
+          xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+      },
+      get: function (address, success, fail, args) {
+        var transport = this._http();
+        transport.open("GET", address, true);
+        transport.onreadystatechange = function () {
+          if (transport.readyState == 4) {
+            if (transport.status == 200) {
+              success.call(this, JSON.parse(transport.responseText), args);
+            } else {
+              fail.call(this, transport.statusText, args);
             }
-        }
-        return false;
-    },
-    _parent: function (el, className) {
-        var isMatch = false,
-            currentNode = el,
-            firstLoop = true;
-
-        while (!isMatch) {
-            if (!firstLoop) {
-                currentNode = currentNode.parentNode;
-                if (currentNode === document.body) {
-                    return false;
-                }
-            }
-            isMatch = app._hasClass(currentNode, className);
-            firstLoop = false;
-        }
-
-        return currentNode;
-    },
-    event: function (target, func) {
-        for (var key in func) {
-            if (func.hasOwnProperty(key)) {
-                if (app._isArray(func[key])) {
-                    for (var i = 0, length = func[key].length; i < length; i++) {
-                        if (app._isFunc(func[key][i])) {
-                            target.addEventListener(key, func[key][i]);
-                        }
-                    }
-                } else {
-                    target.addEventListener(key, func[key]);
-                }
-            }
-        }
-    },
-    translate: function () {
-        this.lang = (this.lang == 'en' ? 'ru' : 'en');
-        app.switchSections(true);
-    },
-    initTrigger: function (dest, trigger, array, fn, fnThis) {
-        for (var key in array) {
-            if (array.hasOwnProperty(key)) {
-                if (array[key].toString() === array[key]) {
-                    trigger.appendChild(app._createEl('span', {lang: key}, app._createEl('span', null, array[key])));
-                } else {
-                    for (var subKey in array[key]) {
-                        if (array[key].hasOwnProperty(subKey)) {
-                            trigger.appendChild(app._createEl('span', {lang: key, class: subKey}, app._createEl('span', null, array[key][subKey])));
-                        }
-                    }
-                }
-            }
-        }
-        trigger.onclick = function (e) {
-            fn.call(fnThis || e.target);
+          }
         };
-        dest.appendChild(trigger);
-
-        return trigger;
+        transport.send(null);
+      },
     },
-    initFolders: function () {
-        var label, innerSpans,
-            headers = app._toArray(document.getElementsByTagName('h2'));
+    getData = function (lng, success, error) {
+      var data = $storage.get(lng);
+      if (lng) {
+        if (data && useStorage) {
+          success.call(this, data, lng);
+        } else {
+          $http.get("data/" + lng + ".json", success, error, lng);
+        }
+      }
+    },
+    setOnceEventCallback = function (el, eventType, callback) {
+      var handler = function (e) {
+        callback.call(e);
+        this.removeEventListener(eventType, handler);
+      };
 
-        for (var i = 0, ilength = headers.length; i < ilength; i++) {
-            innerSpans = app._toArray(headers[i].getElementsByTagName('span'));
+      el.addEventListener(eventType, handler, false);
+    },
+    checkContent = function (obj) {
+      var el,
+        protocol,
+        postfix = "";
 
-            for (var j = 0, jlength = innerSpans.length; j < jlength; j++) {
-                label = app._createEl('label', {for: ('section' + i), lang: innerSpans[j].lang}, innerSpans[j].innerText);
-                headers[i].appendChild(label);
-                innerSpans[j].parentNode.removeChild(innerSpans[j]);
+      if (obj.type) {
+        switch (obj.type) {
+          case "phone":
+            protocol = "tel:";
+            break;
+          case "skype":
+            protocol = "skype:";
+            postfix = "?chat";
+            break;
+          case "email":
+            protocol = "mailto:";
+            break;
+          case "site":
+            protocol = "https://";
+            break;
+        }
+
+        if (protocol) {
+          el = createEl("a");
+          setAttr(el, {
+            "data-type": obj.type,
+            href: protocol + obj.value + postfix,
+          });
+          el.innerHTML = obj.value;
+        }
+      }
+
+      return el;
+    },
+    clearArticle = function () {
+      namedSections.forEach(function (el) {
+        while (el.lastChild) {
+          el.removeChild(el.lastChild);
+        }
+      });
+    },
+    initArticle = function (data, key) {
+      var getNamedSection = function (name) {
+          return forEach(namedSections, function () {
+            if (this.dataset && this.dataset.name === name) {
+              return this;
             }
-            app._appendAfter(headers[i], app._createEl('input', {id: ('section' + i), type: 'checkbox'}));
-        }
+          });
+        },
+        getTable = function (data) {
+          var table = createEl("table"),
+            thead = table.createTHead(),
+            colspan = 0;
 
-        app.setSectionsSize();
-    },
-    setSectionsSize: function () {
-        var sections = app._toArray(document.getElementsByTagName('section'));
+          forEach(data.value, function () {
+            var row = createEl("tr"),
+              cells = this.split("\t"),
+              cellsLength = cells.length;
 
-        for (var i = 0, length = sections.length; i < length; i++) {
-            sections[i].style.maxHeight = '';
-            (function (el) {
-                setTimeout(function () {
-                    el.style.maxHeight = el.clientHeight + 'px';
-                }, 0);
-            })(sections[i]);
-        }
-    },
-    addFullLinks: function () {
-        var links = app._toArray(document.getElementsByTagName('a'));
+            cells.forEach(function (val, i) {
+              var cell = createEl(i === 0 ? "th" : "td");
+              if (cells.length == 1) {
+                cell.setAttribute("colspan", colspan.toString());
+              }
+              cell.innerHTML = val;
+              row.appendChild(cell);
+            });
 
-        for (var i = 0, length = links.length; i < length; i++) {
-            if (links[i].href.indexOf(window.location.host) != -1) {
-                links[i].setAttribute('data-link', links[i].href);
+            colspan = cellsLength > 1 ? cellsLength : colspan;
+
+            (cells[0] === "" ? thead : table).appendChild(row);
+          });
+
+          return table;
+        },
+        getParagraphs = function (data) {
+          var value = createFragment(),
+            node = checkContent(data);
+
+          if (node) {
+            value.appendChild(node);
+          } else {
+            const lines = data.value.split("\n");
+            lines.forEach(function (val) {
+              var p = createEl("p");
+              p.innerHTML = val;
+              value.appendChild(p);
+            });
+          }
+
+          return value;
+        },
+        fillIt = function (data, depth, i) {
+          var body = createEl("section"),
+            title = createEl("h" + (depth + 1)),
+            value = createEl("div"),
+            id = "id" + Math.random().toString().substring(2, 6),
+            checkbox = setAttr(createEl("input"), {
+              type: "radio",
+              id: id,
+              name: "section",
+              "data-keywords": data.keywords,
+            }),
+            label = setAttr(createEl("label"), {
+              for: id,
+            }),
+            hasData = !!data;
+
+          if (hasData && data.type)
+            setAttr(body, {
+              class: data.type,
+            });
+
+          if (hasData && Array.isArray(data)) {
+            forEach(data, function () {
+              appendChildIf(value, fillIt(this, depth + 1));
+            });
+          } else {
+            if (depth < 2) {
+              body.appendChild(checkbox);
+              body.appendChild(label);
+              if (i === tabs.active)
+                setAttr(checkbox, {
+                  checked: true,
+                });
             }
-        }
-    },
-    switchSections: function (force) {
-        var el = document.getElementsByClassName('folder')[0],
-            isFolderSwitcher = (this.hasOwnProperty('tagName') && app._parent(this, 'folder') ? true : false),
-            state = force != undefined ? force : app._hasClass(el, 'show'),
-            checkboxes = app._toArray(document.getElementsByTagName('input'));
-
-        if (isFolderSwitcher || (!isFolderSwitcher && state)) {
-            app._toggleClass(el, 'show', 'hide', !force);
-
-            for (var i = 0, length = checkboxes.length; i < length; i++) {
-                checkboxes[i].checked = !state;
+            if (hasData && data.title) {
+              setAttr(label, {
+                "data-title": data.title,
+              });
+              title.innerHTML = data.title + " ";
+              value.appendChild(title);
             }
 
-        }
-        if (!isFolderSwitcher) {
-            app.setSectionsSize();
-        }
-        app.initFlyoutHeader();
-    },
-    initFlyoutHeader: function () {
-        var header = document.getElementsByTagName('header')[0],
-            body = document.body;
+            if (hasData && data.value) {
+              if (Array.isArray(data.value) && data.type !== "table") {
+                forEach(data.value, function () {
+                  appendChildIf(value, fillIt(this, depth + 1));
+                });
+              } else if (!isString(data.value) && data.value !== undefined) {
+                if (data.type === "table") {
+                  value.appendChild(getTable(data));
+                } else {
+                  value.appendChild(fillIt(data.value, depth + 1));
+                }
+              } else {
+                value.appendChild(getParagraphs(data));
+              }
 
-        app.event(header, {click: app.setFlyoutHeader});
+              if (data.addon) {
+                forEach(data.addon, function (val, key) {
+                  var obj = {};
+                  obj["data-" + key] = val;
 
-        app.checkFlyoutHeader(function(){
-            app._addClass(body, 'flyout-ready');
+                  setAttr(value, obj);
+                });
+              }
+
+              body.appendChild(value);
+            }
+          }
+          return body.textContent ? body : null;
+        },
+        fillSection = function (data) {
+          var text = createEl("span"),
+            body = createFragment(),
+            depth = 1;
+
+          if (Array.isArray(data)) {
+            forEach(data, function (val, i) {
+              appendChildIf(body, fillIt(this, depth, i));
+            });
+          } else if (!isString(data)) {
+            body.appendChild(fillIt(data, depth));
+          } else {
+            text.innerHTML = data;
+            body.appendChild(text);
+          }
+
+          return body;
+        },
+        getActiveTabId = (node) => tabs.arr.indexOf(node);
+
+      clearArticle();
+
+      if (key) $storage.set(key, data);
+
+      if (data.title) {
+        document.title = data.title;
+      }
+
+      if (data.description) {
+        const metaDescription = createEl("meta");
+        setAttr(metaDescription, {
+          name: "description",
+          content: data.description,
         });
-    },
-    setFlyoutHeader: function (e) {
-        var header = document.getElementsByTagName('header')[0],
-            headerChildren = header.children;
 
-        for (var i = 0, length = headerChildren.length; i < length; i++) {
-            if (!app._hasClass(headerChildren[i], 'trigger')) {
-//                headerChildren[i].setAttribute()
-            }
+        document.getElementsByTagName("head")[0].appendChild(metaDescription);
+      }
+
+      for (var k in data) {
+        var section;
+        if (data.hasOwnProperty(k)) {
+          section = getNamedSection(k);
+          if (section) {
+            section.appendChild(fillSection(data[k]));
+          }
         }
+      }
 
-        app._toggleClass(this, 'flyout', app._hasClass(this, 'flyout'));
+      tabs.arr = getElements("[data-name=section] [type=radio]");
+      tabs.top =
+        getElements("[data-name=section]")[0].offsetTop +
+        getElements("[data-name=section]")[0].offsetHeight;
+      setAttr(getElements("[data-name=section] [type=radio] + label + div"), {
+        style: "top:" + tabs.top + "px",
+      });
 
+      // event listeners for set active tab
+      eventHandler.addListener(tabs.arr, "change", function () {
+        tabs.reset();
+        tabs.active = getActiveTabId(this);
+      });
+
+      const handleNav = function (e) {
+        var nextIdx,
+          activeEl,
+          hasShift = e.shiftKey,
+          obj = hasShift ? langs : tabs,
+          charCode = getCharCode(e),
+          ff = charCode === 39,
+          rw = charCode === 37,
+          delta = ff ? 1 : rw ? -1 : 0;
+
+        if (!delta) return;
+
+        nextIdx = obj.active + delta;
+        obj.active =
+          nextIdx < 0
+            ? nextIdx === obj.arr.length - 1
+            : nextIdx > obj.arr.length - 1
+            ? 0
+            : nextIdx;
+        activeEl = obj.arr[obj.active];
+
+        if (!hasShift) {
+          tabs.reset();
+          setAttr(activeEl, {
+            checked: true,
+          });
+        }
+      };
+
+      if (window.keynavHandler) {
+        eventHandler.removeListener(window.keynavHandler);
+      }
+
+      window.keynavHandler = eventHandler.addListener(
+        window,
+        "keydown",
+        handleNav
+      );
     },
-    checkFlyoutHeader: function (callback) {
-        var headerHeight,
-            header = document.getElementsByTagName('header')[0];
+    initNav = function () {
+      eventHandler.addListener(window, "hashchange", function () {
+        getData(lang.get(window.location.href), initArticle, onError);
+      });
+    };
 
-        setTimeout(function () {
-            headerHeight = header.clientHeight;
+  initNav();
 
-            header.setAttribute('data-fullheight', headerHeight);
-            header.style.height = headerHeight + 'px';
-            document.body.style.paddingTop = headerHeight + 'px';
+  if (!!lang.get()) {
+    getData(lang.get(window.location.href), initArticle, onError);
+  }
 
-            if (callback){
-                setTimeout(function () {
-                    callback.call();
-                }, 0);
-            }
-        }, 0);
-    }
-};
-
-(function () {
-    var body = document.body,
-        lv = lv || false,
-        header = document.getElementsByTagName('header')[0],
-        toc = document.getElementById('toc'),
-        titles = document.getElementsByTagName('h2');
-
-    app.initFlyoutHeader();
-
-    app.initTrigger(
-        header,
-        app._createEl('span', {class: 'lng trigger'}),
-        app.triggerTitles.lg,
-        app.translate,
-        document.documentElement
-    );
-
-    app.event(window, {
-        load: [app.initFolders, app.addFullLinks],
-        resize: app.setSectionsSize
-    });
-
-    if (!lv) {
-        app.initTrigger(
-            header,
-            app._createEl('span', {class: 'folder trigger hide'}),
-            app.triggerTitles.fb,
-            app.switchSections
-        );
-
-        body.className += ' modern';
-    }
-
-    for (var i = 0, length = titles.length; i < length; i++) {
-        titles[i].setAttribute('id', 'art' + i);
-    }
-
+  if (!Array.isArray) {
+    Array.isArray = function (arg) {
+      return Object.prototype.toString.call(arg) === "[object Array]";
+    };
+  }
 })();
